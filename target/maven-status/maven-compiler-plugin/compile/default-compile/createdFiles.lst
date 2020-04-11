@@ -1,0 +1,8 @@
+bhtweb\servlets\CreateDocumentServlet.class
+bhtweb\bo\DocumentBO.class
+com\bhtcnpm\bhtweb\JAXRSConfiguration.class
+bhtweb\dbaccess\DocumentMapper.class
+bhtweb\dto\DocumentDTO.class
+com\bhtcnpm\bhtweb\resources\JavaEE8Resource.class
+bhtweb\dbaccess\DBMapper.class
+bhtweb\dbconnection\DBConnectionService.class
