@@ -5,11 +5,13 @@
  */
 package bhtweb.services;
 
+import bhtweb.bo.DocumentBO;
 import bhtweb.dto.ShortDocumentDTO;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
@@ -21,10 +23,15 @@ import javax.ws.rs.core.Response;
 @ApplicationPath("")
 public class Documents extends Application{
     
+    DocumentBO docBO = new DocumentBO();
+    
     @GET
-    public Response getDocs() {
+    public Response getDocs(@QueryParam("type") String type) {
         //tuy vao type de loc hoac tra ve tat ca dang doc rut gon
-        return Response.ok(ShortDocumentDTO.makeDocs()).build();
+        if (type.equals("gooddoc"))
+         return Response.ok(docBO.getGoodDocs()).build();
+        else
+            return Response.ok(docBO.getAllDocs()).build();
     }
     
     @GET
