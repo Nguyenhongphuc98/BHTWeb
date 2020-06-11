@@ -5,6 +5,11 @@
  */
 package bhtweb.dbconnection;
 
+import java.sql.Connection;
+
+import javax.sql.DataSource;
+import javax.naming.InitialContext;
+
 /**
  *
  * @author NguyenHongPhuc
@@ -14,4 +19,28 @@ package bhtweb.dbconnection;
  */
 public class DBConnectionService {
     
+	//Biến constant khai báo JNDI đến Pool MySQL (sử dụng pool của GlassFish).
+	private static final String MYSQL_POOL_JNDI = "jdbc/j2ee_BHTWeb_MySQLConnection";
+	
+	protected static void LoadJDBCDriver() throws Exception {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			throw new Exception("Không tìm được MySQL JDBC Driver.");
+		}
+	}
+	
+	public static Connection getConnection() throws Exception {
+		Connection connection = null;
+		try {
+			DataSource dSource = (DataSource) new InitialContext().lookup(MYSQL_POOL_JNDI);
+			connection = dSource.getConnection();
+		}catch (Exception e) {
+			// TODO: handle exception
+			throw new Exception("Không thể truy cập đến Database Server ... " + e.getMessage());
+		}
+		return connection;
+	}
+	
 }

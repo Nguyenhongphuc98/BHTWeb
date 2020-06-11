@@ -5,6 +5,10 @@
  */
 package bhtweb.dbaccess;
 
+import java.sql.Connection;
+
+import bhtweb.dbconnection.DBConnectionService;
+
 /**
  *
  * @author NguyenHongPhuc
@@ -14,5 +18,38 @@ package bhtweb.dbaccess;
  */
 public class DBMapper {
     
-  
+	private Connection connection;
+	
+	public DBMapper() throws Exception {
+		try {
+			connection = DBConnectionService.getConnection();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("DBMapper Constructor Exception...");
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	public DBMapper(Connection connection) {
+		this.connection = connection;
+	}
+	
+	public void closeConnection () {
+		try {
+			connection.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("DBMapper close connection exception ...");
+			e.printStackTrace();
+		}
+	}
+	
+	public Connection getConnection () {
+		return connection;
+	}
+	
+	public void setConnection (Connection connection) {
+		this.connection = connection;
+	}
 }
