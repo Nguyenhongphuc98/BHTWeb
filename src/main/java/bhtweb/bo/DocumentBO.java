@@ -24,63 +24,16 @@ import bhtweb.utils.DocumentFilter;
 
 /**
  *
- * @author NguyenHongPhuc
- * Xử lý nghiệp vụ của document trong hệ thống
+ * @author NguyenHongPhuc Xử lý nghiệp vụ của document trong hệ thống
  */
 public class DocumentBO {
-	
+
 	public static int DOCS_PER_PAGE = 10;
-    
+
 	public DocumentDTO getDocumentById(int id, boolean isApproved) {
-		
+
 		DocumentDTO doc = null;
 		BHTDocument entity = null;
-		BHTDocumentCategory category = null;
-		BHTSubject subject = null;
-		
-        DocumentMapper mapper = null;
-        DocumentCategoryMapper categoryMapper = null;
-        SubjectMapper subjectMapper = null;
-        
-        try {
-        	
-            mapper = new DocumentMapper();
-            categoryMapper = new DocumentCategoryMapper();
-            subjectMapper = new SubjectMapper();
-            
-            entity = mapper.getDocsById(id, isApproved);
-            category = categoryMapper.getBHTDocumentCategoryById(entity.getCategoryId());
-            subject = subjectMapper.getSubjectById(entity.getSubjectId());
-            
-            // get user ...
-            
-            doc = new DocumentDTO(entity, "authorName", "authorAvatar", category.getName(), subject.getSubjectName());
-            
-        } catch (Exception ex) {
-            Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
-            try {
-            	
-                mapper.closeConnection();
-                categoryMapper.closeConnection();
-                subjectMapper.closeConnection();
-                
-                
-            } catch (Exception ex) {
-                Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return doc;
-    }
-
-	// Page index start from 0
-	public List<ShortDocumentDTO> getListDocument(DocumentFilter filter, int pageIndex) {
-
-		int startIndex = pageIndex * DOCS_PER_PAGE;
-
-		List<ShortDocumentDTO> docs = new ArrayList<>();
-		List<BHTDocument> entitys = null;
 		BHTDocumentCategory category = null;
 		BHTSubject subject = null;
 
@@ -94,7 +47,45 @@ public class DocumentBO {
 			categoryMapper = new DocumentCategoryMapper();
 			subjectMapper = new SubjectMapper();
 
-			entitys = mapper.getDocsbyFilter(filter, startIndex, DOCS_PER_PAGE);
+			entity = mapper.getDocsById(id, isApproved);
+			category = categoryMapper.getBHTDocumentCategoryById(entity.getCategoryId());
+			subject = subjectMapper.getSubjectById(entity.getSubjectId());
+
+			// get user ...
+
+			doc = new DocumentDTO(entity, "authorName", "authorAvatar", category.getName(), subject.getSubjectName());
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+
+				mapper.closeConnection();
+				categoryMapper.closeConnection();
+				subjectMapper.closeConnection();
+
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return doc;
+	}
+
+	public List<ShortDocumentDTO> createShortDocumentFor(List<BHTDocument> entitys) {
+		List<ShortDocumentDTO> docs = new ArrayList<>();
+		BHTDocumentCategory category = null;
+		BHTSubject subject = null;
+
+		DocumentMapper mapper = null;
+		DocumentCategoryMapper categoryMapper = null;
+		SubjectMapper subjectMapper = null;
+
+		try {
+
+			mapper = new DocumentMapper();
+			categoryMapper = new DocumentCategoryMapper();
+			subjectMapper = new SubjectMapper();
+
 			for (BHTDocument item : entitys) {
 
 				ShortDocumentDTO doc = null;
@@ -121,5 +112,80 @@ public class DocumentBO {
 			}
 		}
 		return docs;
+	}
+
+	// Page index start from 0
+	public List<ShortDocumentDTO> searchDocument(DocumentFilter filter, int pageIndex) {
+
+		int startIndex = pageIndex * DOCS_PER_PAGE;
+
+		DocumentMapper mapper = null;
+		List<ShortDocumentDTO> result = null;
+		try {
+
+			mapper = new DocumentMapper();
+			List<BHTDocument> entities = mapper.getDocsbyFilter(filter, startIndex, DOCS_PER_PAGE);
+			result = createShortDocumentFor(entities);
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
+		return result;
+	}
+
+	public List<ShortDocumentDTO> getListDocumentToBrowse() {
+
+		DocumentMapper mapper = null;
+		List<ShortDocumentDTO> result = null;
+		try {
+
+			mapper = new DocumentMapper();
+			List<BHTDocument> entities = mapper.getDocsNotApprovedYet();
+			result = createShortDocumentFor(entities);
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return result;
+	}
+
+	public boolean publishDocument(int docId) {
+		
+		DocumentMapper mapper = null;
+		boolean result = false;
+		try {
+
+			mapper = new DocumentMapper();
+			
+			BHTDocument doc = new BHTDocument();
+			doc.setIsApproved(true);
+			result = mapper.updateDoc(doc, false, false, true);
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return result;
 	}
 }
