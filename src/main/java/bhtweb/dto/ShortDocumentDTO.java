@@ -5,34 +5,52 @@
  */
 package bhtweb.dto;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import bhtweb.entities.BHTDocument;
 
 /**
  *
  * @author NguyenHongPhuc
  */
+
 public class ShortDocumentDTO {
-    
-    	String id;
-	String url;
+
+	int id;
 	String title;
 	String summary;
 	String authorName;
-	String authorID;
-	String categoryID;
+	int authorID;
+	int categoryID;
 	String categoryName;
-	String subjectID;
+	int subjectID;
 	String subjectName;
 	String publishDate;
-	String imageURL;
-        
-        int viewCount;
-	int downloadCount;
 
-    public ShortDocumentDTO(String id, String url, String title, String summary, String authorName, String authorID, String categoryID, String categoryName, String subjectID, String subjectName, String publishDate, String imageURL, int viewCount, int downloadCount) {
+	int viewCount;
+	int downloadCount;
+	
+	public ShortDocumentDTO(BHTDocument entiry, String authorName, String subjectName, String categoryName) {
+        
+		this.id = entiry.getId();
+        this.title = entiry.getTitle();
+        this.summary = entiry.getDescription();
+        this.authorID = entiry.getUploaderId();
+        this.categoryID = entiry.getCategoryId();
+        this.subjectID = entiry.getSubjectId();
+        //this.publishDate = entiry.get;
+        this.viewCount = entiry.getViewCount();
+        this.downloadCount = entiry.getDownloadCount();
+        
+        this.authorName = authorName;
+        this.categoryName = categoryName;
+        this.subjectName = subjectName;
+    }
+
+    public ShortDocumentDTO(int id, String title, String summary, String authorName, int authorID, int categoryID, String categoryName, int subjectID, String subjectName, String publishDate, int viewCount, int downloadCount) {
         this.id = id;
-        this.url = url;
         this.title = title;
         this.summary = summary;
         this.authorName = authorName;
@@ -42,157 +60,108 @@ public class ShortDocumentDTO {
         this.subjectID = subjectID;
         this.subjectName = subjectName;
         this.publishDate = publishDate;
-        this.imageURL = imageURL;
         this.viewCount = viewCount;
         this.downloadCount = downloadCount;
-    }
-    
-    public static List<ShortDocumentDTO> makeDocs() {
-        List<ShortDocumentDTO> docs = new ArrayList<>();
-        docs.add(new ShortDocumentDTO("1",
-                "docs1-url", "bai do so 1",
-                "sumaru aiig", "Nguyen Hong Phuc",
-                "1", "1", "Chuyen tam linh", "1",
-                "Tam ly hoc", "22/15/2030",
-                "image",999, 23));
-        docs.add(new ShortDocumentDTO("2",
-                "docs1-url", "bai do so 3",
-                "sumaru aiig", "Nguyen Hong Pink",
-                "1", "1", "Chuyen tam linh", "1",
-                "Tam ly hoc", "22/15/2030",
-                "image",999, 23));
-        docs.add(new ShortDocumentDTO("3",
-                "docs1-url", "bai do so 3",
-                "sumaru aiig", "Nguyen Hong Blue",
-                "1", "1", "Chuyen tam linh", "1",
-                "Tam ly hoc", "22/15/2030",
-                "image",999, 23));
-        return docs;
-    }
-
-    public static ShortDocumentDTO makeDoc(String id) {
-        return new ShortDocumentDTO(id,
-                "docs1-url", "bai do so 1",
-                "sumaru aiig", "Nguyen Hong Phuc",
-                "1", "1", "Chuyen tam linh", "1",
-                "Tam ly hoc", "22/15/2030",
-                "image",999, 23);
     }
     
     public ShortDocumentDTO() {
+    	
     }
 
-    public String getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getSummary() {
+		return summary;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
-    public String getSummary() {
-        return summary;
-    }
+	public String getAuthorName() {
+		return authorName;
+	}
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
 
-    public String getAuthorName() {
-        return authorName;
-    }
+	public int getAuthorID() {
+		return authorID;
+	}
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
+	public void setAuthorID(int authorID) {
+		this.authorID = authorID;
+	}
 
-    public String getAuthorID() {
-        return authorID;
-    }
+	public int getCategoryID() {
+		return categoryID;
+	}
 
-    public void setAuthorID(String authorID) {
-        this.authorID = authorID;
-    }
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
+	}
 
-    public String getCategoryID() {
-        return categoryID;
-    }
+	public String getCategoryName() {
+		return categoryName;
+	}
 
-    public void setCategoryID(String categoryID) {
-        this.categoryID = categoryID;
-    }
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 
-    public String getCategoryName() {
-        return categoryName;
-    }
+	public int getSubjectID() {
+		return subjectID;
+	}
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
+	public void setSubjectID(int subjectID) {
+		this.subjectID = subjectID;
+	}
 
-    public String getSubjectID() {
-        return subjectID;
-    }
+	public String getSubjectName() {
+		return subjectName;
+	}
 
-    public void setSubjectID(String subjectID) {
-        this.subjectID = subjectID;
-    }
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
 
-    public String getSubjectName() {
-        return subjectName;
-    }
+	public String getPublishDate() {
+		return publishDate;
+	}
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
+	public void setPublishDate(String publishDate) {
+		this.publishDate = publishDate;
+	}
 
-    public String getPublishDate() {
-        return publishDate;
-    }
+	public int getViewCount() {
+		return viewCount;
+	}
 
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
-    }
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
 
-    public String getImageURL() {
-        return imageURL;
-    }
+	public int getDownloadCount() {
+		return downloadCount;
+	}
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
+	public void setDownloadCount(int downloadCount) {
+		this.downloadCount = downloadCount;
+	}
 
-    public int getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public int getDownloadCount() {
-        return downloadCount;
-    }
-
-    public void setDownloadCount(int downloadCount) {
-        this.downloadCount = downloadCount;
-    }
-        
-        
 }
