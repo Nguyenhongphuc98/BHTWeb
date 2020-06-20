@@ -101,6 +101,13 @@ public class DocumentMapper extends DBMapper {
         
     }
     
+    public List<BHTDocument> getMostDownloadDocs(int countLimit) {
+        
+        String sqlStr = "SELECT * FROM document WHERE DocumentApproved = 1 ORDER BY DocumentDownloadCount DESC LIMIT " + countLimit;
+        return fetchListDocs(sqlStr);
+        
+    }
+    
     /// get list doc by filter, limit base on publish date and pageIndex
     public List<BHTDocument> getDocsbyFilter(DocumentFilter filter, int start, int count) {
         
