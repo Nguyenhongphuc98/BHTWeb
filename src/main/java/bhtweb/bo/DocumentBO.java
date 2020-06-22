@@ -16,6 +16,7 @@ import bhtweb.dbaccess.DocumentCategoryMapper;
 import bhtweb.dbaccess.DocumentMapper;
 import bhtweb.dbaccess.SubjectMapper;
 import bhtweb.dto.DocumentDTO;
+import bhtweb.dto.DocumentUploadDTO;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.entities.BHTDocument;
 import bhtweb.entities.BHTDocumentCategory;
@@ -29,8 +30,10 @@ import bhtweb.utils.DocumentFilter;
 public class DocumentBO {
 
 	public static int DOCS_PER_PAGE = 10;
+	
+	public static int GOOD_DOCS_LIMIT = 3;
 
-	public DocumentDTO getDocumentById(int id, boolean isApproved) {
+	private DocumentDTO getDocumentById(int id, boolean isApproved) {
 
 		DocumentDTO doc = null;
 		BHTDocument entity = null;
@@ -71,7 +74,7 @@ public class DocumentBO {
 		return doc;
 	}
 
-	public List<ShortDocumentDTO> createShortDocumentFor(List<BHTDocument> entitys) {
+	private List<ShortDocumentDTO> createShortDocumentFor(List<BHTDocument> entitys) {
 		List<ShortDocumentDTO> docs = new ArrayList<>();
 		BHTDocumentCategory category = null;
 		BHTSubject subject = null;
@@ -114,6 +117,18 @@ public class DocumentBO {
 		return docs;
 	}
 
+	
+	public DocumentDTO viewDocumentDetail(int docId) {
+		return getDocumentById(docId, true);
+	}
+	
+	public DocumentDTO previewDoc(int docId, int requesterID) {
+		
+		// GET user by id , check group permission - admin, collaborator, author?
+		// if ok then fetch else return null
+		return getDocumentById(docId, false);
+	}
+	
 	// Page index start from 0
 	public List<ShortDocumentDTO> searchDocument(DocumentFilter filter, int pageIndex) {
 
@@ -141,6 +156,57 @@ public class DocumentBO {
 		return result;
 	}
 
+	// Page index start from 0
+	public List<ShortDocumentDTO> getPersonalDocs(int uploader, int pageIndex, boolean approved) {
+		
+		int startIndex = pageIndex * DOCS_PER_PAGE;
+
+		DocumentMapper mapper = null;
+		List<ShortDocumentDTO> result = null;
+		try {
+
+			mapper = new DocumentMapper();
+			List<BHTDocument> entities = mapper.getDocsByAuthor(uploader, approved, startIndex, DOCS_PER_PAGE);
+			result = createShortDocumentFor(entities);
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
+		return result;
+	}
+	
+	public List<ShortDocumentDTO> getMostDownloadDocumentList() {
+		
+		DocumentMapper mapper = null;
+		List<ShortDocumentDTO> result = null;
+		try {
+
+			mapper = new DocumentMapper();
+			List<BHTDocument> entities = mapper.getMostDownloadDocs(GOOD_DOCS_LIMIT);
+			result = createShortDocumentFor(entities);
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
+		return result;
+	}
+	
 	public List<ShortDocumentDTO> getListDocumentToBrowse() {
 
 		DocumentMapper mapper = null;
@@ -180,6 +246,37 @@ public class DocumentBO {
 			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return result;
+	}
+
+	public boolean CreateDoc(DocumentUploadDTO document) {
+		DocumentMapper mapper = null;
+
+		BHTDocument bhtDocument = new BHTDocument();
+		bhtDocument.setCategoryId(document.getCategoryId());
+		bhtDocument.setContentUrl(document.getContentUrl());
+		bhtDocument.setDescription(document.getDescription());
+		bhtDocument.setSemesterId(document.getSemesterId());
+		bhtDocument.setSubjectId(document.getSubjectId());
+		bhtDocument.setTitle(document.getTitle());
+		bhtDocument.setUploaderId(document.getUploaderId());
+		
+		boolean result = false;
+		try {
+
+			mapper = new DocumentMapper();
+			result = mapper.saveDoc(bhtDocument);
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
 			try {
 				mapper.closeConnection();
 			} catch (Exception ex) {

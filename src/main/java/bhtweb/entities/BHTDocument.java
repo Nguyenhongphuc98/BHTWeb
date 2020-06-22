@@ -37,6 +37,13 @@ public class BHTDocument {
     int categoryId;
 
     public BHTDocument() {
+    	
+    	this.viewCount = 0;
+    	this.downloadCount = 0;
+    	
+    	this.isApproved = false;
+    	this.isSoftDeleted = false;
+    	this.isHidden = false;
     }
 
     public BHTDocument(int id, String title, String description, int uploaderId, String contentUrl, boolean isSoftDeleted, boolean isHidden, boolean isApproved, Integer viewCount, Integer downloadCount, int semesterId, int subjectId, int categoryId) {

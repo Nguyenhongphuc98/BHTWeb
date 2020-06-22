@@ -107,6 +107,17 @@ public class DocumentMapper extends DBMapper {
         return fetchListDocs(sqlStr);
         
     }
+
+	public List<BHTDocument> getDocsByAuthor(int uploaderId, boolean approved, int start, int count) {
+
+		String sqlStr = "SELECT * FROM document WHERE DocumentApproved = " + (approved ? 1 : 0)
+						+ " DocumentUploaderUserID = "
+						+ uploaderId + " ORDER BY DocumentDownloadCount DESC LIMIT "
+						+ start + "," + count;
+				
+		return fetchListDocs(sqlStr);
+
+	}
     
     /// get list doc by filter, limit base on publish date and pageIndex
     public List<BHTDocument> getDocsbyFilter(DocumentFilter filter, int start, int count) {
