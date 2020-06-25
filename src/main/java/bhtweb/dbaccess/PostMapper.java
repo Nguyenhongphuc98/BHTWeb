@@ -202,7 +202,7 @@ public class PostMapper extends DBMapper {
 		if (similarPost.getPostSubmitDtm() != null)
 			searchSQLStr += "PostSubmitDtm = " + similarPost.getPostSubmitDtm() + " AND";
 		if (similarPost.getPostTitle() != null)
-			searchSQLStr += "PostTitle like \'%" + similarPost.getPostTitle() + "%\'";
+			searchSQLStr += "PostTitle like \'%" + similarPost.getPostTitle() + "%\'" + " AND";
 		//Cần thiết để câu lệnh SQL của chúng ta đúng cú pháp.
 		searchSQLStr += "1=1";
 		return searchSQLStr;
