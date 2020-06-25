@@ -1,19 +1,19 @@
-package bhtweb.entities;
+package bhtweb.dto;
 
-import bhtweb.dto.PostCategoryDTO;
+import bhtweb.entities.BHTPostCategory;
 
-public class BHTPostCategory {
+public class PostCategoryDTO {
 
 	private Long postCategoryID;
 	private String postCategoryName;
 	
-	public BHTPostCategory() {
+	public PostCategoryDTO () {
 		
 	}
 	
-	public BHTPostCategory(PostCategoryDTO postCategoryDTO) {
-		this.postCategoryID = postCategoryDTO.getPostCategoryID();
-		this.postCategoryName = postCategoryDTO.getPostCategoryName();
+	public PostCategoryDTO(BHTPostCategory postCategory) {
+		this.postCategoryID = postCategory.getPostCategoryID();
+		this.postCategoryName = postCategory.getPostCategoryName();
 	}
 	
 	public Long getPostCategoryID() {

@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 
 import bhtweb.dbaccess.PostMapper;
 import bhtweb.dto.PostDTO;
+import bhtweb.entities.BHTPost;
 
 public class PostBO {
 
@@ -22,7 +23,7 @@ public class PostBO {
 	
 	public PostDTO createPost (PostDTO postDTO) {
 		try {
-			return postMapper.insertPost(postDTO);
+			return new PostDTO(postMapper.insertPost(new BHTPost(postDTO)));
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -32,7 +33,7 @@ public class PostBO {
 	
 	public Boolean updatePost (PostDTO postDTO) {
 		try {
-			return postMapper.updatePost(postDTO);
+			return postMapper.updatePost(new BHTPost(postDTO));
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
