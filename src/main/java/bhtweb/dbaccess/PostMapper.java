@@ -107,7 +107,7 @@ public class PostMapper extends DBMapper {
 			ResultSet rSet = fetchPostPst.executeQuery();
 			
 			while (rSet != null && rSet.next()) {
-				BHTPost postDTO = getPostDTOFromCurrentResultSet(rSet);
+				BHTPost postDTO = getBHTPostFromCurrentResultSet(rSet);
 				
 				postsResult.add(postDTO);
 			}
@@ -135,7 +135,7 @@ public class PostMapper extends DBMapper {
 			ResultSet rSet = searchPostPst.executeQuery();
 			
 			while (rSet != null && rSet.next()) {
-				BHTPost postDTO = getPostDTOFromCurrentResultSet(rSet);
+				BHTPost postDTO = getBHTPostFromCurrentResultSet(rSet);
 				searchPostResult.add(postDTO);
 			}
 			
@@ -148,7 +148,7 @@ public class PostMapper extends DBMapper {
 	}
 	
 	//Hàm lấy một DTO từ resultSet hiện tại.
-	private BHTPost getPostDTOFromCurrentResultSet (ResultSet rSet) throws Exception {
+	private BHTPost getBHTPostFromCurrentResultSet (ResultSet rSet) throws Exception {
 		BHTPost postDTO = new BHTPost();
 		try {
 			postDTO.setNumView(rSet.getLong("NumView"));

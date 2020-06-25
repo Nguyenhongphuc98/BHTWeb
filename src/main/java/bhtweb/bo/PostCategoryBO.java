@@ -1,5 +1,8 @@
 package bhtweb.bo;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.ServletContext;
 
 import bhtweb.dbaccess.PostCategoryMapper;
@@ -19,6 +22,22 @@ public class PostCategoryBO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+	
+	public List<PostCategoryDTO> getAllPostCategories() {
+		try {
+			List<BHTPostCategory> categories = postCategoryMapper.fetchPostCategories();
+			
+			List<PostCategoryDTO> categoriesDTO = categories
+					.stream()
+					.map(PostCategoryDTO::new)
+					.collect(Collectors.toList());
+			return categoriesDTO;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public PostCategoryDTO createPostCategory (PostCategoryDTO postCategoryDTO) {
