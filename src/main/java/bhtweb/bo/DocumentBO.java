@@ -97,7 +97,10 @@ public class DocumentBO {
 				subject = subjectMapper.getSubjectById(item.getSubjectId());
 				// get user ...
 
-				doc = new ShortDocumentDTO(item, "author name", subject.getSubjectName(), category.getName());
+				doc = new ShortDocumentDTO(
+						item, "author name", 
+						subject.getSubjectName(),
+						category.getName(), item.getDocumentPublishDtm());
 				docs.add(doc);
 			}
 
@@ -183,14 +186,18 @@ public class DocumentBO {
 		return result;
 	}
 	
-	public List<ShortDocumentDTO> getMostDownloadDocumentList() {
+	public List<ShortDocumentDTO> getMostDownloadDocumentList(int limit) {
 		
 		DocumentMapper mapper = null;
 		List<ShortDocumentDTO> result = null;
+		if (limit == 0) {
+			limit = GOOD_DOCS_LIMIT;
+		}
+		
 		try {
 
 			mapper = new DocumentMapper();
-			List<BHTDocument> entities = mapper.getMostDownloadDocs(GOOD_DOCS_LIMIT);
+			List<BHTDocument> entities = mapper.getMostDownloadDocs(limit);
 			result = createShortDocumentFor(entities);
 
 		} catch (Exception ex) {

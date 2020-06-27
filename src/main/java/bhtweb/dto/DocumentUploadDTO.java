@@ -20,16 +20,16 @@ public class DocumentUploadDTO {
 
 	}
 
-	public DocumentUploadDTO(String title, String description, int uploaderId, String contentUrl, int semesterId,
-			int subjectId, int categoryId) {
+	public DocumentUploadDTO(String title, String description, int uploaderId, String contentUrl, String semesterId,
+			String subjectId, String categoryId) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.uploaderId = uploaderId;
 		this.contentUrl = contentUrl;
-		this.semesterId = semesterId;
-		this.subjectId = subjectId;
-		this.categoryId = categoryId;
+		this.semesterId = Integer.parseInt(semesterId);
+		this.subjectId = Integer.parseInt(subjectId);
+		this.categoryId = Integer.parseInt(categoryId);
 	}
 
 	public String getTitle() {

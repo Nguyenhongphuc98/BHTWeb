@@ -55,7 +55,8 @@ public class DocumentMapper extends DBMapper {
 				d.setSemesterId(rs.getInt("SemesterID"));
 				d.setSubjectId(rs.getInt("SubjectID"));
 				d.setCategoryId(rs.getInt("DocumentCategoryID"));
-
+				d.setDocumentPublishDtm(rs.getDate("DocumentPublishDtm"));
+				
 				docs.add(d);
 			}
 		} catch (SQLException ex) {
@@ -113,7 +114,7 @@ public class DocumentMapper extends DBMapper {
 		String sqlStr = "SELECT * FROM document WHERE DocumentApproved = " + (approved ? 1 : 0)
 						+ " DocumentUploaderUserID = "
 						+ uploaderId + " ORDER BY DocumentDownloadCount DESC LIMIT "
-						+ start + "," + count;
+						+ start + ", " + count;
 				
 		return fetchListDocs(sqlStr);
 
@@ -122,13 +123,14 @@ public class DocumentMapper extends DBMapper {
     /// get list doc by filter, limit base on publish date and pageIndex
     public List<BHTDocument> getDocsbyFilter(DocumentFilter filter, int start, int count) {
         
-        String sqlStr = "SELECT * FROM document WHERE DocumentApproved = 1"
-        		+ "AND " + filter.getCategoreId()
-        		+ "AND " + filter.getSemesterId()
-        		+ "AND " + filter.getYearNo()
-        		+ "AND " + filter.getSubjectId()
+        String sqlStr = "SELECT * FROM document WHERE DocumentApproved = 1 "
+        		+ " AND DocumentCategoryID " + filter.getCategoreId()
+        		+ " AND SemesterID " + filter.getSemesterId()
+        		//+ " AND " + filter.getYearNo()
+        		+ " AND SubjectID " + filter.getSubjectId()
+        		+ " ORDER BY DocumentPublishDtm DESC LIMIT " + start + " , " + count;
         
-        		+ "ORDER BY ... DESC LIMIT " + start + "," + count;
+        System.out.println("excuting: " + sqlStr);
         return fetchListDocs(sqlStr);
         
     }
@@ -138,7 +140,7 @@ public class DocumentMapper extends DBMapper {
         // the mysql insert statement
         String query = " INSERT INTO document (DocumentTitle, DocumentDescription,"
                 + "DocumentUploaderUserID, DocumentContentURL, DocumentSoftDeleted, DocumentHidden,"
-                + "DocumentApproved, DocumentViewCount, DocumentDownloadCount, SemesterID, SubjectID, DocumentCategoryID)"
+                + "DocumentApproved, DocumentViewCount, DocumentDownloadCount, SemesterID, SubjectID, DocumentCategoryID, DocumentPublishDtm)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         
@@ -157,6 +159,7 @@ public class DocumentMapper extends DBMapper {
             preparedStmt.setInt(10, doc.getSemesterId());
             preparedStmt.setInt(11, doc.getSubjectId());
             preparedStmt.setInt(12, doc.getCategoryId());
+            preparedStmt.setDate(12, doc.getDocumentPublishDtm());
             
             // execute the preparedstatement
             return preparedStmt.execute();
