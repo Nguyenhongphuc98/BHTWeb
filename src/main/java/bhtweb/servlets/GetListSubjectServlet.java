@@ -14,37 +14,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bhtweb.bo.DocumentBO;
-import bhtweb.dto.DocumentUploadDTO;
-import bhtweb.dto.ShortDocumentDTO;
+import bhtweb.bo.SubjectBO;
+import bhtweb.entities.BHTSubject;
 import bhtweb.utils.Uploader;
 
-// /GetGoodDocumentServlet?limit=n
 
-@WebServlet(name = "GetGoodDocumentServlet", urlPatterns = { "/GetGoodDocumentServlet" })
-public class GetGoodDocumentServlet extends HttpServlet {
-
-	DocumentBO documentBO;
+@WebServlet(name = "GetListSubjectServlet", urlPatterns = {"/GetListSubjectServlet"})
+public class GetListSubjectServlet extends HttpServlet {
+	
+	SubjectBO subjectBO;
 
 	public void init() {
 
-		documentBO = new DocumentBO();
-
+		subjectBO = new SubjectBO();
 	}
 
-	@Override
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	int limit = Integer.parseInt(req.getParameter("limit"));
     	
     	resp.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = resp.getWriter()) {
-            out.println("GetGoodDocumentServlet, limit: " + limit);
+            out.println("GetListSubjectServlet ");
         }
         
-        List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
-        
-        for (int i = 0; i < docs.size(); i++) {
-			System.out.println(docs.get(i).toString());
-		}
+        List<BHTSubject> subjects = subjectBO.viewAllSubjects();
+        System.out.println("num of subject: " + subjects.size());
     }
 }

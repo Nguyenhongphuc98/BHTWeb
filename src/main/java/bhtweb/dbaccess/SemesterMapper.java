@@ -26,7 +26,7 @@ public class SemesterMapper extends DBMapper {
         ArrayList<BHTSemester> semesters = new ArrayList<>();    
         try {     
             Statement stmt = getConnection().createStatement();
-            String sqlStr = "SELECT * FROM subject";
+            String sqlStr = "SELECT * FROM semester";
             ResultSet rs = stmt.executeQuery(sqlStr); // Send the query to the server
             int count = 0;
             while (rs != null && rs.next()) {
