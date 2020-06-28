@@ -205,11 +205,12 @@ public class DocumentMapper extends DBMapper {
         //  Xoa dau --',-- cuoi cung neu co
         if (sqlStr.substring(sqlStr.length() - 2, sqlStr.length() - 1).equals("',")) {
             sqlStr = sqlStr.substring(0, sqlStr.length() - 3);
-        } else if (sqlStr.charAt(sqlStr.length() - 1) == '\'') {
-            sqlStr = sqlStr.substring(0, sqlStr.length() - 2);
+        } else if (sqlStr.charAt(sqlStr.length() - 1) == ',') {
+            sqlStr = sqlStr.substring(0, sqlStr.length() - 1);
         }
         
         sqlStr += " WHERE DocumentID = " + doc.getId();
+        System.out.println("query: " + sqlStr);
         
         Statement stmt;
 		try {

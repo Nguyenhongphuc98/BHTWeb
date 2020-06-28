@@ -51,12 +51,25 @@ public class DocumentBO {
 			subjectMapper = new SubjectMapper();
 
 			entity = mapper.getDocsById(id, isApproved);
-			category = categoryMapper.getBHTDocumentCategoryById(entity.getCategoryId());
-			subject = subjectMapper.getSubjectById(entity.getSubjectId());
-
+			
 			// get user ...
+			
+			if (entity != null) {
+				category = categoryMapper.getBHTDocumentCategoryById(entity.getCategoryId());
+				subject = subjectMapper.getSubjectById(entity.getSubjectId());
+				System.out.println("subject id: " + entity.getSubjectId());
 
-			doc = new DocumentDTO(entity, "authorName", "authorAvatar", category.getName(), subject.getSubjectName());
+				doc = new DocumentDTO(
+						entity,
+						"authorName",
+						"authorAvatar",
+						category.getName(), 
+						subject.getSubjectName()
+						);
+			} else {
+				System.out.println("not found subject id: " + id);
+			}
+			
 
 		} catch (Exception ex) {
 			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,14 +135,33 @@ public class DocumentBO {
 
 	
 	public DocumentDTO viewDocumentDetail(int docId) {
-		return getDocumentById(docId, true);
+		
+		DocumentDTO doc = getDocumentById(docId, true);
+		BHTDocument updatedoc = new BHTDocument();
+		updatedoc.setId(docId);
+		updatedoc.setViewCount(doc.getDownloadCount() + 1);
+		
+		// update views count
+		try {
+			DocumentMapper mapper = new DocumentMapper();
+			mapper.updateDoc(updatedoc, false, false, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return doc;
 	}
 	
 	public DocumentDTO previewDoc(int docId, int requesterID) {
 		
 		// GET user by id , check group permission - admin, collaborator, author?
 		// if ok then fetch else return null
-		return getDocumentById(docId, false);
+		DocumentDTO doc = getDocumentById(docId, false);
+		if (doc != null && doc.getAuthorID() == requesterID) {
+			return doc;
+		}
+		
+		return null;
 	}
 	
 	// Page index start from 0
