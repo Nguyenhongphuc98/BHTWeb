@@ -127,6 +127,14 @@
 									<version>${jakartaee}</version>
 									<type>jar</type>
 								</artifactItem>
+								
+								<artifactItem>
+									<groupId>com.github.jsimone</groupId>
+									<artifactId>webapp-runner</artifactId>
+									<version>8.0.30.2</version>
+									<destFileName>webapp-runner.jar</destFileName>
+								</artifactItem>
+								
 							</artifactItems>
 						</configuration>
 					</execution>
