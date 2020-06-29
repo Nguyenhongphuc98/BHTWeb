@@ -281,7 +281,6 @@ public class DocumentBO {
 			doc.setId(docId);
 			doc.setIsApproved(true);
 			result = mapper.updateDoc(doc, false, false, true);
-			System.out.println("id of doc is: " + doc.getId());
 
 		} catch (Exception ex) {
 			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,6 +296,7 @@ public class DocumentBO {
 	}
 
 	public boolean CreateDoc(DocumentUploadDTO document) {
+		
 		DocumentMapper mapper = null;
 
 		BHTDocument bhtDocument = new BHTDocument();

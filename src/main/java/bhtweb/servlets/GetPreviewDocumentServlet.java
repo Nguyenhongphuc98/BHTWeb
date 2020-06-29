@@ -10,22 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 
-//GetPreviewDocumentServlet?id=n
+// docs/preview?id=n
 
 // Chi preview duoc cai nao chua duyet thoi. cai nao da duyet la view detail
 
-@WebServlet(name = "GetPreviewDocumentServlet", urlPatterns = { "/GetPreviewDocumentServlet" })
+@WebServlet(name = "GetPreviewDocumentServlet", urlPatterns = { "/docs/preview" })
 public class GetPreviewDocumentServlet extends HttpServlet {
 
 	DocumentBO documentBO;
+	private Gson gson;
 
 	public void init() {
 
 		documentBO = new DocumentBO();
-
+		gson = new Gson();
 	}
 
 	@Override
@@ -37,35 +40,34 @@ public class GetPreviewDocumentServlet extends HttpServlet {
 			try {
 				id = Integer.parseInt(idString);
 			} catch (Exception e) {
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
+		} else {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 
-		if (id == 0) {
-			return;
-		}
 
-		resp.setContentType("text/html;charset=UTF-8");
-		try (PrintWriter out = resp.getWriter()) {
-			out.println("preview doc, id: " + id);
+		PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
 
-			// lay user tu session ra.
-			System.out.println("hu");
-			HttpSession session = req.getSession(true);
-			System.out.println("huhu");
-			Integer uid = (Integer) session.getAttribute("uid");
-			if (uid == null) {
-				System.out.println("you have login to preview");
-				session.setAttribute("uid", 1);
+		// lay user tu session ra.
+		HttpSession session = req.getSession(true);
+		Integer uid = (Integer) session.getAttribute("uid");
+//		if (uid == null) {
+//			System.out.println("you have login to preview");
+//			session.setAttribute("uid", 1);
+//		} else {
+			DocumentDTO doc = documentBO.previewDoc(id, 1);
+			if (doc == null) {
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			} else {
-				DocumentDTO doc = documentBO.previewDoc(id, uid);
-				if (doc == null) {
-					System.out.println("you don't have permission");
-				} else {
-					System.out.println(doc.toString());
-				}
+				String documentJsonString = this.gson.toJson(doc);
+				out.print(documentJsonString);
+				out.flush();
 			}
-		}
+		//}
 
 	}
 }

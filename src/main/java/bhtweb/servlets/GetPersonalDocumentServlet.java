@@ -11,25 +11,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.ShortDocumentDTO;
 
-// GetPersonalDocumentServlet? uid = 1 & approved = 0& page =0
-@WebServlet(name = "GetPersonalDocumentServlet", urlPatterns = { "/GetPersonalDocumentServlet" })
+// user/docs? uid = 1 & approved = 0& page =0
+@WebServlet(name = "GetPersonalDocumentServlet", urlPatterns = { "/user/docs" })
 public class GetPersonalDocumentServlet extends HttpServlet {
 
-	DocumentBO documentBO;
+	private DocumentBO documentBO;
+	private Gson gson;
 
 	public void init() {
 
 		documentBO = new DocumentBO();
-
+		gson = new Gson();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		System.out.println("in get personal docs");
 		
 		String uidString = req.getParameter("uid");
 		String approvedString = req.getParameter("approved");
@@ -59,24 +60,24 @@ public class GetPersonalDocumentServlet extends HttpServlet {
 //		HttpSession session = req.getSession();
 //		Integer uid = (Integer) session.getAttribute("uid");
 //
-//		// Neu null or role != admin -> denied
+//		// Neu null or role != admin , author -> denied
 //
-//		// Nguoc lai thi update status to approved
-
-		resp.setContentType("text/html;charset=UTF-8");
-		try (PrintWriter out = resp.getWriter()) {
-			out.println("get personal servlet, uid: " + uid);
-		}
+//		// Nguoc lai thi cho lay
 
 		List<ShortDocumentDTO> docs = documentBO.getPersonalDocs(uid, pageIndex, approvedBool);
 
+		PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		
 		if (docs!= null) {
-			for (int i = 0; i < docs.size(); i++) {
-				System.out.println(docs.get(i).toString());
-			}
+			
+			String documentJsonString = this.gson.toJson(docs);
+			out.print(documentJsonString);
+			out.flush();
 			
 		} else {
-			System.out.println("dont have doc of this user");
+			resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		}
 
 	}

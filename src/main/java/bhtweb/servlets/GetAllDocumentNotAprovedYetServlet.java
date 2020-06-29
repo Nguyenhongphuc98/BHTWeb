@@ -11,29 +11,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.ShortDocumentDTO;
 
 
-@WebServlet(name = "GetAllDocumentNotAprovedYetServlet", urlPatterns = { "/GetAllDocumentNotAprovedYetServlet" })
+@WebServlet(name = "GetAllDocumentNotAprovedYetServlet", urlPatterns = { "/admin/docs/notApproved" })
 public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
 
 	DocumentBO documentBO;
+	private Gson gson;
 
 	public void init() {
 
 		documentBO = new DocumentBO();
+		gson = new Gson();
 
 	}
 
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()) {
-            out.println("GetAllDocumentNotAprovedYetServlet");
-        }
         
         HttpSession session = req.getSession();
         Integer uid = (Integer) session.getAttribute("uid");
@@ -44,8 +43,14 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
         
         List<ShortDocumentDTO> docs = documentBO.getListDocumentToBrowse();
         
-        for (int i = 0; i < docs.size(); i++) {
-        	System.out.println(docs.get(i).toString());
+        PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		
+        if (docs != null) {
+        	String documentJsonString = this.gson.toJson(docs);
+			out.print(documentJsonString);
+			out.flush();
 		}
 		
 		

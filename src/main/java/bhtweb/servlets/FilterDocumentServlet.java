@@ -10,23 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.utils.DocumentFilter;
 
-// FilterDocumentServlet?subject=id1&category=id2&semester=id3&year=id4&page=id5
+// docs/search?subject=id1&category=id2&semester=id3&year=id4&page=id5
 
-@WebServlet(name = "FilterDocumentServlet", urlPatterns = {"/FilterDocumentServlet"})
+@WebServlet(name = "FilterDocumentServlet", urlPatterns = {"/docs/search"})
 public class FilterDocumentServlet extends HttpServlet {
 	
 	DocumentBO documentBO;
+	private Gson gson;
 	
 	@Override
 	public void init() throws ServletException {
 
 		documentBO = new DocumentBO();
+		gson = new Gson();
 		
-		super.init();
 	}
 
     @Override
@@ -35,7 +38,7 @@ public class FilterDocumentServlet extends HttpServlet {
     	String subjectId = req.getParameter("subject");
     	String categoryId = req.getParameter("category");
     	String semesterId = req.getParameter("semester");
-    	String yearNoId = req.getParameter("year");
+    	//String yearNoId = req.getParameter("year");
     	String page = req.getParameter("page");
     	
     	DocumentFilter filter = new DocumentFilter();
@@ -57,11 +60,11 @@ public class FilterDocumentServlet extends HttpServlet {
 			} catch (Exception e) { }
 		}
     	
-    	if (yearNoId != null) {
-    		try {
-    			filter.setYearNo(Integer.parseInt(yearNoId));
-			} catch (Exception e) { }
-		}
+//    	if (yearNoId != null) {
+//    		try {
+//    			filter.setYearNo(Integer.parseInt(yearNoId));
+//			} catch (Exception e) { }
+//		}
     	
     	int pageIndex = 0;
     	if (page != null) {
@@ -71,15 +74,16 @@ public class FilterDocumentServlet extends HttpServlet {
 		}
     	
     	java.util.List<ShortDocumentDTO> result = documentBO.searchDocument(filter, pageIndex);
-    	for (int i = 0; i < result.size(); i++) {
-			System.out.println(result.get(i).toString());
+    	
+    	PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		
+    	if (result != null) {
+    		String documentJsonString = this.gson.toJson(result);
+			out.print(documentJsonString);
+			out.flush();
 		}
     	
-    	resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()) {
-            out.println("Filter docs...");
-        }
-        
-        
     }
 }

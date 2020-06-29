@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 
-//ApproveDocumentServlet?id=n
+// docs/approved?id=n
 
-@WebServlet(name = "ApproveDocumentServlet", urlPatterns = { "/ApproveDocumentServlet" })
+@WebServlet(name = "ApproveDocumentServlet", urlPatterns = { "/docs/approved" })
 public class ApproveDocumentServlet extends HttpServlet {
 
 	DocumentBO documentBO;
@@ -50,16 +50,13 @@ public class ApproveDocumentServlet extends HttpServlet {
 
 		// Nguoc lai thi update status to approved
 
-		resp.setContentType("text/html;charset=UTF-8");
-		try (PrintWriter out = resp.getWriter()) {
-			out.println("GetDocumentDetailServlet, id: " + id);
-		}
-
 		boolean result = documentBO.publishDocument(id);
 
 		if (result) {
+			resp.setStatus(HttpServletResponse.SC_OK);
 			System.out.println("approved");
 		} else {
+			resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			System.out.println("try later");
 		}
 

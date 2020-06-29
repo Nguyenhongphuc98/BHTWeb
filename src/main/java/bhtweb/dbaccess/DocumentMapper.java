@@ -68,7 +68,7 @@ public class DocumentMapper extends DBMapper {
     
     public BHTDocument getDocsById(int docId, boolean isApproved) {
 
-        String sqlStr = "SELECT * FROM document WHERE DocumentID = " + docId + " and DocumentApproved = " + isApproved;
+        String sqlStr = "SELECT * FROM document WHERE DocumentID = " + docId + " and DocumentApproved = " + (isApproved ? 1 : 0);
         List<BHTDocument> ls = fetchListDocs(sqlStr);
         return ls.size() > 0 ? ls.get(0) : null;
 
@@ -115,7 +115,7 @@ public class DocumentMapper extends DBMapper {
 						+ " AND DocumentUploaderUserID = "
 						+ uploaderId + " ORDER BY DocumentDownloadCount DESC LIMIT "
 						+ start + ", " + count;
-		System.out.println("sql3: " + sqlStr);		
+				
 		return fetchListDocs(sqlStr);
 
 	}
@@ -141,7 +141,7 @@ public class DocumentMapper extends DBMapper {
         String query = " INSERT INTO document (DocumentTitle, DocumentDescription,"
                 + "DocumentUploaderUserID, DocumentContentURL, DocumentSoftDeleted, DocumentHidden,"
                 + "DocumentApproved, DocumentViewCount, DocumentDownloadCount, SemesterID, SubjectID, DocumentCategoryID, DocumentPublishDtm)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         
         try {
@@ -159,16 +159,16 @@ public class DocumentMapper extends DBMapper {
             preparedStmt.setInt(10, doc.getSemesterId());
             preparedStmt.setInt(11, doc.getSubjectId());
             preparedStmt.setInt(12, doc.getCategoryId());
-            preparedStmt.setDate(12, doc.getDocumentPublishDtm());
+            preparedStmt.setDate(13, doc.getDocumentPublishDtm());
             
             // execute the preparedstatement
-            return preparedStmt.execute();
+            preparedStmt.execute();
             
         } catch (SQLException ex) {
             Logger.getLogger(DocumentMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return false;
+        return true;
     }
     
     public boolean updateDoc(BHTDocument doc, boolean delete, boolean hidden, boolean approved) {

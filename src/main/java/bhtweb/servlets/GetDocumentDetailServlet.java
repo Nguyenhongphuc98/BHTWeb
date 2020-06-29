@@ -11,47 +11,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.ShortDocumentDTO;
 
-//GetDocumentDetailServlet?id=n
+// docs/detail?id=n
 
-@WebServlet(name = "GetDocumentDetailServlet", urlPatterns = { "/GetDocumentDetailServlet" })
+@WebServlet(name = "GetDocumentDetailServlet", urlPatterns = { "/docs/detail" })
 public class GetDocumentDetailServlet extends HttpServlet {
 
 	DocumentBO documentBO;
+	private Gson gson;
 
 	public void init() {
 
 		documentBO = new DocumentBO();
-
+		gson = new Gson();
 	}
 
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
 		String idString = req.getParameter("id");
-		int id = 0;
+		int id = -1;
 		if (idString != null) {
 			try {
 				id = Integer.parseInt(idString);
 			} catch (Exception  e) {
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
+		} else {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
     	
-		if (id == 0) { return; }
+		if (id == -1) { return; }
     	
-    	resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()) {
-            out.println("GetDocumentDetailServlet, id: " + id);
-        }
-        
         DocumentDTO doc = documentBO.viewDocumentDetail(id);
         
-        System.out.println("vcvc");
-		System.out.println(doc.toString());
+        PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+        
+        if (doc != null) {
+        	String documentJsonString = this.gson.toJson(doc);
+			out.print(documentJsonString);
+			out.flush();
+		}
 		
+        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 }

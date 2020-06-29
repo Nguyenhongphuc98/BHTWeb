@@ -10,31 +10,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentCategoryBO;
 import bhtweb.bo.SubjectBO;
 import bhtweb.entities.BHTDocumentCategory;
 import bhtweb.entities.BHTSubject;
 
 
-@WebServlet(name = "GetListDocumentCategory", urlPatterns = {"/GetListDocumentCategory"})
+@WebServlet(name = "GetListDocumentCategory", urlPatterns = {"/docs/categories"})
 public class GetListDocumentCategoryServlet extends HttpServlet {
 	
 	DocumentCategoryBO categotyBO;
+	private Gson gson;
 
 	public void init() {
 
 		categotyBO = new DocumentCategoryBO();
+		gson = new Gson();
 	}
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
-    	resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()) {
-            out.println("GetListDocumentCategory ");
-        }
-        
         List<BHTDocumentCategory> categories = categotyBO.viewAllDocCategory();
-        System.out.println("num of categories: " + categories.size());
+        
+        PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+        
+        if (categories != null) {
+        	String categoriesJsonString = this.gson.toJson(categories);
+			out.print(categoriesJsonString);
+			out.flush();
+		}
+        
     }
 }

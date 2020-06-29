@@ -13,21 +13,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentUploadDTO;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.utils.Uploader;
 
-// /GetGoodDocumentServlet?limit=n
+// docs/goodDoc?limit=n
 
-@WebServlet(name = "GetGoodDocumentServlet", urlPatterns = { "/GetGoodDocumentServlet" })
+@WebServlet(name = "GetGoodDocumentServlet", urlPatterns = { "/docs/goodDoc" })
 public class GetGoodDocumentServlet extends HttpServlet {
 
 	DocumentBO documentBO;
+	private Gson gson;
 
 	public void init() {
 
 		documentBO = new DocumentBO();
+		gson = new Gson();
 
 	}
 
@@ -36,15 +40,17 @@ public class GetGoodDocumentServlet extends HttpServlet {
     	
     	int limit = Integer.parseInt(req.getParameter("limit"));
     	
-    	resp.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = resp.getWriter()) {
-            out.println("GetGoodDocumentServlet, limit: " + limit);
-        }
-        
         List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
         
-        for (int i = 0; i < docs.size(); i++) {
-			System.out.println(docs.get(i).toString());
+        PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		
+		if(docs != null) {
+			String documentJsonString = this.gson.toJson(docs);
+			out.print(documentJsonString);
+			out.flush();
 		}
+		
     }
 }
