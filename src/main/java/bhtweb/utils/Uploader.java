@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
-import com.bht.core.DriverConnector;
-import com.bht.core.Utilities;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
 

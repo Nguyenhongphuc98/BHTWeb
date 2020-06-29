@@ -20,15 +20,15 @@ public class PostBO {
 		}
 	}
 	
-	public PostDTO createPost (PostDTO postDTO) {
-		try {
-			return postMapper.insertPost(postDTO);
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return null;
-	}
+//	public PostDTO createPost (PostDTO postDTO) {
+//		try {
+//			return postMapper.insertPost(postDTO);
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 	
 	public Boolean updatePost (PostDTO postDTO) {
 		try {
