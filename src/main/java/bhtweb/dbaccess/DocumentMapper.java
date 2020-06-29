@@ -112,10 +112,10 @@ public class DocumentMapper extends DBMapper {
 	public List<BHTDocument> getDocsByAuthor(int uploaderId, boolean approved, int start, int count) {
 
 		String sqlStr = "SELECT * FROM document WHERE DocumentApproved = " + (approved ? 1 : 0)
-						+ " DocumentUploaderUserID = "
+						+ " AND DocumentUploaderUserID = "
 						+ uploaderId + " ORDER BY DocumentDownloadCount DESC LIMIT "
 						+ start + ", " + count;
-				
+		System.out.println("sql3: " + sqlStr);		
 		return fetchListDocs(sqlStr);
 
 	}

@@ -278,8 +278,10 @@ public class DocumentBO {
 			mapper = new DocumentMapper();
 			
 			BHTDocument doc = new BHTDocument();
+			doc.setId(docId);
 			doc.setIsApproved(true);
 			result = mapper.updateDoc(doc, false, false, true);
+			System.out.println("id of doc is: " + doc.getId());
 
 		} catch (Exception ex) {
 			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
