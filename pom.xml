@@ -113,7 +113,8 @@
 				<version>2.6</version>
 				<executions>
 					<execution>
-						<phase>validate</phase>
+						<!-- <phase>validate</phase> -->
+						<phase>package</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
