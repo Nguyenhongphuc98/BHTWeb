@@ -55,7 +55,8 @@ public class DocumentMapper extends DBMapper {
 				d.setSemesterId(rs.getInt("SemesterID"));
 				d.setSubjectId(rs.getInt("SubjectID"));
 				d.setCategoryId(rs.getInt("DocumentCategoryID"));
-
+				d.setDocumentPublishDtm(rs.getDate("DocumentPublishDtm"));
+				
 				docs.add(d);
 			}
 		} catch (SQLException ex) {
@@ -67,7 +68,7 @@ public class DocumentMapper extends DBMapper {
     
     public BHTDocument getDocsById(int docId, boolean isApproved) {
 
-        String sqlStr = "SELECT * FROM document WHERE DocumentID = " + docId + " and DocumentApproved = " + isApproved;
+        String sqlStr = "SELECT * FROM document WHERE DocumentID = " + docId + " and DocumentApproved = " + (isApproved ? 1 : 0);
         List<BHTDocument> ls = fetchListDocs(sqlStr);
         return ls.size() > 0 ? ls.get(0) : null;
 
@@ -101,16 +102,35 @@ public class DocumentMapper extends DBMapper {
         
     }
     
+    public List<BHTDocument> getMostDownloadDocs(int countLimit) {
+        
+        String sqlStr = "SELECT * FROM document WHERE DocumentApproved = 1 ORDER BY DocumentDownloadCount DESC LIMIT " + countLimit;
+        return fetchListDocs(sqlStr);
+        
+    }
+
+	public List<BHTDocument> getDocsByAuthor(int uploaderId, boolean approved, int start, int count) {
+
+		String sqlStr = "SELECT * FROM document WHERE DocumentApproved = " + (approved ? 1 : 0)
+						+ " AND DocumentUploaderUserID = "
+						+ uploaderId + " ORDER BY DocumentDownloadCount DESC LIMIT "
+						+ start + ", " + count;
+				
+		return fetchListDocs(sqlStr);
+
+	}
+    
     /// get list doc by filter, limit base on publish date and pageIndex
     public List<BHTDocument> getDocsbyFilter(DocumentFilter filter, int start, int count) {
         
-        String sqlStr = "SELECT * FROM document WHERE DocumentApproved = 1"
-        		+ "AND " + filter.getCategoreId()
-        		+ "AND " + filter.getSemesterId()
-        		+ "AND " + filter.getYearNo()
-        		+ "AND " + filter.getSubjectId()
+        String sqlStr = "SELECT * FROM document WHERE DocumentApproved = 1 "
+        		+ " AND DocumentCategoryID " + filter.getCategoreId()
+        		+ " AND SemesterID " + filter.getSemesterId()
+        		//+ " AND " + filter.getYearNo()
+        		+ " AND SubjectID " + filter.getSubjectId()
+        		+ " ORDER BY DocumentPublishDtm DESC LIMIT " + start + " , " + count;
         
-        		+ "ORDER BY ... DESC LIMIT " + start + "," + count;
+        System.out.println("excuting: " + sqlStr);
         return fetchListDocs(sqlStr);
         
     }
@@ -120,8 +140,8 @@ public class DocumentMapper extends DBMapper {
         // the mysql insert statement
         String query = " INSERT INTO document (DocumentTitle, DocumentDescription,"
                 + "DocumentUploaderUserID, DocumentContentURL, DocumentSoftDeleted, DocumentHidden,"
-                + "DocumentApproved, DocumentViewCount, DocumentDownloadCount, SemesterID, SubjectID, DocumentCategoryID)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "DocumentApproved, DocumentViewCount, DocumentDownloadCount, SemesterID, SubjectID, DocumentCategoryID, DocumentPublishDtm)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         
         try {
@@ -139,15 +159,16 @@ public class DocumentMapper extends DBMapper {
             preparedStmt.setInt(10, doc.getSemesterId());
             preparedStmt.setInt(11, doc.getSubjectId());
             preparedStmt.setInt(12, doc.getCategoryId());
+            preparedStmt.setDate(13, doc.getDocumentPublishDtm());
             
             // execute the preparedstatement
-            return preparedStmt.execute();
+            preparedStmt.execute();
             
         } catch (SQLException ex) {
             Logger.getLogger(DocumentMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return false;
+        return true;
     }
     
     public boolean updateDoc(BHTDocument doc, boolean delete, boolean hidden, boolean approved) {
@@ -184,11 +205,12 @@ public class DocumentMapper extends DBMapper {
         //  Xoa dau --',-- cuoi cung neu co
         if (sqlStr.substring(sqlStr.length() - 2, sqlStr.length() - 1).equals("',")) {
             sqlStr = sqlStr.substring(0, sqlStr.length() - 3);
-        } else if (sqlStr.charAt(sqlStr.length() - 1) == '\'') {
-            sqlStr = sqlStr.substring(0, sqlStr.length() - 2);
+        } else if (sqlStr.charAt(sqlStr.length() - 1) == ',') {
+            sqlStr = sqlStr.substring(0, sqlStr.length() - 1);
         }
         
         sqlStr += " WHERE DocumentID = " + doc.getId();
+        System.out.println("query: " + sqlStr);
         
         Statement stmt;
 		try {

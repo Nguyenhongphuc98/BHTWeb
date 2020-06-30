@@ -88,6 +88,20 @@ public class DocumentDTO {
 		this.imageURL = imageURL;
 		this.authorAvatar = authorAvatar;
 	}
+	
+	@Override
+	public String toString() {
+		return "id: "
+				+ this.id
+				+ "url: " + this.url
+				+ "title: " + this.title
+				+ "category: " + this.categoryName
+				+ "subject: " + this.subjectName
+				+ "views: " + this.viewCount
+				+ "downloads: " + this.downloadCount
+				+ "date: " + this.publishDate
+				+ "useravt: " + this.authorAvatar;
+	}
 
 	public int getId() {
 		return id;

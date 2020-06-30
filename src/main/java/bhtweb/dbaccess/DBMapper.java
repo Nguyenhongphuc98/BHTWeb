@@ -38,6 +38,7 @@ public class DBMapper {
 	public void closeConnection () {
 		try {
 			connection.close();
+			//System.out.println("DBMapper closed");
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("DBMapper close connection exception ...");

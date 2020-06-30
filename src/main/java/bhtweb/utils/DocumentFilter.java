@@ -11,10 +11,10 @@ public class DocumentFilter {
 	String yearNo;
 
 	public DocumentFilter() {
-		this.subjectId = " != null";
-		this.categoreId = " != null";
-		this.semesterId = " != null";
-		this.yearNo = " != null";
+		this.subjectId = " != -1";
+		this.categoreId = " != -1";
+		this.semesterId = " != -1";
+		this.yearNo = " != -1";
 	}
 
 	public DocumentFilter(int subjectId, int categoreId, int semesterId, int yearNo) {
