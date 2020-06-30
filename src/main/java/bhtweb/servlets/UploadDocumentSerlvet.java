@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.DocumentUploadDTO;
+import bhtweb.utils.ServletUtils;
 import bhtweb.utils.Uploader;
 
 @WebServlet(name = "UploadDocumentSerlvet", urlPatterns = { "/docs/upload" })
@@ -54,6 +55,8 @@ public class UploadDocumentSerlvet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, java.io.IOException {
+		
+		ServletUtils.addHeaderToResponse(resp);
 
 		request.setCharacterEncoding("UTF-8");
 

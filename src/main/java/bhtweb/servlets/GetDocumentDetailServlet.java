@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.api.client.googleapis.auth.clientlogin.ClientLogin.Response;
 import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.ShortDocumentDTO;
+import bhtweb.utils.ServletUtils;
 
 // docs/detail?id=n
 
@@ -34,6 +36,10 @@ public class GetDocumentDetailServlet extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
+		ServletUtils.addHeaderToResponse(resp);
+		
+		System.out.println("Add header success !");
+		
 		String idString = req.getParameter("id");
 		int id = -1;
 		if (idString != null) {

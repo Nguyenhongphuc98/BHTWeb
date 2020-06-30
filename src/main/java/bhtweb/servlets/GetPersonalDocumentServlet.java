@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.ShortDocumentDTO;
+import bhtweb.utils.ServletUtils;
 
 // user/docs? uid = 1 & approved = 0& page =0
 @WebServlet(name = "GetPersonalDocumentServlet", urlPatterns = { "/user/docs" })
@@ -31,6 +32,8 @@ public class GetPersonalDocumentServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		ServletUtils.addHeaderToResponse(resp);
 		
 		String uidString = req.getParameter("uid");
 		String approvedString = req.getParameter("approved");

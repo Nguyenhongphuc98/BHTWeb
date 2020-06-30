@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.ShortDocumentDTO;
+import bhtweb.utils.ServletUtils;
 
 
 @WebServlet(name = "GetAllDocumentNotAprovedYetServlet", urlPatterns = { "/admin/docs/notApproved" })
@@ -34,6 +35,8 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
+		ServletUtils.addHeaderToResponse(resp);
+		
         HttpSession session = req.getSession();
         Integer uid = (Integer) session.getAttribute("uid");
         

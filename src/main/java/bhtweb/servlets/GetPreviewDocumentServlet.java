@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
+import bhtweb.utils.ServletUtils;
 
 // docs/preview?id=n
 
@@ -34,6 +35,8 @@ public class GetPreviewDocumentServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		ServletUtils.addHeaderToResponse(resp);
+		
 		String idString = req.getParameter("id");
 		int id = 0;
 		if (idString != null) {

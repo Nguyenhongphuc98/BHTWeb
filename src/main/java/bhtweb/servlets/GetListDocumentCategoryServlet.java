@@ -16,6 +16,7 @@ import bhtweb.bo.DocumentCategoryBO;
 import bhtweb.bo.SubjectBO;
 import bhtweb.entities.BHTDocumentCategory;
 import bhtweb.entities.BHTSubject;
+import bhtweb.utils.ServletUtils;
 
 
 @WebServlet(name = "GetListDocumentCategory", urlPatterns = {"/docs/categories"})
@@ -32,6 +33,8 @@ public class GetListDocumentCategoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    	ServletUtils.addHeaderToResponse(resp);
     	
         List<BHTDocumentCategory> categories = categotyBO.viewAllDocCategory();
         

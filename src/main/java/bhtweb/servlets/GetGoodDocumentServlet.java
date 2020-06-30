@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentUploadDTO;
 import bhtweb.dto.ShortDocumentDTO;
+import bhtweb.utils.ServletUtils;
 import bhtweb.utils.Uploader;
 
 // docs/goodDoc?limit=n
@@ -38,6 +39,8 @@ public class GetGoodDocumentServlet extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
+		ServletUtils.addHeaderToResponse(resp);
+		
     	int limit = Integer.parseInt(req.getParameter("limit"));
     	
         List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);

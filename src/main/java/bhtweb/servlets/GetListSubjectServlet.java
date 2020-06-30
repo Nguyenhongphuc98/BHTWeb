@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.DocumentBO;
 import bhtweb.bo.SubjectBO;
 import bhtweb.entities.BHTSubject;
+import bhtweb.utils.ServletUtils;
 import bhtweb.utils.Uploader;
 
 
@@ -36,6 +37,8 @@ public class GetListSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
+    	ServletUtils.addHeaderToResponse(resp);
+    	
         List<BHTSubject> subjects = subjectBO.viewAllSubjects();
         
         PrintWriter out = resp.getWriter();

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.utils.DocumentFilter;
+import bhtweb.utils.ServletUtils;
 
 // docs/search?subject=id1&category=id2&semester=id3&year=id4&page=id5
 
@@ -34,6 +35,8 @@ public class FilterDocumentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    	ServletUtils.addHeaderToResponse(resp);
     	
     	String subjectId = req.getParameter("subject");
     	String categoryId = req.getParameter("category");

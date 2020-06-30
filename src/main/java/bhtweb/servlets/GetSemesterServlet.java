@@ -16,6 +16,7 @@ import bhtweb.bo.SemesterBO;
 import bhtweb.bo.SubjectBO;
 import bhtweb.entities.BHTSemester;
 import bhtweb.entities.BHTSubject;
+import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "GetSemesterServlet", urlPatterns = {"/semesters"})
 public class GetSemesterServlet extends HttpServlet {
@@ -32,6 +33,8 @@ public class GetSemesterServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+    	ServletUtils.addHeaderToResponse(resp);
+    	
 		PrintWriter out = resp.getWriter();
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
