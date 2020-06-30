@@ -56,7 +56,7 @@ public class UploadDocumentSerlvet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, java.io.IOException {
 		
-		ServletUtils.addHeaderToResponse(resp);
+		ServletUtils.addHeaderToResponse(response);
 
 		request.setCharacterEncoding("UTF-8");
 
