@@ -18,70 +18,70 @@
 	</properties>
 
 	<dependencies>
-	<dependency>
-		<groupId>javax</groupId>
-		<artifactId>javaee-api</artifactId>
-		<version>${jakartaee}</version>
-		<scope>provided</scope>
-	</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${jakartaee}</version>
+			<scope>provided</scope>
+		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-drive -->
-	<dependency>
-		<groupId>com.google.apis</groupId>
-		<artifactId>google-api-services-drive</artifactId>
-		<version>v3-rev105-1.23.0</version>
-	</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-drive -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-drive</artifactId>
+			<version>v3-rev105-1.23.0</version>
+		</dependency>
 
 
-	<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
-	<dependency>
-		<groupId>com.google.api-client</groupId>
-		<artifactId>google-api-client</artifactId>
-		<version>1.23.0</version>
-	</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.23.0</version>
+		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
-	<dependency>
-		<groupId>com.google.oauth-client</groupId>
-		<artifactId>google-oauth-client-jetty</artifactId>
-		<version>1.23.0</version>
-	</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client-jetty</artifactId>
+			<version>1.23.0</version>
+		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-	<dependency>
-		<groupId>commons-fileupload</groupId>
-		<artifactId>commons-fileupload</artifactId>
-		<version>1.4</version>
-	</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
 
-	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>8.0.18</version>
-	</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.18</version>
+		</dependency>
 
-	<dependency>
-		<groupId>commons-dbcp</groupId>
-		<artifactId>commons-dbcp</artifactId>
-		<version>1.4</version>
-	</dependency>
-	
-	<!-- USING TO RESPONSE JSON -->
-	<dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>javax.servlet-api</artifactId>
-	    <version>4.0.1</version>
-	    <scope>provided</scope>
-	</dependency>
-	
-	<dependency>
-	    <groupId>com.google.code.gson</groupId>
-	    <artifactId>gson</artifactId>
-	    <version>2.8.5</version>
-	</dependency>
-		
-	
-</dependencies>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- USING TO RESPONSE JSON -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+
+
+	</dependencies>
 
 
 
@@ -113,8 +113,8 @@
 				<version>2.6</version>
 				<executions>
 					<execution>
-						<!-- <phase>validate</phase> -->
-						<phase>package</phase>
+						<phase>validate</phase>
+						<!-- <phase>package</phase> -->
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -128,14 +128,14 @@
 									<version>${jakartaee}</version>
 									<type>jar</type>
 								</artifactItem>
-								
+
 								<artifactItem>
 									<groupId>com.github.jsimone</groupId>
 									<artifactId>webapp-runner</artifactId>
 									<version>8.0.30.2</version>
 									<destFileName>webapp-runner.jar</destFileName>
 								</artifactItem>
-								
+
 							</artifactItems>
 						</configuration>
 					</execution>
