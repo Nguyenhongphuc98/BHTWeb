@@ -2,6 +2,8 @@ package bhtweb.dto;
 
 import java.util.Date;
 
+import bhtweb.entities.BHTPost;
+
 public class PostDTO {
 
 	private Long postID;
@@ -23,6 +25,27 @@ public class PostDTO {
 	private Long posterUserID;
 	//Khoá ngoại.
 	private Long postCategoryID;
+	
+	public PostDTO() {
+		
+	}
+	
+	public PostDTO (BHTPost entity) {
+		this.postID = entity.getPostID();
+		this.postTitle = entity.getPostTitle();
+		this.postContentURL = entity.getPostContentURL();
+		this.postSubmitDtm = entity.getPostSubmitDtm();
+		this.postPublishDtm = entity.getPostPublishDtm();
+		this.postReadTime = entity.getPostReadTime();
+		this.numVote = entity.getNumVote();
+		this.numView = entity.getNumView();
+		this.postSoftDeleted = entity.getPostSoftDeleted();
+		this.postHidden = entity.getPostHidden();
+		this.postApproved = entity.getPostApproved();
+		
+		this.posterUserID = entity.getPosterUserID();
+		this.postCategoryID = entity.getPostCategoryID();
+	}
 	
 	public Long getPostID() {
 		return postID;

@@ -27,12 +27,14 @@ public class ShortDocumentDTO {
 	String categoryName;
 	int subjectID;
 	String subjectName;
-	String publishDate;
 
 	int viewCount;
 	int downloadCount;
 	
-	public ShortDocumentDTO(BHTDocument entiry, String authorName, String subjectName, String categoryName) {
+	Date documentPublishDtm;
+	
+	public ShortDocumentDTO(BHTDocument entiry, String authorName,
+			String subjectName, String categoryName, Date date) {
         
 		this.id = entiry.getId();
         this.title = entiry.getTitle();
@@ -40,16 +42,21 @@ public class ShortDocumentDTO {
         this.authorID = entiry.getUploaderId();
         this.categoryID = entiry.getCategoryId();
         this.subjectID = entiry.getSubjectId();
-        //this.publishDate = entiry.get;
         this.viewCount = entiry.getViewCount();
         this.downloadCount = entiry.getDownloadCount();
         
         this.authorName = authorName;
         this.categoryName = categoryName;
         this.subjectName = subjectName;
+        
+        this.documentPublishDtm = entiry.getDocumentPublishDtm();
     }
 
-    public ShortDocumentDTO(int id, String title, String summary, String authorName, int authorID, int categoryID, String categoryName, int subjectID, String subjectName, String publishDate, int viewCount, int downloadCount) {
+    public ShortDocumentDTO(int id, String title, String summary,
+    		String authorName, int authorID, int categoryID,
+    		String categoryName, int subjectID, String subjectName
+    		, int viewCount, int downloadCount, Date date) {
+    	
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -59,7 +66,7 @@ public class ShortDocumentDTO {
         this.categoryName = categoryName;
         this.subjectID = subjectID;
         this.subjectName = subjectName;
-        this.publishDate = publishDate;
+        this.documentPublishDtm = date;
         this.viewCount = viewCount;
         this.downloadCount = downloadCount;
     }
@@ -140,14 +147,6 @@ public class ShortDocumentDTO {
 		this.subjectName = subjectName;
 	}
 
-	public String getPublishDate() {
-		return publishDate;
-	}
-
-	public void setPublishDate(String publishDate) {
-		this.publishDate = publishDate;
-	}
-
 	public int getViewCount() {
 		return viewCount;
 	}
@@ -164,4 +163,18 @@ public class ShortDocumentDTO {
 		this.downloadCount = downloadCount;
 	}
 
+	public String toString() {
+		return  "" + this.id +", title: "  +
+        this.title +", sumary: " +
+        this.summary +", authorName: " +
+        this.authorName + ", authorID: "  +
+        this.authorID + ", categoryID: "  +
+        this.categoryID +", categoryName: "  +
+        this.categoryName + ", subjectID: "  +
+        this.subjectID + ", subjectName: "  +
+        this.subjectName + ", documentPublishDtm: "  +
+        this.documentPublishDtm + ", viewCount: "  +
+        this.viewCount + ", downloadCount: " +
+        this.downloadCount ;
+	}
 }

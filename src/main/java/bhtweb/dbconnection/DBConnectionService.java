@@ -6,6 +6,7 @@
 package bhtweb.dbconnection;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 import javax.sql.DataSource;
 import javax.naming.InitialContext;
@@ -31,16 +32,38 @@ public class DBConnectionService {
 		}
 	}
 	
-	public static Connection getConnection() throws Exception {
-		Connection connection = null;
+	// temp
+	protected static void loadJDBCDriver() throws Exception {
 		try {
-			DataSource dSource = (DataSource) new InitialContext().lookup(MYSQL_POOL_JNDI);
-			connection = dSource.getConnection();
-		}catch (Exception e) {
-			// TODO: handle exception
-			throw new Exception("Không thể truy cập đến Database Server ... " + e.getMessage());
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (java.lang.ClassNotFoundException e) {
+			throw new Exception("SQL JDBC Driver not found ...");
 		}
-		return connection;
+	}
+
+	public static Connection getConnection() throws Exception {
+//		Connection connection = null;
+//		try {
+//			DataSource dSource = (DataSource) new InitialContext().lookup(MYSQL_POOL_JNDI);
+//			connection = dSource.getConnection();
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			throw new Exception("Không thể truy cập đến Database Server ... " + e.getMessage());
+//		}
+//		return connection;
+		
+		Connection connect = null;
+	    if (connect == null) {
+	    loadJDBCDriver();
+	    try {
+	    
+	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC",
+	    "bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
+	    } catch (java.sql.SQLException e) {
+	    throw new Exception("Can not access to Database Server ..." + e.getMessage());
+	    }
+	    }
+	    return connect;
 	}
 	
 }

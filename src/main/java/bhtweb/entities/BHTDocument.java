@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package bhtweb.entities;
+
+import java.sql.Date;
+
 /**
  *
  * @author NguyenHongPhuc
@@ -35,11 +38,25 @@ public class BHTDocument {
     int subjectId;
     
     int categoryId;
+    
+    Date documentPublishDtm;
 
     public BHTDocument() {
+    	
+    	this.viewCount = 0;
+    	this.downloadCount = 0;
+    	
+    	this.isApproved = false;
+    	this.isSoftDeleted = false;
+    	this.isHidden = false;
+    	this.documentPublishDtm = new Date(new java.util.Date().getTime());
     }
 
-    public BHTDocument(int id, String title, String description, int uploaderId, String contentUrl, boolean isSoftDeleted, boolean isHidden, boolean isApproved, Integer viewCount, Integer downloadCount, int semesterId, int subjectId, int categoryId) {
+    public BHTDocument(int id, String title, String description,
+    		int uploaderId, String contentUrl, boolean isSoftDeleted,
+    		boolean isHidden, boolean isApproved, Integer viewCount,
+    		Integer downloadCount, int semesterId, int subjectId,
+    		int categoryId, Date date) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -53,6 +70,8 @@ public class BHTDocument {
         this.semesterId = semesterId;
         this.subjectId = subjectId;
         this.categoryId = categoryId;
+        
+        this.documentPublishDtm = date;
     }
 
     public int getId() {
@@ -158,4 +177,36 @@ public class BHTDocument {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
+
+	public boolean isSoftDeleted() {
+		return isSoftDeleted;
+	}
+
+	public void setSoftDeleted(boolean isSoftDeleted) {
+		this.isSoftDeleted = isSoftDeleted;
+	}
+
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	public void setHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public Date getDocumentPublishDtm() {
+		return documentPublishDtm;
+	}
+
+	public void setDocumentPublishDtm(Date documentPublishDtm) {
+		this.documentPublishDtm = documentPublishDtm;
+	}
 }
