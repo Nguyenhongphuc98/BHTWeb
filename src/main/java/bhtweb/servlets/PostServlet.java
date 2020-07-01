@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import bhtweb.utils.ServletUtils;
 
-@WebServlet(name = "PostServlet", urlPatterns = {"/api/v1/docs"})
+@WebServlet(name = "PostServlet", urlPatterns = { "/posts" })
 public class PostServlet extends HttpServlet {
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletUtils.addHeaderToResponse(resp);
-		System.out.println("hehe");
+		doGetBHTPost(req, resp);
 	}
 
 	private void doGetBHTPost(HttpServletRequest request, HttpServletResponse response) {
@@ -27,7 +27,7 @@ public class PostServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			out.print("awesome !");
 			out.flush();
-		}catch (Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

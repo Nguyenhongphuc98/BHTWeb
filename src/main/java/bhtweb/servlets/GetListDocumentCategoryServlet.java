@@ -36,6 +36,7 @@ public class GetListDocumentCategoryServlet extends HttpServlet {
     	
     	ServletUtils.addHeaderToResponse(resp);
     	
+    	
         List<BHTDocumentCategory> categories = categotyBO.viewAllDocCategory();
         
         PrintWriter out = resp.getWriter();
