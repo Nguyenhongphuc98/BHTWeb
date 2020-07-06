@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentCategoryBO;
 import bhtweb.bo.SubjectBO;
+import bhtweb.dbaccess.TestConnectionStringMapper;
 import bhtweb.entities.BHTDocumentCategory;
 import bhtweb.entities.BHTSubject;
 import bhtweb.utils.ServletUtils;
@@ -41,8 +42,24 @@ public class GetListDocumentCategoryServlet extends HttpServlet {
         
         PrintWriter out = resp.getWriter();
 		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
         
+		System.out.println("AAA");
+		
+		//Print out Connection Param.
+		TestConnectionStringMapper testConnectionStringMapper;
+		try {
+			testConnectionStringMapper = new TestConnectionStringMapper();
+			testConnectionStringMapper.printConnectionParam();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Debug.
+		for (BHTDocumentCategory category : categories) {
+			System.out.println(category.getName());
+		}
+		
         if (categories != null) {
         	String categoriesJsonString = this.gson.toJson(categories);
 			out.print(categoriesJsonString);

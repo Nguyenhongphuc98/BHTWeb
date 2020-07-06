@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import javax.sql.DataSource;
+
+import com.mysql.cj.jdbc.Driver;
+
 import javax.naming.InitialContext;
 
 /**
@@ -56,9 +59,12 @@ public class DBConnectionService {
 	    if (connect == null) {
 	    loadJDBCDriver();
 	    try {
-	    
-	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC",
-	    "bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
+	    String connectionString = "jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&useUnicode=yes&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC",
+//	    "bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
+	    connect = DriverManager.getConnection(connectionString,
+	    		"bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
+	    System.out.println("Connection String : " + connectionString);
 	    } catch (java.sql.SQLException e) {
 	    throw new Exception("Can not access to Database Server ..." + e.getMessage());
 	    }
