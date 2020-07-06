@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
 import com.google.gson.Gson;
 
@@ -28,6 +29,8 @@ public class GetGoodDocumentServlet extends HttpServlet {
 
 	DocumentBO documentBO;
 	private Gson gson;
+	
+	private static final Integer DEFAULT_LIMIT_RESPONSE = 4;
 
 	public void init() {
 
@@ -41,9 +44,17 @@ public class GetGoodDocumentServlet extends HttpServlet {
     	
 		ServletUtils.addHeaderToResponse(resp);
 		
-    	int limit = Integer.parseInt(req.getParameter("limit"));
+		Integer resultLimit = DEFAULT_LIMIT_RESPONSE;
+		
+		try {
+			resultLimit = Integer.parseInt(req.getParameter("limit"));
+		}catch (Exception e) {
+			// TODO: handle exception
+			//Nếu không truyền vào trường limit thì mặc định lấy là 4.
+			resultLimit = DEFAULT_LIMIT_RESPONSE;
+		}
     	
-        List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
+        List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(resultLimit);
         
         PrintWriter out = resp.getWriter();
 		resp.setContentType("application/json");
