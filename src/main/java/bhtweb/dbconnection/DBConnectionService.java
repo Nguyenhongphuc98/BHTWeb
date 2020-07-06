@@ -59,7 +59,7 @@ public class DBConnectionService {
 	    if (connect == null) {
 	    loadJDBCDriver();
 	    try {
-	    String connectionString = "jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&useUnicode=yes&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	    String connectionString = "jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&useJDBCCompliantTimezoneShift=true&characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC";
 //	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC",
 //	    "bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
 	    connect = DriverManager.getConnection(connectionString,
