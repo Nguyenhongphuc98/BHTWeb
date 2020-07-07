@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.security.auth.login.AccountException;
-
-import bhtweb.entities.BHTDocument;
 import bhtweb.entities.BHTUserAccount;
-import bhtweb.utils.DocumentFilter;
 
 public class UserAccountMapper extends DBMapper {
 
@@ -70,6 +66,13 @@ public class UserAccountMapper extends DBMapper {
     public List<BHTUserAccount> getAccountsByRole(int roleId) {
     
         String sqlStr = "SELECT * FROM useraccount WHERE UserGroupID = " + roleId;
+        return fetchListAccount(sqlStr);
+
+    }
+    
+    public List<BHTUserAccount> getAllAccount() {
+        
+        String sqlStr = "SELECT * FROM useraccount";
         return fetchListAccount(sqlStr);
 
     }

@@ -21,7 +21,9 @@ public class BHTUserAccount {
 	Integer userGroupID;
 
 	public BHTUserAccount() {
-
+		facebookToken = "";
+		googleToken = "";
+		postScore = 0;
 	}
 
 	public BHTUserAccount(int userID, String userName, String profilePictureURL, String email, String userPassword,

@@ -34,4 +34,24 @@ public class UserGroupMapper extends DBMapper {
         
         return userGroups;
     }
+    
+    public BHTUserGroup getUserGroupById(int id) {
+        BHTUserGroup userGroup = null;
+        try {     
+            Statement stmt = getConnection().createStatement();
+            String sqlStr = "SELECT * FROM usergroup where UserGroupID = " + id;
+            ResultSet rs = stmt.executeQuery(sqlStr); // Send the query to the server
+            
+            if (rs != null && rs.next()) {
+            	userGroup = new BHTUserGroup();
+            	userGroup.setUserGroupID(rs.getInt("UserGroupID"));
+            	userGroup.setUserGroupName(rs.getString("UserGroupName"));
+               
+            }          
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
+        
+        return userGroup;
+    }
 }
