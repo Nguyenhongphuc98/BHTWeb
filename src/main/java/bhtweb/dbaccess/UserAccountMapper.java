@@ -25,6 +25,7 @@ public class UserAccountMapper extends DBMapper {
 			Statement stmt = getConnection().createStatement();
 			ResultSet rs;
 
+			System.out.println("query account: " + sqlStr);
 			rs = stmt.executeQuery(sqlStr); 
 			while (rs != null && rs.next()) {
 				BHTUserAccount d = new BHTUserAccount();
@@ -57,7 +58,7 @@ public class UserAccountMapper extends DBMapper {
     
     public BHTUserAccount getAccountByUsername(String username) {
 
-        String sqlStr = "SELECT * FROM useraccount WHERE UserName = " + username;
+        String sqlStr = "SELECT * FROM useraccount WHERE UserName = '" + username + "'";
         List<BHTUserAccount> ls = fetchListAccount(sqlStr);
         return ls.size() > 0 ? ls.get(0) : null;
 

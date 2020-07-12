@@ -48,6 +48,7 @@ public class UserAccountBO {
 				
 				account = new AccountDTO(item.getUserID(), 
 						item.getUserName(),
+						item.getUserPassword(),
 						item.getProfilePictureURL(),
 						item.getEmail(), 
 						item.getPostScore(),
@@ -165,4 +166,33 @@ public class UserAccountBO {
 		return result;
 	}
 
+	public AccountDTO getAccountByUsername(String username) {
+		
+		UserAccountMapper mapper = null;
+
+		AccountDTO accountDTO = null;
+
+		boolean result = false;
+		try {
+
+			mapper = new UserAccountMapper();
+			BHTUserAccount bhtUserAccount = mapper.getAccountByUsername(username);
+			if (bhtUserAccount != null) {
+				List<BHTUserAccount> bhtUserAccounts = new ArrayList<BHTUserAccount>();
+				bhtUserAccounts.add(bhtUserAccount);
+				accountDTO = createAccountDTOFor(bhtUserAccounts).get(0);
+			}
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return accountDTO;
+	}
 }

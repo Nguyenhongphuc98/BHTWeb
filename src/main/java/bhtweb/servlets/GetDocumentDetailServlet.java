@@ -65,6 +65,8 @@ public class GetDocumentDetailServlet extends HttpServlet {
         	String documentJsonString = this.gson.toJson(doc);
 			out.print(documentJsonString);
 			out.flush();
+			
+			System.out.println("got doc: " + doc.getSubjectName());
 		}
 		
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
