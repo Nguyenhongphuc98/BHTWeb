@@ -45,17 +45,10 @@ public class UserAccountBO {
 
 				userGroup = userGroupMapper.getUserGroupById(item.getUserGroupID());
 				documentCount = documentMapper.getDocumentCountOfUserId(item.getUserID());
-				
-				account = new AccountDTO(item.getUserID(), 
-						item.getUserName(),
-						item.getUserPassword(),
-						item.getProfilePictureURL(),
-						item.getEmail(), 
-						item.getPostScore(),
-						0,
-						documentCount,
-						userGroup.getUserGroupID(),
-						userGroup.getUserGroupName());
+
+				account = new AccountDTO(item.getUserID(), item.getUserName(), item.getUserPassword(),
+						item.getProfilePictureURL(), item.getEmail(), item.getPostScore(), 0, documentCount,
+						userGroup.getUserGroupID(), userGroup.getUserGroupName());
 
 				accounts.add(account);
 			}
@@ -103,8 +96,8 @@ public class UserAccountBO {
 
 		UserAccountMapper mapper = null;
 
-		BHTUserAccount bhtUserAccount= new BHTUserAccount();
-		
+		BHTUserAccount bhtUserAccount = new BHTUserAccount();
+
 		bhtUserAccount.setUserName(account.getUserName());
 		bhtUserAccount.setEmail(account.getEmail());
 		bhtUserAccount.setProfilePictureURL(account.getProfilePictureURL());
@@ -138,8 +131,8 @@ public class UserAccountBO {
 
 		UserAccountMapper mapper = null;
 
-		BHTUserAccount bhtUserAccount= new BHTUserAccount();
-		
+		BHTUserAccount bhtUserAccount = new BHTUserAccount();
+
 		bhtUserAccount.setUserName(account.getUserName());
 		bhtUserAccount.setEmail(account.getEmail());
 		bhtUserAccount.setProfilePictureURL(account.getProfilePictureURL());
@@ -150,7 +143,7 @@ public class UserAccountBO {
 		try {
 
 			mapper = new UserAccountMapper();
-			
+
 			result = mapper.saveAccount(bhtUserAccount);
 
 		} catch (Exception ex) {
@@ -167,7 +160,7 @@ public class UserAccountBO {
 	}
 
 	public AccountDTO getAccountByUsername(String username) {
-		
+
 		UserAccountMapper mapper = null;
 
 		AccountDTO accountDTO = null;
@@ -177,6 +170,35 @@ public class UserAccountBO {
 
 			mapper = new UserAccountMapper();
 			BHTUserAccount bhtUserAccount = mapper.getAccountByUsername(username);
+			if (bhtUserAccount != null) {
+				List<BHTUserAccount> bhtUserAccounts = new ArrayList<BHTUserAccount>();
+				bhtUserAccounts.add(bhtUserAccount);
+				accountDTO = createAccountDTOFor(bhtUserAccounts).get(0);
+			}
+
+		} catch (Exception ex) {
+			Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+
+			try {
+				mapper.closeConnection();
+			} catch (Exception ex) {
+				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return accountDTO;
+	}
+
+	public AccountDTO getAccountById(Integer uid) {
+		UserAccountMapper mapper = null;
+
+		AccountDTO accountDTO = null;
+
+		boolean result = false;
+		try {
+
+			mapper = new UserAccountMapper();
+			BHTUserAccount bhtUserAccount = mapper.getAccountById(uid);
 			if (bhtUserAccount != null) {
 				List<BHTUserAccount> bhtUserAccounts = new ArrayList<BHTUserAccount>();
 				bhtUserAccounts.add(bhtUserAccount);

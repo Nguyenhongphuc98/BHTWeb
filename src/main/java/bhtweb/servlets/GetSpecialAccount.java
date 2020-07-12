@@ -2,14 +2,12 @@ package bhtweb.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -18,8 +16,10 @@ import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
 import bhtweb.utils.ServletUtils;
 
-@WebServlet(name = "GetAccountInforServlet", urlPatterns = { "/users/current" })
-public class GetAccountInforServlet extends HttpServlet {
+///users?id=n
+
+@WebServlet(name = "GetSpecialAccount", urlPatterns = { "/users" })
+public class GetSpecialAccount extends HttpServlet {
 
 	UserAccountBO userAccountBO;
 	private Gson gson;
@@ -31,31 +31,38 @@ public class GetAccountInforServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		ServletUtils.addHeaderToResponse(resp);
-		
-		// get accoun from session
-		HttpSession session = req.getSession();
 
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		String uid = req.getParameter("id");
 
 		PrintWriter out = resp.getWriter();
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 
 		String accountJsonString = "";
-		ResponseStatus loginMessageDTO = new ResponseStatus();
-		if (accountDTO != null) {
+		ResponseStatus getUserMessageDTO = new ResponseStatus();
 
-			loginMessageDTO.setLoginStatus(ResponseStatus.GET_ACCOUNT_SUCCESS);
-			loginMessageDTO.setAccount(accountDTO);
-
+		if (uid == null) {
+			getUserMessageDTO.setLoginStatus(ResponseStatus.USER_NOT_FOUND);
 		} else {
-			// no account in this session
-			loginMessageDTO.setLoginStatus(ResponseStatus.NOTFOUND);
+			try {
+
+				int id = Integer.parseInt(uid);
+				AccountDTO accountDTO = userAccountBO.getAccountById(id);
+				if (accountDTO != null) {
+					getUserMessageDTO.setLoginStatus(ResponseStatus.GET_ACCOUNT_SUCCESS);
+					getUserMessageDTO.setAccount(accountDTO);
+				} else {
+					getUserMessageDTO.setLoginStatus(ResponseStatus.USER_NOT_FOUND);
+				}
+
+			} catch (Exception e) {
+				getUserMessageDTO.setLoginStatus(ResponseStatus.USER_NOT_FOUND);
+			}
+
 		}
 
-		accountJsonString = this.gson.toJson(loginMessageDTO);
+		accountJsonString = this.gson.toJson(getUserMessageDTO);
 		out.print(accountJsonString);
 		out.flush();
 	}

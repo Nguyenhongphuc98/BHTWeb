@@ -2,7 +2,6 @@ package bhtweb.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +17,9 @@ import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
 import bhtweb.utils.ServletUtils;
 
-@WebServlet(name = "GetAccountInforServlet", urlPatterns = { "/users/current" })
-public class GetAccountInforServlet extends HttpServlet {
+
+@WebServlet(name = "LogoutServlet", urlPatterns = { "/logout" })
+public class LogoutServlet extends HttpServlet {
 
 	UserAccountBO userAccountBO;
 	private Gson gson;
@@ -45,14 +45,14 @@ public class GetAccountInforServlet extends HttpServlet {
 
 		String accountJsonString = "";
 		ResponseStatus loginMessageDTO = new ResponseStatus();
+		
 		if (accountDTO != null) {
-
-			loginMessageDTO.setLoginStatus(ResponseStatus.GET_ACCOUNT_SUCCESS);
-			loginMessageDTO.setAccount(accountDTO);
-
+			session.removeAttribute("account");
+			session.invalidate();
+			loginMessageDTO.setLoginStatus(ResponseStatus.LOGOUT_SUCCESS);
 		} else {
 			// no account in this session
-			loginMessageDTO.setLoginStatus(ResponseStatus.NOTFOUND);
+			loginMessageDTO.setLoginStatus(ResponseStatus.LOGOUT_FAIL);
 		}
 
 		accountJsonString = this.gson.toJson(loginMessageDTO);

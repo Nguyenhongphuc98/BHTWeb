@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.DocumentBO;
 import bhtweb.bo.UserAccountBO;
 import bhtweb.dto.AccountDTO;
-import bhtweb.dto.LoginMessageDTO;
+import bhtweb.dto.ResponseStatus;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "LoginServlet", urlPatterns = { "/login" })
@@ -33,6 +33,8 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		ServletUtils.addHeaderToResponse(resp);
+		
 		// lay username and password. check ok thi luu vao session
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
@@ -43,12 +45,12 @@ public class LoginServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 
-		LoginMessageDTO loginMessageDTO = new LoginMessageDTO();
+		ResponseStatus loginMessageDTO = new ResponseStatus();
 		String accountJsonString = "";
 		if (accountDTO != null) {
 			if (accountDTO.getPassword().equals(password)) {
 
-				loginMessageDTO.setLoginStatus(LoginMessageDTO.SUCCESS);
+				loginMessageDTO.setLoginStatus(ResponseStatus.LOGIN_SUCCESS);
 				loginMessageDTO.setAccount(accountDTO);
 
 				// save to session
@@ -56,12 +58,12 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("account", accountDTO);
 
 			} else {
-				loginMessageDTO.setLoginStatus(LoginMessageDTO.WRONG_PASWORD);
+				loginMessageDTO.setLoginStatus(ResponseStatus.WRONG_PASWORD);
 			}
 
 		} else {
 			// user name not exits
-			loginMessageDTO.setLoginStatus(LoginMessageDTO.USERNAME_INCORECT);
+			loginMessageDTO.setLoginStatus(ResponseStatus.USERNAME_INCORECT);
 		}
 
 		accountJsonString = this.gson.toJson(loginMessageDTO);
