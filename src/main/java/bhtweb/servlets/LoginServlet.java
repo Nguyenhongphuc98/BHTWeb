@@ -36,13 +36,6 @@ public class LoginServlet extends HttpServlet {
 		// lay username and password. check ok thi luu vao session
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		
-		 Enumeration paramNames = req.getParameterNames();
-			while (paramNames.hasMoreElements()) {
-				String paramName = (String) paramNames.nextElement();
-				System.out.println("param: " + paramName);
-
-			}
 
 		AccountDTO accountDTO = userAccountBO.getAccountByUsername(username);
 
@@ -63,12 +56,12 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("account", accountDTO);
 
 			} else {
-				loginMessageDTO.setLoginStatus(LoginMessageDTO.WRONGPASWORD);
+				loginMessageDTO.setLoginStatus(LoginMessageDTO.WRONG_PASWORD);
 			}
 
 		} else {
 			// user name not exits
-			loginMessageDTO.setLoginStatus(LoginMessageDTO.USERNAMEINCORECT);
+			loginMessageDTO.setLoginStatus(LoginMessageDTO.USERNAME_INCORECT);
 		}
 
 		accountJsonString = this.gson.toJson(loginMessageDTO);
