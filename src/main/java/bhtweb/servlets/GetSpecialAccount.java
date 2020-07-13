@@ -43,21 +43,21 @@ public class GetSpecialAccount extends HttpServlet {
 		ResponseStatus getUserMessageDTO = new ResponseStatus();
 
 		if (uid == null) {
-			getUserMessageDTO.setLoginStatus(ResponseStatus.USER_NOT_FOUND);
+			getUserMessageDTO.setStatusCode(ResponseStatus.USER_NOT_FOUND);
 		} else {
 			try {
 
 				int id = Integer.parseInt(uid);
 				AccountDTO accountDTO = userAccountBO.getAccountById(id);
 				if (accountDTO != null) {
-					getUserMessageDTO.setLoginStatus(ResponseStatus.GET_ACCOUNT_SUCCESS);
+					getUserMessageDTO.setStatusCode(ResponseStatus.GET_ACCOUNT_SUCCESS);
 					getUserMessageDTO.setAccount(accountDTO);
 				} else {
-					getUserMessageDTO.setLoginStatus(ResponseStatus.USER_NOT_FOUND);
+					getUserMessageDTO.setStatusCode(ResponseStatus.USER_NOT_FOUND);
 				}
 
 			} catch (Exception e) {
-				getUserMessageDTO.setLoginStatus(ResponseStatus.USER_NOT_FOUND);
+				getUserMessageDTO.setStatusCode(ResponseStatus.USER_NOT_FOUND);
 			}
 
 		}

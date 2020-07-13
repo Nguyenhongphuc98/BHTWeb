@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 		if (accountDTO != null) {
 			if (accountDTO.getPassword().equals(password)) {
 
-				loginMessageDTO.setLoginStatus(ResponseStatus.LOGIN_SUCCESS);
+				loginMessageDTO.setStatusCode(ResponseStatus.LOGIN_SUCCESS);
 				loginMessageDTO.setAccount(accountDTO);
 
 				// save to session
@@ -58,12 +58,12 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("account", accountDTO);
 
 			} else {
-				loginMessageDTO.setLoginStatus(ResponseStatus.WRONG_PASWORD);
+				loginMessageDTO.setStatusCode(ResponseStatus.WRONG_PASWORD);
 			}
 
 		} else {
 			// user name not exits
-			loginMessageDTO.setLoginStatus(ResponseStatus.USERNAME_INCORECT);
+			loginMessageDTO.setStatusCode(ResponseStatus.USERNAME_INCORECT);
 		}
 
 		accountJsonString = this.gson.toJson(loginMessageDTO);

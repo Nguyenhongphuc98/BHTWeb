@@ -47,12 +47,12 @@ public class GetAccountInforServlet extends HttpServlet {
 		ResponseStatus loginMessageDTO = new ResponseStatus();
 		if (accountDTO != null) {
 
-			loginMessageDTO.setLoginStatus(ResponseStatus.GET_ACCOUNT_SUCCESS);
+			loginMessageDTO.setStatusCode(ResponseStatus.GET_ACCOUNT_SUCCESS);
 			loginMessageDTO.setAccount(accountDTO);
 
 		} else {
 			// no account in this session
-			loginMessageDTO.setLoginStatus(ResponseStatus.NOTFOUND);
+			loginMessageDTO.setStatusCode(ResponseStatus.NOTFOUND);
 		}
 
 		accountJsonString = this.gson.toJson(loginMessageDTO);

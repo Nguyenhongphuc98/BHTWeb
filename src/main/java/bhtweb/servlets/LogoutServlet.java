@@ -49,10 +49,10 @@ public class LogoutServlet extends HttpServlet {
 		if (accountDTO != null) {
 			session.removeAttribute("account");
 			session.invalidate();
-			loginMessageDTO.setLoginStatus(ResponseStatus.LOGOUT_SUCCESS);
+			loginMessageDTO.setStatusCode(ResponseStatus.LOGOUT_SUCCESS);
 		} else {
 			// no account in this session
-			loginMessageDTO.setLoginStatus(ResponseStatus.LOGOUT_FAIL);
+			loginMessageDTO.setStatusCode(ResponseStatus.LOGOUT_FAIL);
 		}
 
 		accountJsonString = this.gson.toJson(loginMessageDTO);

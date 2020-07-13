@@ -22,11 +22,22 @@ public class ResponseStatus {
 	public static int GET_USER_SUCCESS = 8;
 	public static int USER_NOT_FOUND = 9;
 	
+	// create account
+	public static int ACCOUNT_EXISTED = 10;
+	public static int CREATE_ACCOUNT_SUCCESS = 11;
+	
+	// upload file, image
+	public static int TYPE_NOT_SUPPORT = 12;
+
 	int statusCode;
 	
 	String statusMessage;
 	
+	// account when login, logout, current user
 	AccountDTO account;
+	
+	// account when register success
+	NewAccountDTO newAccount;
 	
 	public ResponseStatus() {
 		
@@ -71,17 +82,26 @@ public class ResponseStatus {
 			
 		case 9:
 			return "User not found, try other identity!";
+			
+		case 10:
+			return "Username is existed, try other username!";
+			
+		case 11:
+			return "Register new account success!";
 
+		case 12:
+			return "This data type is not supported!";
+			
 		default:
 			return "Unknow";
 		}
 	}
 	
-	public int getLoginStatus() {
+	public int getStatusCode() {
 		return statusCode;
 	}
 	
-	public void setLoginStatus(int loginStatus) {
+	public void setStatusCode(int loginStatus) {
 		this.statusMessage = GeneratedMessage(loginStatus);
 		this.statusCode = loginStatus;
 	}
@@ -94,11 +114,19 @@ public class ResponseStatus {
 		this.account = account;
 	}
 
-	public String getLoginMessage() {
+	public String getStatusMessage() {
 		return statusMessage;
 	}
 
-	public void setLoginMessage(String loginMessage) {
+	public void setStatusMessage(String loginMessage) {
 		this.statusMessage = loginMessage;
+	}
+
+	public NewAccountDTO getNewAccount() {
+		return newAccount;
+	}
+
+	public void setNewAccount(NewAccountDTO newAccount) {
+		this.newAccount = newAccount;
 	}
 }
