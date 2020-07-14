@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.management.Query;
 
 import bhtweb.entities.BHTDocument;
+import bhtweb.entities.BHTUserGroup;
 import bhtweb.utils.DocumentFilter;
 
 /*
@@ -222,5 +223,23 @@ public class DocumentMapper extends DBMapper {
 			return false;
 		}
        
+    }
+    
+    public int getDocumentCountOfUserId(int uid) {
+    	int count = 0;
+    	
+    	try {     
+            Statement stmt = getConnection().createStatement();
+            String sqlStr = "select count(*) as total from document where DocumentUploaderUserID = " + uid;
+            ResultSet rs = stmt.executeQuery(sqlStr); 
+            
+            if (rs != null && rs.next()) {
+            	count = rs.getInt("total");
+            }          
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
+    	
+    	return count;
     }
 }

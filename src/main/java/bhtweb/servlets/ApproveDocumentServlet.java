@@ -10,58 +10,68 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
+import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTRole;
 import bhtweb.utils.ServletUtils;
 
 // docs/approved?id=n
 
-@WebServlet(name = "ApproveDocumentServlet", urlPatterns = { "/docs/approved" })
+@WebServlet(name = "ApproveDocumentServlet", urlPatterns = { "/admin/docs/approved" })
 public class ApproveDocumentServlet extends HttpServlet {
 
 	DocumentBO documentBO;
+	private Gson gson;
 
 	public void init() {
 
 		documentBO = new DocumentBO();
-
+		gson = new Gson();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		ServletUtils.addHeaderToResponse(resp);
-		
+
+		ResponseStatus status = new ResponseStatus();
+		String statusString = "";
+
+		PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+
 		String idString = req.getParameter("id");
 		int id = 0;
 		if (idString != null) {
 			try {
+
 				id = Integer.parseInt(idString);
+
+				if (BHTRole.hasAdminPermission(req, -1)) {
+					boolean result = documentBO.publishDocument(id);
+					if (result) {
+						status.setStatusCode(ResponseStatus.BROWSE_DOC_SUCCESS);
+					} else {
+						status.setStatusCode(ResponseStatus.BROWSE_DOC_FAIL);
+					}
+
+				} else {
+					status.setStatusCode(ResponseStatus.PERMISSION_DENNED);
+				}
+
 			} catch (Exception e) {
-				return;
+				status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 			}
-		}
-
-		if (id == 0) {
-			return;
-		}
-		
-		HttpSession session = req.getSession();
-		Integer uid = (Integer) session.getAttribute("uid");
-
-		// Neu null or role != admin -> denied
-
-		// Nguoc lai thi update status to approved
-
-		boolean result = documentBO.publishDocument(id);
-
-		if (result) {
-			resp.setStatus(HttpServletResponse.SC_OK);
-			System.out.println("approved");
 		} else {
-			resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			System.out.println("try later");
+			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 		}
 
+		statusString = this.gson.toJson(status);
+		out.print(statusString);
+		out.flush();
 	}
 }

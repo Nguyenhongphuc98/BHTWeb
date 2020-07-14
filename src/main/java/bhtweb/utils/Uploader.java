@@ -30,6 +30,14 @@ public class Uploader {
 		case Utilities.POWERPOINT_TYPE:
 			folderId = Utilities.POWERPOINT_FOLDER;
 			break;
+			
+		case Utilities.IMAGE_JPEG_TYPE:
+			folderId = Utilities.AVATAR_FOLDER;
+			break;
+			
+		case Utilities.IMAGE_PNG_TYPE:
+			folderId = Utilities.AVATAR_FOLDER;
+			break;
 
 		default:
 			System.out.println("content type: `" + contentType + "` not suport");

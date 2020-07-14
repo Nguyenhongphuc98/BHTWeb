@@ -27,8 +27,8 @@ public class UploadDocumentSerlvet extends HttpServlet {
 
 	private boolean isMultipart;
 	private String savePath;
-	private int maxFileSize = 50 * 1024;
-	private int maxMemSize = 4 * 1024;
+	private int maxFileSize = 2 * 1024 * 1024; // 2MB
+	private int maxMemSize = 1024 * 1024;
 	private File file;
 
 	Uploader uploader;
@@ -41,7 +41,19 @@ public class UploadDocumentSerlvet extends HttpServlet {
 		documentBO = new DocumentBO();
 
 		String path = getServletContext().getRealPath("/");
-		savePath = path + "\\uploadDir\\";
+		savePath = path + "uploadDir\\";
+		
+		//File directory = new File(path);
+		//directory.mkdir();
+		//System.out.println("created outsite: " + savePath);
+//	    if (! directory.exists()){
+//	        directory.mkdir();
+//	        // If you require it to make the entire directory path including parents,
+//	        // use directory.mkdirs(); here instead.
+//	        System.out.println("created2: " + savePath);
+//	    } else {
+//	    	System.out.println("exist2: " + savePath);
+//		}
 
 		System.out.println("save to:" + path);
 
