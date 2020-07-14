@@ -13,7 +13,10 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
+import bhtweb.dto.AccountDTO;
 import bhtweb.dto.DocumentDTO;
+import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTRole;
 import bhtweb.utils.ServletUtils;
 
 // docs/preview?id=n
@@ -36,41 +39,49 @@ public class GetPreviewDocumentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		ServletUtils.addHeaderToResponse(resp);
-		
-		String idString = req.getParameter("id");
-		int id = 0;
-		if (idString != null) {
-			try {
-				id = Integer.parseInt(idString);
-			} catch (Exception e) {
-				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				return;
-			}
-		} else {
-			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		}
-
 
 		PrintWriter out = resp.getWriter();
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 
-		// lay user tu session ra.
-		HttpSession session = req.getSession(true);
-		Integer uid = (Integer) session.getAttribute("uid");
-//		if (uid == null) {
-//			System.out.println("you have login to preview");
-//			session.setAttribute("uid", 1);
-//		} else {
-			DocumentDTO doc = documentBO.previewDoc(id, 1);
-			if (doc == null) {
-				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			} else {
-				String documentJsonString = this.gson.toJson(doc);
-				out.print(documentJsonString);
-				out.flush();
-			}
-		//}
+		ResponseStatus status = new ResponseStatus();
+		String documentJsonString = "";
 
+		String idString = req.getParameter("id");
+		int id = 0;
+		if (idString != null) {
+			try {
+
+				id = Integer.parseInt(idString);
+
+				DocumentDTO doc = documentBO.previewDoc(id, 1);
+				
+				if (doc == null) {
+					//resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
+				} else {
+					
+					if (BHTRole.hasAdminPermission(req, doc.getAuthorID())) {
+						status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
+						status.setDocumentDTO(doc);
+					} else {
+						status.setStatusCode(ResponseStatus.PERMISSION_DENNED);
+					}
+					
+				}
+
+			} catch (Exception e) {
+				// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				// return;
+				status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
+			}
+		} else {
+			// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
+		}
+
+		documentJsonString = this.gson.toJson(status);
+		out.print(documentJsonString);
+		out.flush();
 	}
 }

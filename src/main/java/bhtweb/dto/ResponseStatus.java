@@ -33,6 +33,11 @@ public class ResponseStatus {
 	
 	// make some thing need admin permission
 	public static int PERMISSION_DENNED = 13;
+	
+	// get resource: docs,...
+	public static int RESOURCE_NOT_FOUND = 14;
+	
+	public static int GET_RESOURCE_SUCCESS = 15;
 
 	int statusCode;
 	
@@ -46,6 +51,9 @@ public class ResponseStatus {
 	
 	// account when register success
 	NewAccountDTO newAccount;
+	
+	// document when get detail
+	DocumentDTO documentDTO;
 	
 	public ResponseStatus() {
 		
@@ -104,6 +112,12 @@ public class ResponseStatus {
 		case 13:
 			return "Permission denied, contact admin to do this action!";
 			
+		case 14:
+			return "Resource not found!";
+			
+		case 15:
+			return "Get resource success!";
+			
 		default:
 			return "Unknow";
 		}
@@ -148,5 +162,13 @@ public class ResponseStatus {
 
 	public void setAccounts(List<AccountDTO> accounts) {
 		this.accounts = accounts;
+	}
+
+	public DocumentDTO getDocumentDTO() {
+		return documentDTO;
+	}
+
+	public void setDocumentDTO(DocumentDTO documentDTO) {
+		this.documentDTO = documentDTO;
 	}
 }
