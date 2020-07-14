@@ -1,5 +1,7 @@
 package bhtweb.dto;
 
+import java.util.List;
+
 import com.google.protobuf.GeneratedMessage;
 
 public class ResponseStatus {
@@ -28,6 +30,9 @@ public class ResponseStatus {
 	
 	// upload file, image
 	public static int TYPE_NOT_SUPPORT = 12;
+	
+	// make some thing need admin permission
+	public static int PERMISSION_DENNED = 13;
 
 	int statusCode;
 	
@@ -36,6 +41,9 @@ public class ResponseStatus {
 	// account when login, logout, current user
 	AccountDTO account;
 	
+	// list accounts when get all user for admin
+	List<AccountDTO> accounts;
+	
 	// account when register success
 	NewAccountDTO newAccount;
 	
@@ -43,11 +51,12 @@ public class ResponseStatus {
 		
 	}
 	
-	public ResponseStatus(int loginStatus, AccountDTO account) {
+	public ResponseStatus(int loginStatus, AccountDTO account, List<AccountDTO> accounts) {
 		super();
 		this.statusCode = loginStatus;
 		this.statusMessage = GeneratedMessage(loginStatus);
 		this.account = account;
+		this.accounts = accounts;
 	}
 	
 	private static String GeneratedMessage(int code) {
@@ -92,6 +101,9 @@ public class ResponseStatus {
 		case 12:
 			return "This data type is not supported!";
 			
+		case 13:
+			return "Permission denied, contact admin to do this action!";
+			
 		default:
 			return "Unknow";
 		}
@@ -128,5 +140,13 @@ public class ResponseStatus {
 
 	public void setNewAccount(NewAccountDTO newAccount) {
 		this.newAccount = newAccount;
+	}
+
+	public List<AccountDTO> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<AccountDTO> accounts) {
+		this.accounts = accounts;
 	}
 }

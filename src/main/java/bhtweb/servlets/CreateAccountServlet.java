@@ -97,10 +97,11 @@ public class CreateAccountServlet extends HttpServlet {
 			// Process the uploaded file items
 			Iterator i = fileItems.iterator();
 
-			String avatarId = "ERROR";
+			String avatarId = "NULL";
 
-			String fileName = "";
+			//String fileName = "";
 			String contentType = "";
+			FileItem avtFileItem = null;
 
 			while (i.hasNext()) {
 				
@@ -108,33 +109,48 @@ public class CreateAccountServlet extends HttpServlet {
 				
 				if (!fi.isFormField()) {
 					
-					fileName = fi.getName();
+					//fileName = fi.getName();
 					contentType = fi.getContentType();
 
 					// Get path to save file on server
-					String fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\") + 1);
-					if (fileName.lastIndexOf("\\") >= 0) {
-						fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\"));
-					}
-
-					// Write file to server disk
-					file = new File(fullPath);
-					fi.write(file);
+//					String fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\") + 1);
+//					if (fileName.lastIndexOf("\\") >= 0) {
+//						fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\"));
+//					}
+					
+					avtFileItem = fi;
 					
 				} else {
 					parameterMap.put(fi.getFieldName(), fi.getString());
 				}
 			}
+			
+
 
 			AccountDTO accountDTO = userAccountBO.getAccountByUsername(parameterMap.get("username"));
+			
 			if (accountDTO != null) {
 				status.setStatusCode(ResponseStatus.ACCOUNT_EXISTED);
 			} else {
 
 				if (contentType.equals(Utilities.IMAGE_JPEG_TYPE) || contentType.equals(Utilities.IMAGE_PNG_TYPE)) {
 
-					// Save to driver
-					avatarId = uploader.uploadFile(file, fileName, contentType);
+					String fileName = parameterMap.get("username");
+					if (contentType.contentEquals(Utilities.IMAGE_JPEG_TYPE)) {
+						fileName += ".jpg";
+					} else {
+						fileName += ".png";
+					}
+					String fullPath = savePath + fileName;
+
+					// Write file to server disk
+					if (avtFileItem != null) {
+						file = new File(fullPath);
+						avtFileItem.write(file);
+						
+						// Save to driver
+						avatarId = uploader.uploadFile(file, fileName, contentType);
+					}
 
 					NewAccountDTO newAccount = new NewAccountDTO();
 					newAccount.setEmail(parameterMap.get("email"));
@@ -142,7 +158,6 @@ public class CreateAccountServlet extends HttpServlet {
 					newAccount.setUserGroupID(3); // user
 					newAccount.setUserName(parameterMap.get("username"));
 					newAccount.setUserPassword(parameterMap.get("password"));
-					// newAccount.setUserName(parameterMap.get("username"));
 
 					// Save to database
 					userAccountBO.CreateAccount(newAccount);
