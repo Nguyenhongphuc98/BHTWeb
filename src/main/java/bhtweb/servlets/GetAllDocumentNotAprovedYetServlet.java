@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
+import bhtweb.dto.ResponseStatus;
 import bhtweb.dto.ShortDocumentDTO;
+import bhtweb.utils.BHTRole;
 import bhtweb.utils.ServletUtils;
 
 
@@ -37,13 +39,12 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
         
 		ServletUtils.addHeaderToResponse(resp);
 		
-        HttpSession session = req.getSession();
-        Integer uid = (Integer) session.getAttribute("uid");
+//        HttpSession session = req.getSession();
+//        Integer uid = (Integer) session.getAttribute("uid");
         
-        // Neu null or role != admin -> denied
-        
-        // Nguoc lai thi cho lay
-        
+		String documentJsonString = "";
+		ResponseStatus status = new ResponseStatus();
+		
         List<ShortDocumentDTO> docs = documentBO.getListDocumentToBrowse();
         
         PrintWriter out = resp.getWriter();
@@ -51,11 +52,19 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		
         if (docs != null) {
-        	String documentJsonString = this.gson.toJson(docs);
-			out.print(documentJsonString);
-			out.flush();
+        	// -1 mean just check admin, because no user have id -1
+        	if (BHTRole.hasAdminPermission(req, -1)) {
+				status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
+				status.setShortDocs(docs);
+			} else {
+				status.setStatusCode(ResponseStatus.PERMISSION_DENNED);
+			}
+		} else {
+			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 		}
 		
-		
+        documentJsonString = this.gson.toJson(status);
+		out.print(documentJsonString);
+		out.flush();
     }
 }

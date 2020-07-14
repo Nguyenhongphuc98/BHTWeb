@@ -6,54 +6,62 @@ import com.google.protobuf.GeneratedMessage;
 
 public class ResponseStatus {
 
-	// login
+	// Login
 	public static int USERNAME_INCORECT = 0;
 	public static int WRONG_PASWORD = 1;
 	public static int UNKNOWN = 2;
 	public static int LOGIN_SUCCESS = 3;
 	
-	// get current account
+	// Get current account
 	public static int NOTFOUND = 4;
 	public static int GET_ACCOUNT_SUCCESS = 5;
 	
-	// logout
+	// Logout
 	public static int LOGOUT_SUCCESS = 6;
 	public static int LOGOUT_FAIL = 7;
 	
-	// get current user
+	// Get current user
 	public static int GET_USER_SUCCESS = 8;
 	public static int USER_NOT_FOUND = 9;
 	
-	// create account
+	// Create account
 	public static int ACCOUNT_EXISTED = 10;
 	public static int CREATE_ACCOUNT_SUCCESS = 11;
 	
-	// upload file, image
+	// Upload file, image
 	public static int TYPE_NOT_SUPPORT = 12;
 	
-	// make some thing need admin permission
+	// Make some thing need admin permission
 	public static int PERMISSION_DENNED = 13;
 	
-	// get resource: docs,...
+	// Get resource: docs,...
 	public static int RESOURCE_NOT_FOUND = 14;
 	
 	public static int GET_RESOURCE_SUCCESS = 15;
+	
+	// Duyet tai lieu
+	public static int BROWSE_DOC_SUCCESS = 16;
+	
+	public static int BROWSE_DOC_FAIL = 17;
 
 	int statusCode;
 	
 	String statusMessage;
 	
-	// account when login, logout, current user
+	// Account when login, logout, current user
 	AccountDTO account;
 	
-	// list accounts when get all user for admin
+	// List accounts when get all user for admin
 	List<AccountDTO> accounts;
 	
-	// account when register success
+	// Account when register success
 	NewAccountDTO newAccount;
 	
-	// document when get detail
+	// Document when get detail
 	DocumentDTO documentDTO;
+	
+	// List short doc when get to browse for admin
+	List<ShortDocumentDTO> shortDocs;
 	
 	public ResponseStatus() {
 		
@@ -118,6 +126,12 @@ public class ResponseStatus {
 		case 15:
 			return "Get resource success!";
 			
+		case 16:
+			return "Browse document success!";
+			
+		case 17:
+			return "Browse document fail!";
+			
 		default:
 			return "Unknow";
 		}
@@ -170,5 +184,13 @@ public class ResponseStatus {
 
 	public void setDocumentDTO(DocumentDTO documentDTO) {
 		this.documentDTO = documentDTO;
+	}
+
+	public List<ShortDocumentDTO> getShortDocs() {
+		return shortDocs;
+	}
+
+	public void setShortDocs(List<ShortDocumentDTO> shortDocs) {
+		this.shortDocs = shortDocs;
 	}
 }
