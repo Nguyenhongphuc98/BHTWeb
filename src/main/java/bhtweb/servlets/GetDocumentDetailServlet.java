@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentDTO;
+import bhtweb.dto.ResponseStatus;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.utils.ServletUtils;
 
@@ -34,41 +35,45 @@ public class GetDocumentDetailServlet extends HttpServlet {
 	}
 
 	@Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		ServletUtils.addHeaderToResponse(resp);
-		
-		System.out.println("Add header success !");
-		
+
+		ResponseStatus status = new ResponseStatus();
+
+		PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+
 		String idString = req.getParameter("id");
 		int id = -1;
 		if (idString != null) {
 			try {
 				id = Integer.parseInt(idString);
-			} catch (Exception  e) {
-				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				return;
+
+				DocumentDTO doc = documentBO.viewDocumentDetail(id);
+
+				if (doc != null) {
+
+					status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
+					status.setDocumentDTO(doc);
+
+					// System.out.println("got doc: " + doc.getSubjectName());
+				} else {
+					status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
+				}
+
+			} catch (Exception e) {
+				// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				// return;
+				status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 			}
 		} else {
-			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 		}
-    	
-		if (id == -1) { return; }
-    	
-        DocumentDTO doc = documentBO.viewDocumentDetail(id);
-        
-        PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-        
-        if (doc != null) {
-        	String documentJsonString = this.gson.toJson(doc);
-			out.print(documentJsonString);
-			out.flush();
-			
-			System.out.println("got doc: " + doc.getSubjectName());
-		}
-		
-        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-    }
+
+		String statusJsonString = this.gson.toJson(status);
+		out.print(statusJsonString);
+		out.flush();
+	}
 }

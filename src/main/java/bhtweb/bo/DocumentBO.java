@@ -15,12 +15,14 @@ import javax.sound.sampled.LineListener;
 import bhtweb.dbaccess.DocumentCategoryMapper;
 import bhtweb.dbaccess.DocumentMapper;
 import bhtweb.dbaccess.SubjectMapper;
+import bhtweb.dbaccess.UserAccountMapper;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.DocumentUploadDTO;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.entities.BHTDocument;
 import bhtweb.entities.BHTDocumentCategory;
 import bhtweb.entities.BHTSubject;
+import bhtweb.entities.BHTUserAccount;
 import bhtweb.utils.DocumentFilter;
 
 /**
@@ -39,30 +41,32 @@ public class DocumentBO {
 		BHTDocument entity = null;
 		BHTDocumentCategory category = null;
 		BHTSubject subject = null;
+		BHTUserAccount account = null;
 
 		DocumentMapper mapper = null;
 		DocumentCategoryMapper categoryMapper = null;
 		SubjectMapper subjectMapper = null;
+		UserAccountMapper accountMapper = null;
 
 		try {
 
 			mapper = new DocumentMapper();
 			categoryMapper = new DocumentCategoryMapper();
 			subjectMapper = new SubjectMapper();
+			accountMapper = new UserAccountMapper();
 
 			entity = mapper.getDocsById(id, isApproved);
-			
-			// get user ...
 			
 			if (entity != null) {
 				category = categoryMapper.getBHTDocumentCategoryById(entity.getCategoryId());
 				subject = subjectMapper.getSubjectById(entity.getSubjectId());
-				System.out.println("subject id: " + entity.getSubjectId());
-
+				account = accountMapper.getAccountById(entity.getUploaderId());
+				System.out.println("username: " + account.getUserName());
+				
 				doc = new DocumentDTO(
 						entity,
-						"authorName",
-						"authorAvatar",
+						account.getUserName(),
+						account.getProfilePictureURL(),
 						category.getName(), 
 						subject.getSubjectName()
 						);
@@ -79,6 +83,7 @@ public class DocumentBO {
 				mapper.closeConnection();
 				categoryMapper.closeConnection();
 				subjectMapper.closeConnection();
+				accountMapper.closeConnection();
 
 			} catch (Exception ex) {
 				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,19 +93,23 @@ public class DocumentBO {
 	}
 
 	private List<ShortDocumentDTO> createShortDocumentFor(List<BHTDocument> entitys) {
+		
 		List<ShortDocumentDTO> docs = new ArrayList<>();
 		BHTDocumentCategory category = null;
 		BHTSubject subject = null;
+		BHTUserAccount account = null;
 
 		DocumentMapper mapper = null;
 		DocumentCategoryMapper categoryMapper = null;
 		SubjectMapper subjectMapper = null;
+		UserAccountMapper accountMapper = null;
 
 		try {
 
 			mapper = new DocumentMapper();
 			categoryMapper = new DocumentCategoryMapper();
 			subjectMapper = new SubjectMapper();
+			accountMapper = new UserAccountMapper();
 
 			for (BHTDocument item : entitys) {
 
@@ -108,10 +117,11 @@ public class DocumentBO {
 
 				category = categoryMapper.getBHTDocumentCategoryById(item.getCategoryId());
 				subject = subjectMapper.getSubjectById(item.getSubjectId());
-				// get user ...
+				account = accountMapper.getAccountById(item.getUploaderId());
+	
 
 				doc = new ShortDocumentDTO(
-						item, "author name", 
+						item, account.getUserName(), 
 						subject.getSubjectName(),
 						category.getName(), item.getDocumentPublishDtm());
 				docs.add(doc);
@@ -132,7 +142,6 @@ public class DocumentBO {
 		}
 		return docs;
 	}
-
 	
 	public DocumentDTO viewDocumentDetail(int docId) {
 		
