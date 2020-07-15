@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
 import bhtweb.dto.DocumentUploadDTO;
+import bhtweb.dto.ResponseStatus;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.utils.ServletUtils;
 import bhtweb.utils.Uploader;
@@ -41,19 +42,30 @@ public class GetGoodDocumentServlet extends HttpServlet {
     	
 		ServletUtils.addHeaderToResponse(resp);
 		
-    	int limit = Integer.parseInt(req.getParameter("limit"));
-    	
-        List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
-        
-        PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+		 PrintWriter out = resp.getWriter();
+			resp.setContentType("application/json");
+			resp.setCharacterEncoding("UTF-8");
+			
+			ResponseStatus status = new ResponseStatus();
 		
-		if(docs != null) {
-			String documentJsonString = this.gson.toJson(docs);
-			out.print(documentJsonString);
-			out.flush();
+		try {
+			int limit = Integer.parseInt(req.getParameter("limit"));
+	    	
+	        List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
+	        
+	        if(docs != null) {
+				status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
+				status.setShortDocs(docs);
+			} else {
+				status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 		}
-		
+    	
+		String statusJsonString = this.gson.toJson(status);
+		out.print(statusJsonString);
+		out.flush();
+
     }
 }

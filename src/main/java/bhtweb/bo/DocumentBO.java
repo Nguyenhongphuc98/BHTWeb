@@ -148,7 +148,7 @@ public class DocumentBO {
 		DocumentDTO doc = getDocumentById(docId, true);
 		BHTDocument updatedoc = new BHTDocument();
 		updatedoc.setId(docId);
-		updatedoc.setViewCount(doc.getDownloadCount() + 1);
+		updatedoc.setViewCount(doc.getViewCount() + 1);
 		
 		// update views count
 		try {
