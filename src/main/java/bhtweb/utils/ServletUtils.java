@@ -2,6 +2,9 @@ package bhtweb.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import bhtweb.dto.ResponseStatus;
 
 public class ServletUtils {
 
@@ -12,4 +15,9 @@ public class ServletUtils {
 		resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
 	}
 	
+	public static void addSessionToResponseStatus (HttpServletRequest req, ResponseStatus status) {
+		
+		HttpSession session = req.getSession();
+		status.setSessionID(session.getId());
+	}
 }

@@ -63,6 +63,9 @@ public class ResponseStatus {
 	// List short doc when get to browse for admin
 	List<ShortDocumentDTO> shortDocs;
 	
+	// add session to client, so we can check user in session or not
+	String sessionID;
+	
 	public ResponseStatus() {
 		
 	}
@@ -192,5 +195,13 @@ public class ResponseStatus {
 
 	public void setShortDocs(List<ShortDocumentDTO> shortDocs) {
 		this.shortDocs = shortDocs;
+	}
+
+	public String getSessionID() {
+		return sessionID;
+	}
+
+	public void setSessionID(String sessionID) {
+		this.sessionID = sessionID;
 	}
 }

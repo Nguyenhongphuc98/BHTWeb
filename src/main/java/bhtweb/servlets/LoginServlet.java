@@ -33,7 +33,10 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		ResponseStatus status = new ResponseStatus();
+		
 		ServletUtils.addHeaderToResponse(resp);
+		ServletUtils.addSessionToResponseStatus(req, status);
 		
 		// lay username and password. check ok thi luu vao session
 		String username = req.getParameter("username");
@@ -45,28 +48,27 @@ public class LoginServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 
-		ResponseStatus loginMessageDTO = new ResponseStatus();
 		String accountJsonString = "";
 		if (accountDTO != null) {
 			if (accountDTO.getPassword().equals(password)) {
 
-				loginMessageDTO.setStatusCode(ResponseStatus.LOGIN_SUCCESS);
-				loginMessageDTO.setAccount(accountDTO);
+				status.setStatusCode(ResponseStatus.LOGIN_SUCCESS);
+				status.setAccount(accountDTO);
 
 				// save to session
 				HttpSession session = req.getSession();
 				session.setAttribute("account", accountDTO);
 
 			} else {
-				loginMessageDTO.setStatusCode(ResponseStatus.WRONG_PASWORD);
+				status.setStatusCode(ResponseStatus.WRONG_PASWORD);
 			}
 
 		} else {
 			// user name not exits
-			loginMessageDTO.setStatusCode(ResponseStatus.USERNAME_INCORECT);
+			status.setStatusCode(ResponseStatus.USERNAME_INCORECT);
 		}
 
-		accountJsonString = this.gson.toJson(loginMessageDTO);
+		accountJsonString = this.gson.toJson(status);
 		out.print(accountJsonString);
 		out.flush();
 
