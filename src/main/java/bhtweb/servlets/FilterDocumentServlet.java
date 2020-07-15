@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
+import bhtweb.dto.ResponseStatus;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.utils.DocumentFilter;
 import bhtweb.utils.ServletUtils;
@@ -76,17 +77,23 @@ public class FilterDocumentServlet extends HttpServlet {
 			} catch (Exception e) { }
 		}
     	
-    	java.util.List<ShortDocumentDTO> result = documentBO.searchDocument(filter, pageIndex);
+    	ResponseStatus status = new ResponseStatus();
     	
     	PrintWriter out = resp.getWriter();
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		
+		java.util.List<ShortDocumentDTO> result = documentBO.searchDocument(filter, pageIndex);
+		
     	if (result != null) {
-    		String documentJsonString = this.gson.toJson(result);
-			out.print(documentJsonString);
-			out.flush();
+    		status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
+    		status.setShortDocs(result);
+		} else {
+			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 		}
     	
+    	String statusJsonString = this.gson.toJson(status);
+		out.print(statusJsonString);
+		out.flush();
     }
 }

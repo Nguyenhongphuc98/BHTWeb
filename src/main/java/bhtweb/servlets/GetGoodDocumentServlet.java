@@ -38,22 +38,22 @@ public class GetGoodDocumentServlet extends HttpServlet {
 	}
 
 	@Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		ServletUtils.addHeaderToResponse(resp);
-		
-		 PrintWriter out = resp.getWriter();
-			resp.setContentType("application/json");
-			resp.setCharacterEncoding("UTF-8");
-			
-			ResponseStatus status = new ResponseStatus();
-		
+
+		PrintWriter out = resp.getWriter();
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+
+		ResponseStatus status = new ResponseStatus();
+
 		try {
 			int limit = Integer.parseInt(req.getParameter("limit"));
-	    	
-	        List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
-	        
-	        if(docs != null) {
+
+			List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
+
+			if (docs != null) {
 				status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
 				status.setShortDocs(docs);
 			} else {
@@ -62,10 +62,10 @@ public class GetGoodDocumentServlet extends HttpServlet {
 		} catch (Exception e) {
 			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 		}
-    	
+
 		String statusJsonString = this.gson.toJson(status);
 		out.print(statusJsonString);
 		out.flush();
 
-    }
+	}
 }
