@@ -9,8 +9,8 @@ import bhtweb.dto.ResponseStatus;
 public class ServletUtils {
 
 	public static void addHeaderToResponse (HttpServletResponse resp) {
-		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-		resp.setHeader("Access-Control-Allow-Credentials", "true");
+		resp.setHeader("Access-Control-Allow-Origin", "*");
+		resp.setHeader("Access-Control-Allow-Credentials", "include");
 		resp.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
 		resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
 	}
