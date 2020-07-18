@@ -27,6 +27,10 @@ public class PostBO {
 		}
 	}
 	
+	public PostBO() {
+		this(null);
+	}
+	
 	public List<PostDTO> getPosts(Integer pageNo) {
 		List<PostDTO> result;
 		List<BHTPost> postsList = postMapper.fetchPost(pageNo);

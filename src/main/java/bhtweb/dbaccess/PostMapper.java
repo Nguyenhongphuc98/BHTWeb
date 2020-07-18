@@ -21,7 +21,7 @@ public class PostMapper extends DBMapper {
 	//Các chuỗi phục vụ cho preparedStatement.
 	private static final String insertPostStr = "INSERT INTO POST VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String updatePostStr = "UPDATE POST SET PostTitle = ?, PostContentURL = ?, PostSubmitDtm = ?, PostPublishDtm = ?, PostReadTime = ?, NumVote = ?, NumView = ?, PostSoftDeleted = ?, PostHidden = ?, PostApproved = ?, PosterUserID = ?, PostCategoryID = ? WHERE PostID = ?";
-	private static final String fetchPostStr = "SELECT * FROM POST LIMIT ?,? ORDER BY postPublishDtm DESC";
+	private static final String fetchPostStr = "SELECT * FROM POST ORDER BY postPublishDtm DESC LIMIT ?,?";
 	
 	//preparedStatement.
 	
@@ -101,6 +101,9 @@ public class PostMapper extends DBMapper {
 		ArrayList<BHTPost> postsResult = new ArrayList<>();
 		
 		try (PreparedStatement fetchPostPst = getConnection().prepareStatement(fetchPostStr)) {
+			System.out.println("AJLFJWEFIWOFJOWJIFOW");
+			System.out.println("START LIMIT : " + startLimit.toString());
+			System.out.println("OFFSET : " + offSet.toString());
 			fetchPostPst.setLong(1, startLimit);
 			fetchPostPst.setLong(2, offSet);
 			
