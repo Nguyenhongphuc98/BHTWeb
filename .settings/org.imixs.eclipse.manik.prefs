@@ -1,0 +1,6 @@
+AUTODEPLOY_SOURCE=\\/target\\/
+AUTODEPLOY_TARGET=D\:\\CriticalSoftware\\payara5\\glassfish\\domains\\domain1\\autodeploy
+EXTRACT_ARTIFACTS=false
+HOTDEPLOY_TARGET=D\:\\CriticalSoftware\\payara5\\glassfish\\domains\\domain1\\applications\\__internal\\bhtweb
+WILDFLY_SUPPORT=false
+eclipse.preferences.version=1

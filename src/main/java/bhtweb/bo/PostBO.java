@@ -39,6 +39,15 @@ public class PostBO {
 		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
 		return result;
 	}
+	
+	public List<PostDTO> searchPosts(BHTPost similarPost, Integer pageNo){
+		List<PostDTO> result;
+		List<BHTPost> postsList = postMapper.searchPost(similarPost, pageNo);
+		if (postsList == null)
+			return null;
+		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
+		return result;
+	}
 		
 	public PostDTO createPost (PostDTO postDTO) {
 		try {

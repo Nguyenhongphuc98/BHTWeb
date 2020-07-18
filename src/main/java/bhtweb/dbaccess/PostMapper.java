@@ -134,6 +134,8 @@ public class PostMapper extends DBMapper {
 		
 		String searchSQLStr = getSearchSQLFromDTO(similarPost);
 		
+		System.out.println("SQL Generated String : " + searchSQLStr);
+		
 		try (PreparedStatement searchPostPst = getConnection().prepareStatement(searchSQLStr)){
 			ResultSet rSet = searchPostPst.executeQuery();
 			
@@ -180,33 +182,33 @@ public class PostMapper extends DBMapper {
 		//Tạo statement SQL từ đối tượng DTO truyền vào.
 		String searchSQLStr = "SELECT * FROM POST WHERE";
 		if (similarPost.getPostApproved() != null)
-			searchSQLStr += "PostApproved = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostApproved()) + " AND";
+			searchSQLStr += " PostApproved = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostApproved()) + " AND";
 		if (similarPost.getPostHidden() != null)
-			searchSQLStr += "PostHidden = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostHidden())  + " AND"; 
+			searchSQLStr += " PostHidden = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostHidden())  + " AND"; 
 		if (similarPost.getPostSoftDeleted() != null)
-			searchSQLStr += "PostSoftDeleted = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostSoftDeleted()) + " AND";
+			searchSQLStr += " PostSoftDeleted = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostSoftDeleted()) + " AND";
 		if (similarPost.getNumView() != null)
-			searchSQLStr += "NumView = " + similarPost.getNumView().toString() + " AND";
+			searchSQLStr += " NumView = " + similarPost.getNumView().toString() + " AND";
 		if (similarPost.getNumVote() != null)
-			searchSQLStr += "NumVote = " + similarPost.getNumVote().toString() + " AND";
+			searchSQLStr += " NumVote = " + similarPost.getNumVote().toString() + " AND";
 		if (similarPost.getPostCategoryID() != null)
-			searchSQLStr += "PostCategoryID = " + similarPost.getPostCategoryID().toString() + " AND";
+			searchSQLStr += " PostCategoryID = " + similarPost.getPostCategoryID().toString() + " AND";
 		if (similarPost.getPostContentURL() != null)
-			searchSQLStr += "PostContentURL = " + similarPost.getPostContentURL() + " AND";
+			searchSQLStr += " PostContentURL = " + similarPost.getPostContentURL() + " AND";
 		if (similarPost.getPosterUserID() != null)
-			searchSQLStr += "PosterUserID = " + similarPost.getPosterUserID().toString() + " AND";
+			searchSQLStr += " PosterUserID = " + similarPost.getPosterUserID().toString() + " AND";
 		if (similarPost.getPostID() != null)
-			searchSQLStr += "PostID = " + similarPost.getPostID().toString() + " AND";
+			searchSQLStr += " PostID = " + similarPost.getPostID().toString() + " AND";
 		if (similarPost.getPostPublishDtm() != null)
-			searchSQLStr += "PostPublishDtm = " + similarPost.getPostPublishDtm() + " AND"; 
+			searchSQLStr += " PostPublishDtm = " + similarPost.getPostPublishDtm() + " AND"; 
 		if (similarPost.getPostReadTime() != null)
-			searchSQLStr += "PostReadTime = " + similarPost.getPostReadTime() + " AND";
+			searchSQLStr += " PostReadTime = " + similarPost.getPostReadTime() + " AND";
 		if (similarPost.getPostSubmitDtm() != null)
-			searchSQLStr += "PostSubmitDtm = " + similarPost.getPostSubmitDtm() + " AND";
+			searchSQLStr += " PostSubmitDtm = " + similarPost.getPostSubmitDtm() + " AND";
 		if (similarPost.getPostTitle() != null)
-			searchSQLStr += "PostTitle like \'%" + similarPost.getPostTitle() + "%\'" + " AND";
+			searchSQLStr += " PostTitle like \'%" + similarPost.getPostTitle() + "%\'" + " AND";
 		//Cần thiết để câu lệnh SQL của chúng ta đúng cú pháp.
-		searchSQLStr += "1=1";
+		searchSQLStr += " 1=1";
 		return searchSQLStr;
 	}
 }

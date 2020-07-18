@@ -29,6 +29,25 @@ public class ServletUtils {
 		out.flush();
 	}
 	
+	public static Integer getIntegerParam (HttpServletRequest req, 
+			String paramName, Integer defaultValue) {
+		
+		String paramValue = req.getParameter(paramName);
+		Integer integerResult = null;
+		System.out.println("Something called getIntegerParam !");
+		try {
+			integerResult = Integer.parseInt(paramValue);
+			System.out.println("Integer Result : " + integerResult);
+		}catch (Exception ex) {
+			return defaultValue;
+		}finally {
+			if (integerResult == null)
+				return defaultValue;
+		}
+		
+		return integerResult;
+	}
+	
 	public static void addHeaderToResponse (HttpServletResponse resp) {
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Access-Control-Allow-Credentials", "true");
