@@ -58,7 +58,7 @@ public class DBConnectionService {
 	    loadJDBCDriver();
 	    try {
 	    
-	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8",
+	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_unicode_ci&characterSetResults=UTF-8",
 	    "bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
 	    } catch (java.sql.SQLException e) {
 	    throw new Exception("Can not access to Database Server ..." + e.getMessage());
