@@ -6,6 +6,8 @@
 package bhtweb.dbaccess;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import bhtweb.dbconnection.DBConnectionService;
 
@@ -47,10 +49,31 @@ public class DBMapper {
 	}
 	
 	public Connection getConnection () {
+		//Kiểm tra connection, nếu connection đã bị đóng thì ta restart lại connection mới.
+		try {
+			checkConnection();
+		}catch (Exception e) {
+			// TODO: handle exception
+			try {
+				System.out.println("SQL Connection Refreshing ...");
+				connection = DBConnectionService.getConnection();
+			}catch (Exception ex) {
+				// TODO: handle exception
+				System.out.println("DBMapper Constructor Exception...");
+				e.printStackTrace();
+			}
+		}
 		return connection;
 	}
 	
 	public void setConnection (Connection connection) {
 		this.connection = connection;
 	}
+	
+	public void checkConnection () throws Exception {
+		
+		PreparedStatement testConnection = connection.prepareStatement("SELECT 1");
+		testConnection.executeQuery();
+	}
+	
 }
