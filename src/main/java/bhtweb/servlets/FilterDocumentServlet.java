@@ -4,6 +4,7 @@ import java.awt.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,8 +37,8 @@ public class FilterDocumentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	ServletUtils.addHeaderToResponse(resp);
+
+    	PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
     	
     	String subjectId = req.getParameter("subject");
     	String categoryId = req.getParameter("category");
@@ -78,10 +79,6 @@ public class FilterDocumentServlet extends HttpServlet {
 		}
     	
     	ResponseStatus status = new ResponseStatus();
-    	
-    	PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
 		
 		java.util.List<ShortDocumentDTO> result = documentBO.searchDocument(filter, pageIndex);
 		

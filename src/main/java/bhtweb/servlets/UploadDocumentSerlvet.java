@@ -68,16 +68,14 @@ public class UploadDocumentSerlvet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, java.io.IOException {
 		
-		ServletUtils.addHeaderToResponse(response);
+		//ServletUtils.addNoCORSHeader(response);
 
 		request.setCharacterEncoding("UTF-8");
 
 		// Check that we have a file upload request
 		isMultipart = ServletFileUpload.isMultipartContent(request);
 
-		PrintWriter out = response.getWriter();
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
 
 		if (!isMultipart) {
 			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);

@@ -34,14 +34,9 @@ public class GetListDocumentCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
-    	ServletUtils.addHeaderToResponse(resp);
-    	
-    	
         List<BHTDocumentCategory> categories = categotyBO.viewAllDocCategory();
         
-        PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+        PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
         
         if (categories != null) {
         	String categoriesJsonString = this.gson.toJson(categories);

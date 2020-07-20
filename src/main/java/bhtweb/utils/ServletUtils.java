@@ -1,5 +1,6 @@
 package bhtweb.utils;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.output.ThresholdingOutputStream;
 
+import com.google.api.client.repackaged.com.google.common.base.Throwables;
 import com.google.gson.Gson;
 
 import bhtweb.dto.ResponseStatus;
@@ -48,11 +50,24 @@ public class ServletUtils {
 		return integerResult;
 	}
 	
-	public static void addHeaderToResponse (HttpServletResponse resp) {
+	public static void addNoCORSHeader (HttpServletResponse resp) {
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Access-Control-Allow-Credentials", "true");
 		resp.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
 		resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+	}
+	
+	//Lưu ý cần apply noCORSHeader trước khi getWriter.
+	public static PrintWriter getJSONUnicodeWriter (HttpServletResponse response) throws IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter writer = response.getWriter();
+		return writer;
+	}
+	
+	public static PrintWriter getJSONUnicodeWriterNoCORS (HttpServletResponse response) throws IOException{
+		addNoCORSHeader(response);
+		return getJSONUnicodeWriter(response);
 	}
 	
 	public static void addSessionToResponseStatus (HttpServletRequest req, ResponseStatus status) {

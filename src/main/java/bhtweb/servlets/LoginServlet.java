@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 
 		ResponseStatus status = new ResponseStatus();
 		
-		ServletUtils.addHeaderToResponse(resp);
+		//ServletUtils.addNoCORSHeader(resp);
 		ServletUtils.addSessionToResponseStatus(req, status);
 		
 		// lay username and password. check ok thi luu vao session
@@ -44,9 +44,7 @@ public class LoginServlet extends HttpServlet {
 
 		AccountDTO accountDTO = userAccountBO.getAccountByUsername(username);
 
-		PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 
 		String accountJsonString = "";
 		if (accountDTO != null) {

@@ -37,7 +37,8 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-		ServletUtils.addHeaderToResponse(resp);
+		//ServletUtils.addNoCORSHeader(resp);
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		
 //        HttpSession session = req.getSession();
 //        Integer uid = (Integer) session.getAttribute("uid");
@@ -47,9 +48,7 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
 		
         List<ShortDocumentDTO> docs = documentBO.getListDocumentToBrowse();
         
-        PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+        
 		
         if (docs != null) {
         	// -1 mean just check admin, because no user have id -1

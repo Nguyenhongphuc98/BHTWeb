@@ -55,16 +55,10 @@ public class CreateAccountServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ServletUtils.addHeaderToResponse(resp);
-
 		req.setCharacterEncoding("UTF-8");
-
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		// Check that we have a file upload request
 		isMultipart = ServletFileUpload.isMultipartContent(req);
-
-		PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
 
 		if (!isMultipart) {
 			resp.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);

@@ -37,13 +37,11 @@ public class GetListSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-    	ServletUtils.addHeaderToResponse(resp);
+    	//ServletUtils.addNoCORSHeader(resp);
     	
         List<BHTSubject> subjects = subjectBO.viewAllSubjects();
         
-        PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+        PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		
         if (subjects != null) {
         	String subjectsJsonString = this.gson.toJson(subjects);

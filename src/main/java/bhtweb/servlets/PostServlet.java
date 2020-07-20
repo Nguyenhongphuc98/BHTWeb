@@ -41,15 +41,13 @@ public class PostServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ServletUtils.addHeaderToResponse(resp);
+		ServletUtils.addNoCORSHeader(resp);
 		doGetBHTPost(req, resp);
 	}
 
 	private void doGetBHTPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			PrintWriter out = response.getWriter();
+			PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
 
 			Integer pageNo;
 			Integer authorID;

@@ -31,13 +31,11 @@ public class GetSpecialAccount extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ServletUtils.addHeaderToResponse(resp);
+		//ServletUtils.addNoCORSHeader(resp);
 
 		String uid = req.getParameter("id");
 
-		PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 
 		String accountJsonString = "";
 		ResponseStatus getUserMessageDTO = new ResponseStatus();

@@ -33,7 +33,7 @@ public class GetPersonalDocumentServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		ServletUtils.addHeaderToResponse(resp);
+		//ServletUtils.addNoCORSHeader(resp);
 		
 		String uidString = req.getParameter("uid");
 		String approvedString = req.getParameter("approved");
@@ -69,9 +69,7 @@ public class GetPersonalDocumentServlet extends HttpServlet {
 
 		List<ShortDocumentDTO> docs = documentBO.getPersonalDocs(uid, pageIndex, approvedBool);
 
-		PrintWriter out = resp.getWriter();
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		
 		if (docs!= null) {
 			
