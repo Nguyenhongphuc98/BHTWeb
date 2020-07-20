@@ -3,6 +3,7 @@ package bhtweb.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.Servlet;
@@ -28,6 +29,7 @@ public class PostServlet extends HttpServlet {
 	private final String PAGE_PARAM_NAME = "page";
 	private final String AUTHORID_PARAM_NAME = "authorID";
 	private final String CATEGORYID_PARAM_NAME = "categoryID";
+	private final String POSTID_PARAM_NAME = "id";
 	
 	
 	@Override
@@ -45,38 +47,49 @@ public class PostServlet extends HttpServlet {
 
 	private void doGetBHTPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			PrintWriter out = response.getWriter();
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			
+			PrintWriter out = response.getWriter();
+
 			Integer pageNo;
 			Integer authorID;
 			Integer categoryID;
+			Integer postID;
+			
+			List<Object> filters = new ArrayList<Object>();
 			
 			//Lấy ra pageNo từ Param.
 			pageNo = ServletUtils.getIntegerParam(request, PAGE_PARAM_NAME, 1);
 			
 			//Lấy ra AuthorID từ Param.
 			authorID = ServletUtils.getIntegerParam(request, AUTHORID_PARAM_NAME, null);
+			if (authorID != null)
+				filters.add(authorID);
 			
 			//Lấy ra categoryID từ Param.
 			categoryID = ServletUtils.getIntegerParam(request, CATEGORYID_PARAM_NAME, null);
+			if (categoryID != null)
+				filters.add(categoryID);
+			
+			//Lấy ra ID bài Post từ Param.
+			postID = ServletUtils.getIntegerParam(request, POSTID_PARAM_NAME, null);
+			if (postID != null)
+				filters.add(postID);
 			
 			List<PostDTO> postDTOs;
 			
-			System.out.println("AAA");
-			
 			//Lấy danh sách post không lọc theo gì hết.
-			if (authorID == null && categoryID == null)
+			if (filters.size() == 0)
 				postDTOs = postBO.getPosts(pageNo);
 			else {
 				System.out.println("Detected filter param !");
 				BHTPost model = new BHTPost();
-				System.out.println("authorID : " + authorID.toString());
 				if (authorID != null)
 					model.setPosterUserID(Long.valueOf(authorID));
 				if (categoryID != null)
 					model.setPostCategoryID(Long.valueOf(categoryID));
+				if (postID != null)
+					model.setPostID(Long.valueOf(postID));
 				postDTOs = postBO.searchPosts(model, pageNo);
 			}
 			

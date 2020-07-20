@@ -57,9 +57,13 @@ public class DBConnectionService {
 	    if (connect == null) {
 	    loadJDBCDriver();
 	    try {
-	    
+	    	
+	    //Azure Connection String.
 	    connect = DriverManager.getConnection("jdbc:mysql://javaee-bhtcnpm-db-mysql.mysql.database.azure.com:3306/bhtcnpm_db?useSSL=true&requireSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_unicode_ci&characterSetResults=UTF-8",
 	    "bhtcnpm@javaee-bhtcnpm-db-mysql", "PXgiip4dQSt67p5");
+	    	//Test DBLocal.
+	    //connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/bhtcnpm_javaee?useSSL=false",
+	    //"root", "123654@@");
 	    } catch (java.sql.SQLException e) {
 	    throw new Exception("Can not access to Database Server ..." + e.getMessage());
 	    }
