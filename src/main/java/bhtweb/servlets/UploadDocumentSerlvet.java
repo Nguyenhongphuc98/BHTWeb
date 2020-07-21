@@ -35,12 +35,14 @@ public class UploadDocumentSerlvet extends HttpServlet {
 	DocumentBO documentBO;
 	private Gson gson;
 
+	String pathTemp = "";
 	public void init() {
 
 		uploader = new Uploader();
 		documentBO = new DocumentBO();
 
 		String path = getServletContext().getRealPath("/");
+		pathTemp = path + "uploadDir";
 		savePath = path + "uploadDir\\";
 		
 		//File directory = new File(path);
@@ -88,7 +90,7 @@ public class UploadDocumentSerlvet extends HttpServlet {
 		factory.setSizeThreshold(maxMemSize);
 
 		// Location to save data that is larger than maxMemSize.
-		factory.setRepository(new File(savePath));
+		factory.setRepository(new File(pathTemp));
 
 		// Create a new file upload handler
 		ServletFileUpload upload = new ServletFileUpload(factory);
