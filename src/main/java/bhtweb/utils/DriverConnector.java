@@ -23,6 +23,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
+import bhtweb.servlets.UploadDocumentSerlvet;
+
 @MultipartConfig
 public class DriverConnector {
 	
@@ -30,7 +32,8 @@ public class DriverConnector {
 	
     private static final String APPLICATION_NAME = "banhoctap";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    //private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String TOKENS_DIRECTORY_PATH = UploadDocumentSerlvet.saveFolder;
 
     /**
      * Global instance of the scopes required by this quickstart.

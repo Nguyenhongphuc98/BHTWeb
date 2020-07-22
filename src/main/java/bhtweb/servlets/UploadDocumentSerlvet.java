@@ -36,6 +36,7 @@ public class UploadDocumentSerlvet extends HttpServlet {
 	private Gson gson;
 
 	String pathTemp = "";
+	public static String saveFolder = "";
 	public void init() {
 
 		uploader = new Uploader();
@@ -44,6 +45,7 @@ public class UploadDocumentSerlvet extends HttpServlet {
 		String path = getServletContext().getRealPath("/");
 		pathTemp = path + "uploadDir";
 		savePath = path + "uploadDir\\";
+		saveFolder = savePath;
 		
 		//File directory = new File(path);
 		//directory.mkdir();
