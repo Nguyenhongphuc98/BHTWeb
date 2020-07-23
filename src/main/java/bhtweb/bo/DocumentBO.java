@@ -316,6 +316,7 @@ public class DocumentBO {
 		bhtDocument.setSubjectId(document.getSubjectId());
 		bhtDocument.setTitle(document.getTitle());
 		bhtDocument.setUploaderId(document.getUploaderId());
+		bhtDocument.setDocumentFileName(document.getFileName());
 		
 		boolean result = false;
 		try {

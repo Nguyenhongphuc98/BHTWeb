@@ -45,11 +45,17 @@ public class DocumentDTO {
     
     String imageURL;
     
+    String fileName;
+    
     public DocumentDTO() {
     	
     }
     
-	public DocumentDTO(BHTDocument entity, String authorName, String authorAvatar, String categoryName, String subjectName) {
+	public DocumentDTO(BHTDocument entity,
+			String authorName,
+			String authorAvatar,
+			String categoryName,
+			String subjectName) {
 		
 		this.categoryID = entity.getCategoryId();
 		this.url = entity.getContentUrl();
@@ -61,6 +67,7 @@ public class DocumentDTO {
 		this.title = entity.getTitle();
 		this.authorID = entity.getUploaderId();
 		this.viewCount = entity.getViewCount();
+		this.fileName = entity.getDocumentFileName();
 		
 		this.authorName = authorName;
 		this.authorAvatar = authorAvatar;

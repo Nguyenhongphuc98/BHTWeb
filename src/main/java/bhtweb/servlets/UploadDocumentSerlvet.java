@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -17,10 +18,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.google.gson.Gson;
 
 import bhtweb.bo.DocumentBO;
+import bhtweb.dto.AccountDTO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.DocumentUploadDTO;
 import bhtweb.utils.ServletUtils;
 import bhtweb.utils.Uploader;
+import bhtweb.dto.ResponseStatus;
 
 @WebServlet(name = "UploadDocumentSerlvet", urlPatterns = { "/docs/upload" })
 public class UploadDocumentSerlvet extends HttpServlet {
@@ -76,89 +79,111 @@ public class UploadDocumentSerlvet extends HttpServlet {
 		isMultipart = ServletFileUpload.isMultipartContent(request);
 
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
+		
+		// get curent account
+		HttpSession session = request.getSession();
+		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		
+		ResponseStatus status = new ResponseStatus();
+		String statusJsonString = "";
+		
+		if (accountDTO == null) {
+			status.setStatusCode(ResponseStatus.PERMISSION_DENNED);
+		} else {
+			
+			if (!isMultipart) {
+				response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+				return;
+			}
 
-		if (!isMultipart) {
-			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
-			return;
-		}
+			DiskFileItemFactory factory = new DiskFileItemFactory();
 
-		DiskFileItemFactory factory = new DiskFileItemFactory();
+			// maximum size that will be stored in memory
+			factory.setSizeThreshold(maxMemSize);
 
-		// maximum size that will be stored in memory
-		factory.setSizeThreshold(maxMemSize);
+			// Location to save data that is larger than maxMemSize.
+			factory.setRepository(new File("c:\\mytemp"));
 
-		// Location to save data that is larger than maxMemSize.
-		factory.setRepository(new File("c:\\mytemp"));
+			// Create a new file upload handler
+			ServletFileUpload upload = new ServletFileUpload(factory);
 
-		// Create a new file upload handler
-		ServletFileUpload upload = new ServletFileUpload(factory);
+			// maximum file size to be uploaded.
+			upload.setSizeMax(maxFileSize);
 
-		// maximum file size to be uploaded.
-		upload.setSizeMax(maxFileSize);
+			String url = "ERROR";
+			Map<String, String> parameterMap = new HashMap<String, String>();
 
-		String url = "ERROR";
-		Map<String, String> parameterMap = new HashMap<String, String>();
+			String fileName ="No Name";
+			try {
+				// Parse the request to get file items.
+				List fileItems = upload.parseRequest(request);
 
-		try {
-			// Parse the request to get file items.
-			List fileItems = upload.parseRequest(request);
+				// Process the uploaded file items
+				Iterator i = fileItems.iterator();
 
-			// Process the uploaded file items
-			Iterator i = fileItems.iterator();
+				// duyet 1 file dau tien thoi, neu no dung post man hay gi do
+				// co tinh day nhieu file
 
-			// duyet 1 file dau tien thoi, neu no dung post man hay gi do
-			// co tinh day nhieu file
+				while (i.hasNext()) {
+					FileItem fi = (FileItem) i.next();
+					if (!fi.isFormField()) {
+						// Get the uploaded file parameters
+						// String fieldName = fi.getFieldName();
+						fileName = fi.getName();
+						String contentType = fi.getContentType();
 
-			while (i.hasNext()) {
-				FileItem fi = (FileItem) i.next();
-				if (!fi.isFormField()) {
-					// Get the uploaded file parameters
-					// String fieldName = fi.getFieldName();
-					String fileName = fi.getName();
-					String contentType = fi.getContentType();
+						// Write the file
+						String fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\") + 1);
+						if (fileName.lastIndexOf("\\") >= 0) {
+							fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\"));
+						}
 
-					// Write the file
-					String fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\") + 1);
-					if (fileName.lastIndexOf("\\") >= 0) {
-						fullPath = savePath + fileName.substring(fileName.lastIndexOf("\\"));
+						file = new File(fullPath);
+						fi.write(file);
+
+						// Save to driver
+						url = uploader.uploadFile(file, fileName, contentType);
+
+					} else {
+						parameterMap.put(fi.getFieldName(), fi.getString());
+					}
+				}
+
+			} catch (Exception ex) {
+				System.out.println(ex);
+			} finally {
+
+				if (!url.equals("ERROR")) {
+
+					// save to db
+
+					// get current user via session.
+					//int uploaderId = 1;
+					DocumentUploadDTO doc = new DocumentUploadDTO(parameterMap.get("title"),
+							parameterMap.get("summary"),
+							accountDTO.getId(),
+							url,
+							parameterMap.get("semesterId"),
+							parameterMap.get("subjectId"),
+							parameterMap.get("categoryId"),
+							fileName);
+
+					if (saveDocumentToDB(doc)) {
+
+						status.setStatusCode(ResponseStatus.CREATE_DOCUMENT_SUCCESS);
+						status.setDocumentUploadDTO(doc);
 					}
 
-					file = new File(fullPath);
-					fi.write(file);
-
-					// Save to driver
-					url = uploader.uploadFile(file, fileName, contentType);
-
 				} else {
-					parameterMap.put(fi.getFieldName(), fi.getString());
+					//response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+					status.setStatusCode(ResponseStatus.CREATE_DOCUMENT_FAIL);
 				}
-			}
-
-		} catch (Exception ex) {
-			System.out.println(ex);
-		} finally {
-
-			if (!url.equals("ERROR")) {
-
-				// save to db
-
-				// get current user via session.
-				int uploaderId = 1;
-				DocumentUploadDTO doc = new DocumentUploadDTO(parameterMap.get("title"), parameterMap.get("summary"),
-						uploaderId, url, parameterMap.get("semesterId"), parameterMap.get("subjectId"),
-						parameterMap.get("categoryId"));
-
-				if (saveDocumentToDB(doc)) {
-
-					String documentJsonString = this.gson.toJson(doc);
-					out.print(documentJsonString);
-					out.flush();
-				}
-
-			} else {
-				response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
 			}
 		}
+
+		statusJsonString = this.gson.toJson(status);
+		out.print(statusJsonString);
+		out.flush();
 	}
 
 }
