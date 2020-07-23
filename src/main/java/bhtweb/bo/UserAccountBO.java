@@ -101,7 +101,7 @@ public class UserAccountBO {
 		return result;
 	}
 
-	public boolean UpdateAccount(NewAccountDTO account, String oldPassWord) {
+	public boolean UpdateAccount(NewAccountDTO account, String oldPassWord, Boolean isUpdateRole) {
 
 		UserAccountMapper mapper = null;
 
@@ -112,13 +112,16 @@ public class UserAccountBO {
 		bhtUserAccount.setProfilePictureURL(account.getProfilePictureURL());
 		bhtUserAccount.setUserPassword(account.getUserPassword());
 		bhtUserAccount.setUserGroupID(account.getUserGroupID());
+		bhtUserAccount.setDisplayName(account.getDisplayName());
+		bhtUserAccount.setPostScore(null);
 
 		boolean result = false;
 		try {
 
 			mapper = new UserAccountMapper();
 			BHTUserAccount oldAccount = mapper.getAccountByUsername(account.getUserName());
-			if (oldAccount == null || !oldAccount.getUserPassword().equals(oldPassWord)) {
+			// chi co user tu update thi moi check pass cu, con admin update role thi k can check
+			if (!isUpdateRole && (oldAccount == null || !oldAccount.getUserPassword().equals(oldPassWord))) {
 				return false;
 			}
 			result = mapper.updateAccount(bhtUserAccount);

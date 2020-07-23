@@ -47,6 +47,10 @@ public class ResponseStatus {
 	public static int CREATE_DOCUMENT_SUCCESS = 18;
 	
 	public static int CREATE_DOCUMENT_FAIL = 19;
+	
+	public static int UPDATE_ACCOUNT_SUCCESS = 20;
+	
+	public static int UPDATE_ACCOUNT_FAIL = 21;
 
 	int statusCode;
 	
@@ -147,6 +151,12 @@ public class ResponseStatus {
 			
 		case 19:
 			return "Fail to up load document to driver!";
+			
+		case 20:
+			return "Update account success!";
+			
+		case 21:
+			return "Update account failure!";
 			
 		default:
 			return "Unknow";
