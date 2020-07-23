@@ -38,6 +38,7 @@ public class UserAccountMapper extends DBMapper {
 				d.setGoogleToken(rs.getString("GoogleToken"));
 				d.setPostScore(rs.getInt("PostScore"));
 				d.setUserGroupID(rs.getInt("UserGroupID"));
+				d.setDisplayName(rs.getString("DisplayName"));
 				
 				accounts.add(d);
 			}
@@ -80,8 +81,8 @@ public class UserAccountMapper extends DBMapper {
     
     public boolean saveAccount(BHTUserAccount account) {
         
-    	String query = "INSERT INTO `bhtcnpm_db`.`useraccount` (`UserName`, `ProfilePictureURL`, `Email`, `UserPassword`, `FacebookToken`, `GoogleToken`, `PostScore`, `UserGroupID`) "
-    			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    	String query = "INSERT INTO `bhtcnpm_db`.`useraccount` (`UserName`, `ProfilePictureURL`, `Email`, `UserPassword`, `FacebookToken`, `GoogleToken`, `PostScore`, `UserGroupID`,`DisplayName`) "
+    			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
         	// create the mysql insert preparedstatement
@@ -94,6 +95,7 @@ public class UserAccountMapper extends DBMapper {
             preparedStmt.setString(6, account.getGoogleToken());
             preparedStmt.setInt(7, account.getPostScore());
             preparedStmt.setInt(8, account.getUserGroupID());
+            preparedStmt.setString(9, account.getDisplayName());
 
             preparedStmt.execute();
             

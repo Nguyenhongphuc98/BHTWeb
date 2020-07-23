@@ -46,9 +46,18 @@ public class UserAccountBO {
 				userGroup = userGroupMapper.getUserGroupById(item.getUserGroupID());
 				documentCount = documentMapper.getDocumentCountOfUserId(item.getUserID());
 
-				account = new AccountDTO(item.getUserID(), item.getUserName(), item.getUserPassword(),
-						item.getProfilePictureURL(), item.getEmail(), item.getPostScore(), 0, documentCount,
-						userGroup.getUserGroupID(), userGroup.getUserGroupName());
+				account = new AccountDTO(item.getUserID(),
+						item.getUserName(),
+						item.getUserPassword(),
+						item.getProfilePictureURL(),
+						item.getEmail(), 
+						item.getPostScore(),
+						0, 
+						documentCount,
+						userGroup.getUserGroupID(),
+						userGroup.getUserGroupName(), 
+						item.getDisplayName()
+						);
 
 				accounts.add(account);
 			}
@@ -138,6 +147,7 @@ public class UserAccountBO {
 		bhtUserAccount.setProfilePictureURL(account.getProfilePictureURL());
 		bhtUserAccount.setUserPassword(account.getUserPassword());
 		bhtUserAccount.setUserGroupID(account.getUserGroupID());
+		bhtUserAccount.setDisplayName(account.getDisplayName());
 
 		boolean result = false;
 		try {

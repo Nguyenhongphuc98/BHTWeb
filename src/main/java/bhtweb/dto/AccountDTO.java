@@ -24,12 +24,23 @@ public class AccountDTO {
 	Integer roleId;
 	
 	String roleName;
+	
+	String displayName;
 
 	public AccountDTO() {
 	}
 
-	public AccountDTO(int id, String username,String pasword, String avatar, String email, Integer score, Integer postCount,
-			Integer documentCount, Integer roleId, String roleName) {
+	public AccountDTO(int id, 
+			String username,
+			String pasword, 
+			String avatar,
+			String email, 
+			Integer score,
+			Integer postCount,
+			Integer documentCount,
+			Integer roleId, 
+			String roleName,
+			String displayName) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -41,6 +52,7 @@ public class AccountDTO {
 		this.documentCount = documentCount;
 		this.roleId = roleId;
 		this.roleName = roleName;
+		this.displayName = displayName;
 	}
 
 	public int getId() {
@@ -121,5 +133,13 @@ public class AccountDTO {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }
