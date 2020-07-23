@@ -1,6 +1,9 @@
 package bhtweb.entities;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
+
+import bhtweb.dto.CommentDTO;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,108 +17,122 @@ import java.sql.Date;
  */
 public class BHTComment {
     
-    int id;
+    private int commentID;
     
-    int userId;
+    private int userId;
     
-    int postId;
+    private int postId;
     
-    boolean isSoftDeleted;
+    private boolean commentSoftDeleted;
     
-    boolean isHidden;
+    private boolean commentHidden;
     
-    boolean isApproved;
+    private boolean commentApproved;
     
-    String contenttUrl;
+    private String commentContent;
     
-    int parentId;
+    private int parentCommentID;
     
-    Date commentTime;
-
+    private Date commentDtm;
+       
+    public BHTComment(CommentDTO commentDTO) {
+    	this.setCommentID(commentDTO.getId());
+    	this.setUserId(commentDTO.getUserID());
+    	this.setPostId(commentDTO.getPostID());
+    	this.setCommentSoftDeleted(commentDTO.getCommentSoftDeleted());
+    	this.setCommentHidden(commentDTO.getCommentHidden());
+    	this.setCommentApproved(commentDTO.getCommentApproved());
+    	this.setCommentContent(commentDTO.getContent());
+    	this.setParentCommentID(commentDTO.getParentCommentID());
+    	this.setCommentDtm(commentDTO.getPostTimeStamp());
+    }
+    
     public BHTComment() {
     }
 
-    public BHTComment(int id, int userId, int postId, boolean isSoftDeleted, boolean isHidden, boolean isApproved, String commentUrl, int parentId, Date commentTime) {
-        this.id = id;
-        this.userId = userId;
-        this.postId = postId;
-        this.isSoftDeleted = isSoftDeleted;
-        this.isHidden = isHidden;
-        this.isApproved = isApproved;
-        this.contenttUrl = commentUrl;
-        this.parentId = parentId;
-        this.commentTime = commentTime;
-    }
+	public BHTComment(int commentID, int userId, int postId, boolean commentSoftDeleted, boolean commentHidden,
+			boolean commentApproved, String commentContent, int parentCommentID, Date commentDtm) {
+		super();
+		this.commentID = commentID;
+		this.userId = userId;
+		this.postId = postId;
+		this.commentSoftDeleted = commentSoftDeleted;
+		this.commentHidden = commentHidden;
+		this.commentApproved = commentApproved;
+		this.commentContent = commentContent;
+		this.parentCommentID = parentCommentID;
+		this.commentDtm = commentDtm;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getCommentID() {
+		return commentID;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setCommentID(int commentID) {
+		this.commentID = commentID;
+	}
 
-    public int getUserId() {
-        return userId;
-    }
+	public int getUserId() {
+		return userId;
+	}
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-    public int getPostId() {
-        return postId;
-    }
+	public int getPostId() {
+		return postId;
+	}
 
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
 
-    public boolean isIsSoftDeleted() {
-        return isSoftDeleted;
-    }
+	public boolean isCommentSoftDeleted() {
+		return commentSoftDeleted;
+	}
 
-    public void setIsSoftDeleted(boolean isSoftDeleted) {
-        this.isSoftDeleted = isSoftDeleted;
-    }
+	public void setCommentSoftDeleted(boolean commentSoftDeleted) {
+		this.commentSoftDeleted = commentSoftDeleted;
+	}
 
-    public boolean isIsHidden() {
-        return isHidden;
-    }
+	public boolean isCommentHidden() {
+		return commentHidden;
+	}
 
-    public void setIsHidden(boolean isHidden) {
-        this.isHidden = isHidden;
-    }
+	public void setCommentHidden(boolean commentHidden) {
+		this.commentHidden = commentHidden;
+	}
 
-    public boolean isIsApproved() {
-        return isApproved;
-    }
+	public boolean isCommentApproved() {
+		return commentApproved;
+	}
 
-    public void setIsApproved(boolean isApproved) {
-        this.isApproved = isApproved;
-    }
+	public void setCommentApproved(boolean commentApproved) {
+		this.commentApproved = commentApproved;
+	}
 
-    public String getContentUrl() {
-        return contenttUrl;
-    }
+	public String getCommentContent() {
+		return commentContent;
+	}
 
-    public void setContentUrl(String commentUrl) {
-        this.contenttUrl = commentUrl;
-    }
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
+	}
 
-    public int getParentId() {
-        return parentId;
-    }
+	public int getParentCommentID() {
+		return parentCommentID;
+	}
 
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
-    }
+	public void setParentCommentID(int parentCommentID) {
+		this.parentCommentID = parentCommentID;
+	}
 
-    public Date getCommentTime() {
-        return commentTime;
-    }
+	public Date getCommentDtm() {
+		return commentDtm;
+	}
 
-    public void setCommentTime(Date commentTime) {
-        this.commentTime = commentTime;
-    }
+	public void setCommentDtm(Date commentDtm) {
+		this.commentDtm = commentDtm;
+	}
 }

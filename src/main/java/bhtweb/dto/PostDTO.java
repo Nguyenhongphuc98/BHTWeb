@@ -1,20 +1,30 @@
 package bhtweb.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import bhtweb.entities.BHTPost;
 
 public class PostDTO {
 
-	private Long postID;
-	private String postTitle;
-	private String postContentURL;
-	private Date postSubmitDtm;
-	private Date postPublishDtm;
-	//Lưu trữ thời gian đọc tính theo phút.
-	private Long postReadTime;
+	private Long id;
+	private String title;
 	
-	private Long numVote;
+	private String imageURL;
+	
+	private String contentURL;
+	
+	private Date submitDate;
+	private Date publishDate;
+	//Lưu trữ thời gian đọc tính theo phút.
+	private Long readTime;
+	
+	private Long likeCount;
+	
+	private Boolean liked;
+	
+	private Long commentCount;
+	
 	private Long numView;
 	
 	private Boolean postSoftDeleted;
@@ -22,107 +32,217 @@ public class PostDTO {
 	private Boolean postApproved;
 	
 	//Khoá ngoại.
-	private Long posterUserID;
+	private Long authorID;
+	
+	private String authorName;
+	
 	//Khoá ngoại.
-	private Long postCategoryID;
+	private Long categoryID;
+	
+	private String categoryName;
+	
+	private String authorAvatarURL;
+
+	private Boolean saved;
+	
+	private String summary;
+	
+	private ArrayList<String> tags;
 	
 	public PostDTO() {
 		
 	}
 	
 	public PostDTO (BHTPost entity) {
-		this.postID = entity.getPostID();
-		this.postTitle = entity.getPostTitle();
-		this.postContentURL = entity.getPostContentURL();
-		this.postSubmitDtm = entity.getPostSubmitDtm();
-		this.postPublishDtm = entity.getPostPublishDtm();
-		this.postReadTime = entity.getPostReadTime();
-		this.numVote = entity.getNumVote();
+		this.id = entity.getPostID();
+		this.title = entity.getPostTitle();
+		this.contentURL = entity.getPostContentURL();
+		this.submitDate = entity.getPostSubmitDtm();
+		this.publishDate = entity.getPostPublishDtm();
+		this.readTime = entity.getPostReadTime();
+		this.likeCount = entity.getNumVote();
 		this.numView = entity.getNumView();
 		this.postSoftDeleted = entity.getPostSoftDeleted();
 		this.postHidden = entity.getPostHidden();
 		this.postApproved = entity.getPostApproved();
 		
-		this.posterUserID = entity.getPosterUserID();
-		this.postCategoryID = entity.getPostCategoryID();
+		this.authorID = entity.getPosterUserID();
+		this.categoryID = entity.getPostCategoryID();
 	}
-	
-	public Long getPostID() {
-		return postID;
+
+	public Long getId() {
+		return id;
 	}
-	public void setPostID(Long postID) {
-		this.postID = postID;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public String getPostTitle() {
-		return postTitle;
+
+	public String getTitle() {
+		return title;
 	}
-	public void setPostTitle(String postTitle) {
-		this.postTitle = postTitle;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getPostContentURL() {
-		return postContentURL;
+
+	public String getImageURL() {
+		return imageURL;
 	}
-	public void setPostContentURL(String postContentURL) {
-		this.postContentURL = postContentURL;
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
-	public Date getPostSubmitDtm() {
-		return postSubmitDtm;
+
+	public String getContentURL() {
+		return contentURL;
 	}
-	public void setPostSubmitDtm(Date postSubmitDtm) {
-		this.postSubmitDtm = postSubmitDtm;
+
+	public void setContentURL(String contentURL) {
+		this.contentURL = contentURL;
 	}
-	public Date getPostPublishDtm() {
-		return postPublishDtm;
+
+	public Date getSubmitDate() {
+		return submitDate;
 	}
-	public void setPostPublishDtm(Date postPublishDtm) {
-		this.postPublishDtm = postPublishDtm;
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
 	}
-	public Long getPostReadTime() {
-		return postReadTime;
+
+	public Date getPublishDate() {
+		return publishDate;
 	}
-	public void setPostReadTime(Long postReadTime) {
-		this.postReadTime = postReadTime;
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
 	}
-	public Long getNumVote() {
-		return numVote;
+
+	public Long getReadTime() {
+		return readTime;
 	}
-	public void setNumVote(Long numVote) {
-		this.numVote = numVote;
+
+	public void setReadTime(Long readTime) {
+		this.readTime = readTime;
 	}
+
+	public Long getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(Long likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public Boolean getLiked() {
+		return liked;
+	}
+
+	public void setLiked(Boolean liked) {
+		this.liked = liked;
+	}
+
+	public Long getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(Long commentCount) {
+		this.commentCount = commentCount;
+	}
+
 	public Long getNumView() {
 		return numView;
 	}
+
 	public void setNumView(Long numView) {
 		this.numView = numView;
 	}
+
 	public Boolean getPostSoftDeleted() {
 		return postSoftDeleted;
 	}
+
 	public void setPostSoftDeleted(Boolean postSoftDeleted) {
 		this.postSoftDeleted = postSoftDeleted;
 	}
+
 	public Boolean getPostHidden() {
 		return postHidden;
 	}
+
 	public void setPostHidden(Boolean postHidden) {
 		this.postHidden = postHidden;
 	}
+
 	public Boolean getPostApproved() {
 		return postApproved;
 	}
+
 	public void setPostApproved(Boolean postApproved) {
 		this.postApproved = postApproved;
 	}
-	public Long getPosterUserID() {
-		return posterUserID;
+
+	public Long getAuthorID() {
+		return authorID;
 	}
-	public void setPosterUserID(Long posterUserID) {
-		this.posterUserID = posterUserID;
+
+	public void setAuthorID(Long authorID) {
+		this.authorID = authorID;
 	}
-	public Long getPostCategoryID() {
-		return postCategoryID;
+
+	public String getAuthorName() {
+		return authorName;
 	}
-	public void setPostCategoryID(Long postCategoryID) {
-		this.postCategoryID = postCategoryID;
+
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+
+	public Long getCategoryID() {
+		return categoryID;
+	}
+
+	public void setCategoryID(Long categoryID) {
+		this.categoryID = categoryID;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getAuthorAvatarURL() {
+		return authorAvatarURL;
+	}
+
+	public void setAuthorAvatarURL(String authorAvatarURL) {
+		this.authorAvatarURL = authorAvatarURL;
+	}
+
+	public Boolean getSaved() {
+		return saved;
+	}
+
+	public void setSaved(Boolean saved) {
+		this.saved = saved;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public ArrayList<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(ArrayList<String> tags) {
+		this.tags = tags;
 	}
 }

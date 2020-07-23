@@ -48,7 +48,7 @@ public class PostBO {
 		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
 		return result;
 	}
-		
+
 	public PostDTO createPost (PostDTO postDTO) {
 		try {
 			return new PostDTO(postMapper.insertPost(new BHTPost(postDTO)));

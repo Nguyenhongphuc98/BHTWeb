@@ -12,6 +12,7 @@ import org.apache.commons.io.output.ThresholdingOutputStream;
 import com.google.api.client.repackaged.com.google.common.base.Throwables;
 import com.google.gson.Gson;
 
+import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
 
 public class ServletUtils {
@@ -68,6 +69,14 @@ public class ServletUtils {
 	public static PrintWriter getJSONUnicodeWriterNoCORS (HttpServletResponse response) throws IOException{
 		addNoCORSHeader(response);
 		return getJSONUnicodeWriter(response);
+	}
+	
+	public static AccountDTO getCurrentAccountDTO(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+
+		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		
+		return accountDTO;
 	}
 	
 	public static void addSessionToResponseStatus (HttpServletRequest req, ResponseStatus status) {

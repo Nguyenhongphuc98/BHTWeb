@@ -36,39 +36,47 @@ public class CommentMapper extends DBMapper {
 			rs = stmt.executeQuery(sqlStr); // Send the query to the server
 			while (rs != null && rs.next()) {
 				BHTComment d = new BHTComment();
-				d.setId(rs.getInt("CommentID"));
+				d.setCommentID(rs.getInt("CommentID"));
 				d.setUserId(rs.getInt("UserID"));
 				d.setPostId(rs.getInt("PostID"));
-				d.setIsSoftDeleted(rs.getBoolean("CommentSoftDeleted"));
-				d.setIsHidden(rs.getBoolean("CommentHidden"));
-				d.setIsApproved(rs.getBoolean("CommentApproved"));
-				d.setContentUrl(rs.getString("CommentContentURL"));
-				d.setParentId(rs.getInt("ParentCommentID"));
-				d.setCommentTime(rs.getDate("CommentDtm"));
+				d.setCommentSoftDeleted(rs.getBoolean("CommentSoftDeleted"));
+				d.setCommentHidden(rs.getBoolean("CommentHidden"));
+				d.setCommentApproved(rs.getBoolean("CommentApproved"));
+				d.setCommentContent(rs.getString("CommentContentURL"));
+				d.setParentCommentID(rs.getInt("ParentCommentID"));
+				d.setCommentDtm(rs.getDate("CommentDtm"));
 
 				comments.add(d);
 			}
 		} catch (SQLException ex) {
 			Logger.getLogger(DocumentMapper.class.getName()).log(Level.SEVERE, null, ex);
 		}
-
 		return comments;
     }
     
-    public BHTComment getCommentByParentId(int commentId, boolean isApproved) {
-
-        String sqlStr = "SELECT * FROM comment WHERE CommentID = " + commentId + " and DocumentApproved = " + isApproved;
+    public List<BHTComment> getCommentByParentId(int commentId, boolean isApproved) {
+        String sqlStr = "SELECT * FROM comment WHERE ParentCommentID = " + commentId + " and CommentApproved = " + isApproved;
         List<BHTComment> ls = fetchListComments(sqlStr);
-        return ls.size() > 0 ? ls.get(0) : null;
+        return ls.size() > 0 ? ls : null;
 
     }
     
-    public BHTComment getCommentByPostId(int postId, boolean isApproved) {
-
-        String sqlStr = "SELECT * FROM comment WHERE PostID = " + postId + " and DocumentApproved = " + isApproved;
+    public List<BHTComment> getCommentByParentId(int commentID){
+    	String sqlStr = "SELECT * FROM comment WHERE ParentCommentID = " + commentID;
         List<BHTComment> ls = fetchListComments(sqlStr);
-        return ls.size() > 0 ? ls.get(0) : null;
-
+        return ls.size() > 0 ? ls : null;
+    }
+    
+    public List<BHTComment> getCommentByPostId(int postId, boolean isApproved) {
+        String sqlStr = "SELECT * FROM comment WHERE PostID = " + postId + " and CommentApproved = " + isApproved;
+        List<BHTComment> ls = fetchListComments(sqlStr);
+        return ls.size() > 0 ? ls : null;
+    }
+    
+    public List<BHTComment> getCommentByPostId(int postId){
+    	String sqlStr = "SELECT * FROM comment WHERE PostID = " + postId;
+        List<BHTComment> ls = fetchListComments(sqlStr);
+        return ls.size() > 0 ? ls : null;
     }
       
     public boolean saveComment(BHTComment comment) {
@@ -84,12 +92,12 @@ public class CommentMapper extends DBMapper {
             PreparedStatement preparedStmt = getConnection().prepareStatement(query);
             preparedStmt.setInt(1, comment.getUserId());
             preparedStmt.setInt(2, comment.getPostId());
-            preparedStmt.setBoolean(3, comment.isIsSoftDeleted());
-            preparedStmt.setBoolean(4, comment.isIsHidden());
-            preparedStmt.setBoolean(5, comment.isIsApproved());
-            preparedStmt.setString(6, comment.getContentUrl());
+            preparedStmt.setBoolean(3, comment.isCommentSoftDeleted());
+            preparedStmt.setBoolean(4, comment.isCommentHidden());
+            preparedStmt.setBoolean(5, comment.isCommentApproved());
+            preparedStmt.setString(6, comment.getCommentContent());
             preparedStmt.setInt(7, comment.getPostId());
-            preparedStmt.setDate(8, comment.getCommentTime());
+            preparedStmt.setDate(8, comment.getCommentDtm());
             
             // execute the preparedstatement
             return preparedStmt.execute();
@@ -105,17 +113,17 @@ public class CommentMapper extends DBMapper {
         
         String sqlStr = "UPDATE comment SET ";
         
-        if (comment.getContentUrl()!= null) {
-            sqlStr += "CommentContentURL = '" + comment.getContentUrl() + "',";
+        if (comment.getCommentContent()!= null) {
+            sqlStr += "CommentContent = '" + comment.getCommentContent() + "',";
         }
         if (delete) {
-            sqlStr += "CommentSoftDeleted = " + comment.isIsSoftDeleted() + ",";
+            sqlStr += "CommentSoftDeleted = " + comment.isCommentSoftDeleted() + ",";
         }
         if (hidden) {
-            sqlStr += "CommentHidden = " + comment.isIsHidden()+ ",";
+            sqlStr += "CommentHidden = " + comment.isCommentHidden()+ ",";
         }
         if (approved) {
-            sqlStr += "CommentApproved = " + comment.isIsApproved()+ ",";
+            sqlStr += "CommentApproved = " + comment.isCommentApproved()+ ",";
         }
        
         /// Khong cho update user, post, parent and time comment
@@ -127,7 +135,7 @@ public class CommentMapper extends DBMapper {
             sqlStr = sqlStr.substring(0, sqlStr.length() - 2);
         }
         
-        sqlStr += " WHERE CommentID = " + comment.getId();
+        sqlStr += " WHERE CommentID = " + comment.getCommentID();
         
         Statement stmt;
 		try {
