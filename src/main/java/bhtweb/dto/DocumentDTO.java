@@ -47,6 +47,10 @@ public class DocumentDTO {
     
     String fileName;
     
+    int semesterId;
+    
+    String semesterName;
+    
     public DocumentDTO() {
     	
     }
@@ -55,7 +59,8 @@ public class DocumentDTO {
 			String authorName,
 			String authorAvatar,
 			String categoryName,
-			String subjectName) {
+			String subjectName,
+			String semesterName) {
 		
 		this.categoryID = entity.getCategoryId();
 		this.url = entity.getContentUrl();
@@ -68,16 +73,32 @@ public class DocumentDTO {
 		this.authorID = entity.getUploaderId();
 		this.viewCount = entity.getViewCount();
 		this.fileName = entity.getDocumentFileName();
+		this.semesterId = entity.getSemesterId();
 		
 		this.authorName = authorName;
 		this.authorAvatar = authorAvatar;
 		this.categoryName = categoryName;
 		this.subjectName = subjectName;
+		this.semesterName = semesterName;
 	}
 
-	public DocumentDTO(int id, String url, String title, String summary, String authorName, int authorID,
-			int categoryID, String categoryName, int subjectID, String subjectName, Integer viewCount,
-			Integer downloadCount, String publishDate, String imageURL, String authorAvatar) {
+	public DocumentDTO(int id, 
+			String url, 
+			String title,
+			String summary,
+			String authorName,
+			int authorID,
+			int categoryID,
+			String categoryName,
+			int subjectID, 
+			String subjectName,
+			Integer viewCount,
+			Integer downloadCount,
+			String publishDate,
+			String imageURL,
+			String authorAvatar,
+			int semesterId,
+			String semesterName) {
 	
 		this.id = id;
 		this.url = url;
@@ -94,6 +115,8 @@ public class DocumentDTO {
 		this.publishDate = publishDate;
 		this.imageURL = imageURL;
 		this.authorAvatar = authorAvatar;
+		this.semesterId = semesterId;
+		this.semesterName = semesterName;
 	}
 	
 	@Override
@@ -228,5 +251,29 @@ public class DocumentDTO {
 
 	public void setAuthorAvatar(String authorAvatar) {
 		this.authorAvatar = authorAvatar;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public int getSemesterId() {
+		return semesterId;
+	}
+
+	public void setSemesterId(int semesterId) {
+		this.semesterId = semesterId;
+	}
+
+	public String getSemesterName() {
+		return semesterName;
+	}
+
+	public void setSemesterName(String semesterName) {
+		this.semesterName = semesterName;
 	}
 }

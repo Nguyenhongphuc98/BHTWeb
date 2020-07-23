@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.EntityGraph;
 import javax.sound.sampled.LineListener;
 
 import bhtweb.dbaccess.DocumentCategoryMapper;
 import bhtweb.dbaccess.DocumentMapper;
+import bhtweb.dbaccess.SemesterMapper;
 import bhtweb.dbaccess.SubjectMapper;
 import bhtweb.dbaccess.UserAccountMapper;
 import bhtweb.dto.DocumentDTO;
@@ -21,6 +23,7 @@ import bhtweb.dto.DocumentUploadDTO;
 import bhtweb.dto.ShortDocumentDTO;
 import bhtweb.entities.BHTDocument;
 import bhtweb.entities.BHTDocumentCategory;
+import bhtweb.entities.BHTSemester;
 import bhtweb.entities.BHTSubject;
 import bhtweb.entities.BHTUserAccount;
 import bhtweb.utils.DocumentFilter;
@@ -42,11 +45,13 @@ public class DocumentBO {
 		BHTDocumentCategory category = null;
 		BHTSubject subject = null;
 		BHTUserAccount account = null;
+		BHTSemester semester = null;
 
 		DocumentMapper mapper = null;
 		DocumentCategoryMapper categoryMapper = null;
 		SubjectMapper subjectMapper = null;
 		UserAccountMapper accountMapper = null;
+		SemesterMapper semesterMapper = null;
 
 		try {
 
@@ -54,6 +59,7 @@ public class DocumentBO {
 			categoryMapper = new DocumentCategoryMapper();
 			subjectMapper = new SubjectMapper();
 			accountMapper = new UserAccountMapper();
+			semesterMapper = new SemesterMapper();
 
 			entity = mapper.getDocsById(id, isApproved);
 			
@@ -61,14 +67,17 @@ public class DocumentBO {
 				category = categoryMapper.getBHTDocumentCategoryById(entity.getCategoryId());
 				subject = subjectMapper.getSubjectById(entity.getSubjectId());
 				account = accountMapper.getAccountById(entity.getUploaderId());
+				semester = semesterMapper.getSemesterById(entity.getSemesterId());
 				System.out.println("username: " + account.getUserName());
 				
+				String semesterCombineName = semester.getSemesterNo() + " * " + semester.getAcademicYear();
 				doc = new DocumentDTO(
 						entity,
 						account.getUserName(),
 						account.getProfilePictureURL(),
 						category.getName(), 
-						subject.getSubjectName()
+						subject.getSubjectName(),
+						semesterCombineName
 						);
 			} else {
 				System.out.println("not found subject id: " + id);
@@ -84,7 +93,8 @@ public class DocumentBO {
 				categoryMapper.closeConnection();
 				subjectMapper.closeConnection();
 				accountMapper.closeConnection();
-
+				semesterMapper.checkConnection();
+				
 			} catch (Exception ex) {
 				Logger.getLogger(DocumentBO.class.getName()).log(Level.SEVERE, null, ex);
 			}
