@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.protobuf.GeneratedMessage;
 
+import bhtweb.entities.BHTUserGroup;
+
 public class ResponseStatus {
 
 	// Login
@@ -73,6 +75,8 @@ public class ResponseStatus {
 	
 	// Document when upload success
 	DocumentUploadDTO documentUploadDTO;
+	
+	List<BHTUserGroup> bhtUserGroups;
 	
 	// add session to client, so we can check user in session or not
 	String sessionID;
@@ -234,5 +238,13 @@ public class ResponseStatus {
 
 	public void setDocumentUploadDTO(DocumentUploadDTO documentUploadDTO) {
 		this.documentUploadDTO = documentUploadDTO;
+	}
+
+	public List<BHTUserGroup> getBhtUserGroups() {
+		return bhtUserGroups;
+	}
+
+	public void setBhtUserGroups(List<BHTUserGroup> bhtUserGroups) {
+		this.bhtUserGroups = bhtUserGroups;
 	}
 }
