@@ -47,7 +47,7 @@ public class GetGoodDocumentServlet extends HttpServlet {
 		ResponseStatus status = new ResponseStatus();
 
 		try {
-			int limit = Integer.parseInt(req.getParameter("limit"));
+			int limit = Integer.parseInt(ServletUtils.removeSessionID(req.getParameter("limit")));
 
 			List<ShortDocumentDTO> docs = documentBO.getMostDownloadDocumentList(limit);
 

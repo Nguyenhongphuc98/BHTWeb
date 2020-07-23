@@ -40,11 +40,11 @@ public class FilterDocumentServlet extends HttpServlet {
 
     	PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
     	
-    	String subjectId = req.getParameter("subject");
-    	String categoryId = req.getParameter("category");
-    	String semesterId = req.getParameter("semester");
+    	String subjectId = ServletUtils.removeSessionID(req.getParameter("subject"));
+    	String categoryId = ServletUtils.removeSessionID(req.getParameter("category"));
+    	String semesterId = ServletUtils.removeSessionID(req.getParameter("semester"));
     	//String yearNoId = req.getParameter("year");
-    	String page = req.getParameter("page");
+    	String page = ServletUtils.removeSessionID(req.getParameter("page"));
     	
     	DocumentFilter filter = new DocumentFilter();
     	if (subjectId != null) {

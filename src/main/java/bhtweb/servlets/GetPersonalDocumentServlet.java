@@ -35,9 +35,9 @@ public class GetPersonalDocumentServlet extends HttpServlet {
 		
 		//ServletUtils.addNoCORSHeader(resp);
 		
-		String uidString = req.getParameter("uid");
-		String approvedString = req.getParameter("approved");
-		String pageIndexString = req.getParameter("page");
+		String uidString = ServletUtils.removeSessionID(req.getParameter("uid"));
+		String approvedString = ServletUtils.removeSessionID(req.getParameter("approved"));
+		String pageIndexString = ServletUtils.removeSessionID(req.getParameter("page"));
 		
 		int uid = -1;
 		int approved = 0;
