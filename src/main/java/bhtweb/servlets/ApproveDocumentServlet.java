@@ -40,7 +40,7 @@ public class ApproveDocumentServlet extends HttpServlet {
 		ResponseStatus status = new ResponseStatus();
 		String statusString = "";
 
-		String idString = req.getParameter("id");
+		String idString = ServletUtils.removeSessionID(req.getParameter("id"));
 		int id = 0;
 		if (idString != null) {
 			try {

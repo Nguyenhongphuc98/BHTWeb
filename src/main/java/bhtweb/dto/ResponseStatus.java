@@ -43,6 +43,10 @@ public class ResponseStatus {
 	public static int BROWSE_DOC_SUCCESS = 16;
 	
 	public static int BROWSE_DOC_FAIL = 17;
+	
+	public static int CREATE_DOCUMENT_SUCCESS = 18;
+	
+	public static int CREATE_DOCUMENT_FAIL = 19;
 
 	int statusCode;
 	
@@ -62,6 +66,9 @@ public class ResponseStatus {
 	
 	// List short doc when get to browse for admin
 	List<ShortDocumentDTO> shortDocs;
+	
+	// Document when upload success
+	DocumentUploadDTO documentUploadDTO;
 	
 	// add session to client, so we can check user in session or not
 	String sessionID;
@@ -135,6 +142,12 @@ public class ResponseStatus {
 		case 17:
 			return "Browse document fail!";
 			
+		case 18:
+			return "Upload document success!";
+			
+		case 19:
+			return "Fail to up load document to driver!";
+			
 		default:
 			return "Unknow";
 		}
@@ -203,5 +216,13 @@ public class ResponseStatus {
 
 	public void setSessionID(String sessionID) {
 		this.sessionID = sessionID;
+	}
+
+	public DocumentUploadDTO getDocumentUploadDTO() {
+		return documentUploadDTO;
+	}
+
+	public void setDocumentUploadDTO(DocumentUploadDTO documentUploadDTO) {
+		this.documentUploadDTO = documentUploadDTO;
 	}
 }

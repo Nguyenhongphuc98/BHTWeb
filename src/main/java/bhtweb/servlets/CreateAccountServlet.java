@@ -152,6 +152,7 @@ public class CreateAccountServlet extends HttpServlet {
 					newAccount.setUserGroupID(3); // user
 					newAccount.setUserName(parameterMap.get("username"));
 					newAccount.setUserPassword(parameterMap.get("password"));
+					newAccount.setDisplayName(parameterMap.get("displayname"));
 
 					// Save to database
 					userAccountBO.CreateAccount(newAccount);

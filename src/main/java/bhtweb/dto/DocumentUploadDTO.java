@@ -15,13 +15,21 @@ public class DocumentUploadDTO {
 	int subjectId;
 
 	int categoryId;
+	
+	String fileName;
 
 	public DocumentUploadDTO() {
 
 	}
 
-	public DocumentUploadDTO(String title, String description, int uploaderId, String contentUrl, String semesterId,
-			String subjectId, String categoryId) {
+	public DocumentUploadDTO(String title,
+			String description,
+			int uploaderId,
+			String contentUrl, 
+			String semesterId,
+			String subjectId,
+			String categoryId,
+			String fileName) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -30,6 +38,7 @@ public class DocumentUploadDTO {
 		this.semesterId = Integer.parseInt(semesterId);
 		this.subjectId = Integer.parseInt(subjectId);
 		this.categoryId = Integer.parseInt(categoryId);
+		this.fileName = fileName;
 	}
 
 	public String getTitle() {
@@ -86,5 +95,13 @@ public class DocumentUploadDTO {
 
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }

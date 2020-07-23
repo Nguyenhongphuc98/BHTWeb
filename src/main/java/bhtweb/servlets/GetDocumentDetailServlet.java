@@ -42,7 +42,7 @@ public class GetDocumentDetailServlet extends HttpServlet {
 		
 		ResponseStatus status = new ResponseStatus();
 		
-		String idString = req.getParameter("id");
+		String idString = ServletUtils.removeSessionID(req.getParameter("id"));
 		int id = -1;
 		if (idString != null) {
 			try {

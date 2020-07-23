@@ -33,7 +33,7 @@ public class GetSpecialAccount extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//ServletUtils.addNoCORSHeader(resp);
 
-		String uid = req.getParameter("id");
+		String uid = ServletUtils.removeSessionID(req.getParameter("id"));
 
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 

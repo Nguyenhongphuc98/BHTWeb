@@ -12,19 +12,22 @@ public class NewAccountDTO {
 	String userPassword;
 	
 	Integer userGroupID;
+	
+	String displayName;
 
 	public NewAccountDTO() {
 
 	}
 
 	public NewAccountDTO(String userName, String profilePictureURL, String email, String userPassword,
-			Integer userGroupID) {
+			Integer userGroupID, String displayName) {
 		super();
 		this.userName = userName;
 		this.profilePictureURL = profilePictureURL;
 		this.email = email;
 		this.userPassword = userPassword;
 		this.userGroupID = userGroupID;
+		this.displayName = displayName;
 	}
 
 	public String getUserName() {
@@ -65,5 +68,13 @@ public class NewAccountDTO {
 
 	public void setUserGroupID(Integer userGroupID) {
 		this.userGroupID = userGroupID;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

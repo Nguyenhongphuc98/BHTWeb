@@ -41,6 +41,8 @@ public class BHTDocument {
     
     Date documentPublishDtm;
 
+    String documentFileName;
+    
     public BHTDocument() {
     	
     	this.viewCount = 0;
@@ -56,7 +58,7 @@ public class BHTDocument {
     		int uploaderId, String contentUrl, boolean isSoftDeleted,
     		boolean isHidden, boolean isApproved, Integer viewCount,
     		Integer downloadCount, int semesterId, int subjectId,
-    		int categoryId, Date date) {
+    		int categoryId, Date date, String fileName) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -72,6 +74,7 @@ public class BHTDocument {
         this.categoryId = categoryId;
         
         this.documentPublishDtm = date;
+        this.documentFileName = fileName;
     }
 
     public int getId() {
@@ -208,5 +211,13 @@ public class BHTDocument {
 
 	public void setDocumentPublishDtm(Date documentPublishDtm) {
 		this.documentPublishDtm = documentPublishDtm;
+	}
+
+	public String getDocumentFileName() {
+		return documentFileName;
+	}
+
+	public void setDocumentFileName(String documentFileName) {
+		this.documentFileName = documentFileName;
 	}
 }

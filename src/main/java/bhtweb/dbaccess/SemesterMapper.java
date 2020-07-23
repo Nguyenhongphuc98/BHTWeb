@@ -44,7 +44,7 @@ public class SemesterMapper extends DBMapper {
         return semesters;
     }
     
-    public BHTSemester getSubjectById(int semesterId) {
+    public BHTSemester getSemesterById(int semesterId) {
         BHTSemester s = null;
         try {     
             Statement stmt = getConnection().createStatement();
