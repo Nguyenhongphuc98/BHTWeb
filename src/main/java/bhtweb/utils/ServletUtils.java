@@ -84,4 +84,11 @@ public class ServletUtils {
 		HttpSession session = req.getSession();
 		status.setSessionID(session.getId());
 	}
+	
+	public static String removeSessionID(String parameter) {
+		if (parameter == null) {
+			return null;
+		}
+		return parameter.split(";")[0];
+	}
 }

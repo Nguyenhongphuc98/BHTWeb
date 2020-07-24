@@ -19,6 +19,8 @@ public class BHTUserAccount {
 	Integer postScore;
 	
 	Integer userGroupID;
+	
+	String displayName;
 
 	public BHTUserAccount() {
 		facebookToken = "";
@@ -36,8 +38,16 @@ public class BHTUserAccount {
 		this.userID = userID;
 	}
 
-	public BHTUserAccount(int userID, String userName, String profilePictureURL, String email, String userPassword,
-			String facebookToken, String googleToken, Integer postScore, int userGroupID) {
+	public BHTUserAccount(int userID, 
+			String userName,
+			String profilePictureURL, 
+			String email,
+			String userPassword,
+			String facebookToken,
+			String googleToken, 
+			Integer postScore, 
+			int userGroupID,
+			String displayName) {
 		super();
 		this.userID = userID;
 		this.userName = userName;
@@ -48,6 +58,7 @@ public class BHTUserAccount {
 		this.googleToken = googleToken;
 		this.postScore = postScore;
 		this.userGroupID = userGroupID;
+		this.displayName = displayName;
 	}
 
 	public int getUserID() {
@@ -119,6 +130,18 @@ public class BHTUserAccount {
 	}
 
 	public void setUserGroupID(int userGroupID) {
+		this.userGroupID = userGroupID;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public void setUserGroupID(Integer userGroupID) {
 		this.userGroupID = userGroupID;
 	}
 }

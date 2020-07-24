@@ -57,7 +57,7 @@ public class DocumentMapper extends DBMapper {
 				d.setSubjectId(rs.getInt("SubjectID"));
 				d.setCategoryId(rs.getInt("DocumentCategoryID"));
 				d.setDocumentPublishDtm(rs.getDate("DocumentPublishDtm"));
-				
+				d.setDocumentFileName(rs.getString("DocumentFileName"));
 				docs.add(d);
 			}
 		} catch (SQLException ex) {

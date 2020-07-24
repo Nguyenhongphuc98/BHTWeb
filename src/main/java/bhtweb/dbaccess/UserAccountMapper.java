@@ -38,6 +38,7 @@ public class UserAccountMapper extends DBMapper {
 				d.setGoogleToken(rs.getString("GoogleToken"));
 				d.setPostScore(rs.getInt("PostScore"));
 				d.setUserGroupID(rs.getInt("UserGroupID"));
+				d.setDisplayName(rs.getString("DisplayName"));
 				
 				accounts.add(d);
 			}
@@ -80,8 +81,8 @@ public class UserAccountMapper extends DBMapper {
     
     public boolean saveAccount(BHTUserAccount account) {
         
-    	String query = "INSERT INTO `bhtcnpm_db`.`useraccount` (`UserName`, `ProfilePictureURL`, `Email`, `UserPassword`, `FacebookToken`, `GoogleToken`, `PostScore`, `UserGroupID`) "
-    			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    	String query = "INSERT INTO `bhtcnpm_db`.`useraccount` (`UserName`, `ProfilePictureURL`, `Email`, `UserPassword`, `FacebookToken`, `GoogleToken`, `PostScore`, `UserGroupID`,`DisplayName`) "
+    			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
         	// create the mysql insert preparedstatement
@@ -94,6 +95,7 @@ public class UserAccountMapper extends DBMapper {
             preparedStmt.setString(6, account.getGoogleToken());
             preparedStmt.setInt(7, account.getPostScore());
             preparedStmt.setInt(8, account.getUserGroupID());
+            preparedStmt.setString(9, account.getDisplayName());
 
             preparedStmt.execute();
             
@@ -109,16 +111,25 @@ public class UserAccountMapper extends DBMapper {
         String sqlStr = "UPDATE useraccount SET ";
         
         if (account.getEmail() != null) {
-            sqlStr += "Email = '" + account.getEmail() + "',";
+            sqlStr += " Email = '" + account.getEmail() + "',";
         }
+        
+        if (account.getUserPassword() != null) {
+            sqlStr += " UserPassword = '" + account.getUserPassword() + "',";
+        }
+        
+        if (account.getDisplayName() != null) {
+            sqlStr += " DisplayName = '" + account.getDisplayName() + "',";
+        }
+        
         if (account.getProfilePictureURL()!= null) {
-            sqlStr += "ProfilePictureURL = '" + account.getProfilePictureURL() + "',";
+            sqlStr += " ProfilePictureURL = '" + account.getProfilePictureURL() + "',";
         }
         if (account.getPostScore()!= null) {
-            sqlStr += "PostScore = '" + account.getPostScore()+ "',";
+            sqlStr += " PostScore = '" + account.getPostScore()+ "',";
         }
         if (account.getUserGroupID() != null) {
-            sqlStr += "UserGroupID = " + account.getUserGroupID() + ",";
+            sqlStr += " UserGroupID = " + account.getUserGroupID() + ",";
         }
        
         //  Xoa dau --',-- cuoi cung neu co
@@ -128,7 +139,7 @@ public class UserAccountMapper extends DBMapper {
             sqlStr = sqlStr.substring(0, sqlStr.length() - 1);
         }
         
-        sqlStr += " WHERE UserID = " + account.getUserID();
+        sqlStr += " WHERE UserName = '" + account.getUserName() + "'";
        
         Statement stmt;
 		try {

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.protobuf.GeneratedMessage;
 
+import bhtweb.entities.BHTUserGroup;
+
 public class ResponseStatus {
 
 	// Login
@@ -43,6 +45,14 @@ public class ResponseStatus {
 	public static int BROWSE_DOC_SUCCESS = 16;
 	
 	public static int BROWSE_DOC_FAIL = 17;
+	
+	public static int CREATE_DOCUMENT_SUCCESS = 18;
+	
+	public static int CREATE_DOCUMENT_FAIL = 19;
+	
+	public static int UPDATE_ACCOUNT_SUCCESS = 20;
+	
+	public static int UPDATE_ACCOUNT_FAIL = 21;
 
 	int statusCode;
 	
@@ -62,6 +72,11 @@ public class ResponseStatus {
 	
 	// List short doc when get to browse for admin
 	List<ShortDocumentDTO> shortDocs;
+	
+	// Document when upload success
+	DocumentUploadDTO documentUploadDTO;
+	
+	List<BHTUserGroup> bhtUserGroups;
 	
 	// add session to client, so we can check user in session or not
 	String sessionID;
@@ -135,6 +150,18 @@ public class ResponseStatus {
 		case 17:
 			return "Browse document fail!";
 			
+		case 18:
+			return "Upload document success!";
+			
+		case 19:
+			return "Fail to up load document to driver!";
+			
+		case 20:
+			return "Update account success!";
+			
+		case 21:
+			return "Update account failure!";
+			
 		default:
 			return "Unknow";
 		}
@@ -203,5 +230,21 @@ public class ResponseStatus {
 
 	public void setSessionID(String sessionID) {
 		this.sessionID = sessionID;
+	}
+
+	public DocumentUploadDTO getDocumentUploadDTO() {
+		return documentUploadDTO;
+	}
+
+	public void setDocumentUploadDTO(DocumentUploadDTO documentUploadDTO) {
+		this.documentUploadDTO = documentUploadDTO;
+	}
+
+	public List<BHTUserGroup> getBhtUserGroups() {
+		return bhtUserGroups;
+	}
+
+	public void setBhtUserGroups(List<BHTUserGroup> bhtUserGroups) {
+		this.bhtUserGroups = bhtUserGroups;
 	}
 }

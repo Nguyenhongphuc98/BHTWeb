@@ -45,7 +45,7 @@ public class GetPreviewDocumentServlet extends HttpServlet {
 		ResponseStatus status = new ResponseStatus();
 		String documentJsonString = "";
 
-		String idString = req.getParameter("id");
+		String idString = ServletUtils.removeSessionID(req.getParameter("id"));
 		int id = 0;
 		if (idString != null) {
 			try {
