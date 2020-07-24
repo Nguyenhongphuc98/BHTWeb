@@ -30,6 +30,7 @@ public class PostServlet extends HttpServlet {
 	private final String AUTHORID_PARAM_NAME = "authorID";
 	private final String CATEGORYID_PARAM_NAME = "categoryID";
 	private final String POSTID_PARAM_NAME = "id";
+	private final String FILTERTYPE_PARAM_NAME = "type";
 	
 	
 	@Override
@@ -44,6 +45,16 @@ public class PostServlet extends HttpServlet {
 		ServletUtils.addNoCORSHeader(resp);
 		doGetBHTPost(req, resp);
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPostBHTPost(req, resp);
+	}
+	
+	private void doPostBHTPost (HttpServletRequest request, HttpServletResponse response) {
+		
+	}
 
 	private void doGetBHTPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -53,6 +64,7 @@ public class PostServlet extends HttpServlet {
 			Integer authorID;
 			Integer categoryID;
 			Integer postID;
+			String type;
 			
 			List<Object> filters = new ArrayList<Object>();
 			
@@ -74,12 +86,35 @@ public class PostServlet extends HttpServlet {
 			if (postID != null)
 				filters.add(postID);
 			
+			//Lấy ra loại post người dùng đang mong muốn từ param.
+			type = ServletUtils.getStringParam(request, FILTERTYPE_PARAM_NAME, null);
+			if (type != null)
+				filters.add(type);
+			
 			List<PostDTO> postDTOs;
 			
 			//Lấy danh sách post không lọc theo gì hết.
 			if (filters.size() == 0)
 				postDTOs = postBO.getPosts(pageNo);
-			else {
+			//Sau đó ưu tiên lấy danh sách theo loại.
+			else if (type != null){
+				//Highlights tức là những bài viết được sort theo số view giảm dần.
+				if (type.equals("highlights")) {
+					postDTOs = postBO.getHighlights();
+				}
+				//Newest tức là những bài viết được sort theo ngày publish giảm dần.
+				else if (type.equals("newest")) {
+					postDTOs = postBO.getNewest();
+				}
+				//newActivities là những bài viết liên quan đến hoạt động.
+				//Được sort theo ngày publish giảm dần.
+				else if (type.equals("newActivities")) {
+					postDTOs = postBO.getNewActivities();
+				}else {
+					postDTOs = null;
+					ServletUtils.printObjectJSON(out, response, postDTOs, HttpURLConnection.HTTP_BAD_REQUEST);
+				}
+			}else{
 				System.out.println("Detected filter param !");
 				BHTPost model = new BHTPost();
 				if (authorID != null)
