@@ -10,7 +10,7 @@ import bhtweb.dto.PostDTO;
 public class BHTPost {
 	private Long postID;
 	private String postTitle;
-	private String postContentURL;
+	private String postContent;
 	private Date postSubmitDtm;
 	private Date postPublishDtm;
 	//Lưu trữ thời gian đọc tính theo phút.
@@ -38,7 +38,7 @@ public class BHTPost {
 	public BHTPost(PostDTO dto) {
 		this.postID = dto.getId();
 		this.postTitle = dto.getTitle();
-		this.postContentURL = dto.getContentURL();
+		this.postContent = dto.getContentURL();
 		this.postSubmitDtm = dto.getSubmitDate();
 		this.postPublishDtm = dto.getPublishDate();
 		this.postReadTime = dto.getReadTime();
@@ -50,6 +50,14 @@ public class BHTPost {
 		
 		this.posterUserID = dto.getAuthorID();
 		this.postCategoryID = dto.getCategoryID();
+	}
+
+	public String getPostContent() {
+		return postContent;
+	}
+
+	public void setPostContent(String postContent) {
+		this.postContent = postContent;
 	}
 
 	public Long getPostID() {
@@ -67,15 +75,8 @@ public class BHTPost {
 	public void setPostTitle(String postTitle) {
 		this.postTitle = postTitle;
 	}
-
-	public String getPostContentURL() {
-		return postContentURL;
-	}
-
-	public void setPostContentURL(String postContentURL) {
-		this.postContentURL = postContentURL;
-	}
-
+	
+	
 	public Date getPostSubmitDtm() {
 		return postSubmitDtm;
 	}

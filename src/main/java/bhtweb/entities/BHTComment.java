@@ -1,7 +1,10 @@
 package bhtweb.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.io.output.ThresholdingOutputStream;
 
 import bhtweb.dto.CommentDTO;
 
@@ -17,98 +20,124 @@ import bhtweb.dto.CommentDTO;
  */
 public class BHTComment {
     
-    private int commentID;
+    private Integer commentID;
     
-    private int userId;
+    private BHTUserAccount userAccount;
     
-    private int postId;
+    private Integer postId;
     
-    private boolean commentSoftDeleted;
+    private Boolean commentSoftDeleted;
     
-    private boolean commentHidden;
+    private Boolean commentHidden;
     
-    private boolean commentApproved;
+    private Boolean commentApproved;
     
     private String commentContent;
     
-    private int parentCommentID;
+    private BHTComment parentComment;
     
     private Date commentDtm;
        
+    private List<BHTComment> childComments = new ArrayList<>();
+    
     public BHTComment(CommentDTO commentDTO) {
     	this.setCommentID(commentDTO.getId());
-    	this.setUserId(commentDTO.getUserID());
+    	this.setUserAccount(new BHTUserAccount(commentDTO.getUserID()));
     	this.setPostId(commentDTO.getPostID());
     	this.setCommentSoftDeleted(commentDTO.getCommentSoftDeleted());
     	this.setCommentHidden(commentDTO.getCommentHidden());
     	this.setCommentApproved(commentDTO.getCommentApproved());
     	this.setCommentContent(commentDTO.getContent());
-    	this.setParentCommentID(commentDTO.getParentCommentID());
+    	this.setParentComment(new BHTComment(commentDTO.getId()));
     	this.setCommentDtm(commentDTO.getPostTimeStamp());
     }
     
     public BHTComment() {
     }
+    
+    public BHTComment(Integer commentID) {
+    	super();
+    	this.commentID = commentID;
+    }
 
-	public BHTComment(int commentID, int userId, int postId, boolean commentSoftDeleted, boolean commentHidden,
-			boolean commentApproved, String commentContent, int parentCommentID, Date commentDtm) {
+	public BHTComment(Integer commentID, Integer userId, Integer postId, Boolean commentSoftDeleted, Boolean commentHidden,
+			Boolean commentApproved, String commentContent, BHTComment parentComment, Date commentDtm) {
 		super();
 		this.commentID = commentID;
-		this.userId = userId;
+		this.userAccount = new BHTUserAccount();
+		userAccount.setUserID(userId);
 		this.postId = postId;
 		this.commentSoftDeleted = commentSoftDeleted;
 		this.commentHidden = commentHidden;
 		this.commentApproved = commentApproved;
 		this.commentContent = commentContent;
-		this.parentCommentID = parentCommentID;
+		this.parentComment = parentComment;
 		this.commentDtm = commentDtm;
 	}
+	
+	//Một comment là cha khi nó không có cha.
+	public Boolean isParent() {
+		return getParentComment() == null || getParentComment().getCommentID() == null || getParentComment().getCommentID() == 0;
+	}
+	
+	//Một comment là con khi nó có cha.
+	public Boolean isChild() {
+		return !isParent();
+	}
+	
+	public BHTComment getParentComment() {
+		return parentComment;
+	}
 
-	public int getCommentID() {
+	public void setParentComment(BHTComment parentComment) {
+		this.parentComment = parentComment;
+	}
+
+	public Integer getCommentID() {
 		return commentID;
 	}
 
-	public void setCommentID(int commentID) {
+	public void setCommentID(Integer commentID) {
 		this.commentID = commentID;
 	}
 
-	public int getUserId() {
-		return userId;
+	public BHTUserAccount getUserAccount() {
+		return userAccount;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserAccount(BHTUserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 
-	public int getPostId() {
+	public Integer getPostId() {
 		return postId;
 	}
 
-	public void setPostId(int postId) {
+	public void setPostId(Integer postId) {
 		this.postId = postId;
 	}
 
-	public boolean isCommentSoftDeleted() {
+	public Boolean isCommentSoftDeleted() {
 		return commentSoftDeleted;
 	}
 
-	public void setCommentSoftDeleted(boolean commentSoftDeleted) {
+	public void setCommentSoftDeleted(Boolean commentSoftDeleted) {
 		this.commentSoftDeleted = commentSoftDeleted;
 	}
 
-	public boolean isCommentHidden() {
+	public Boolean isCommentHidden() {
 		return commentHidden;
 	}
 
-	public void setCommentHidden(boolean commentHidden) {
+	public void setCommentHidden(Boolean commentHidden) {
 		this.commentHidden = commentHidden;
 	}
 
-	public boolean isCommentApproved() {
+	public Boolean isCommentApproved() {
 		return commentApproved;
 	}
 
-	public void setCommentApproved(boolean commentApproved) {
+	public void setCommentApproved(Boolean commentApproved) {
 		this.commentApproved = commentApproved;
 	}
 
@@ -120,19 +149,19 @@ public class BHTComment {
 		this.commentContent = commentContent;
 	}
 
-	public int getParentCommentID() {
-		return parentCommentID;
-	}
-
-	public void setParentCommentID(int parentCommentID) {
-		this.parentCommentID = parentCommentID;
-	}
-
 	public Date getCommentDtm() {
 		return commentDtm;
 	}
 
 	public void setCommentDtm(Date commentDtm) {
 		this.commentDtm = commentDtm;
+	}
+
+	public List<BHTComment> getChildComments() {
+		return childComments;
+	}
+
+	public void setChildComments(List<BHTComment> childComments) {
+		this.childComments = childComments;
 	}
 }

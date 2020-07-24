@@ -3,12 +3,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sound.midi.Soundbank;
+
 import bhtweb.entities.BHTComment;
+import bhtweb.entities.BHTUserAccount;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,8 +32,8 @@ public class CommentMapper extends DBMapper {
 		super();
 	}
 
-	private List<BHTComment> fetchListComments(String sqlStr) {
-        List<BHTComment> comments = new ArrayList<>();
+	private List<BHTComment> fetchListCommentsParentOnly(String sqlStr) {
+        List<BHTComment> rawCommentList = new ArrayList<>();
 
 		try {
 			Statement stmt = getConnection().createStatement();
@@ -36,46 +42,98 @@ public class CommentMapper extends DBMapper {
 			rs = stmt.executeQuery(sqlStr); // Send the query to the server
 			while (rs != null && rs.next()) {
 				BHTComment d = new BHTComment();
+				
 				d.setCommentID(rs.getInt("CommentID"));
-				d.setUserId(rs.getInt("UserID"));
 				d.setPostId(rs.getInt("PostID"));
 				d.setCommentSoftDeleted(rs.getBoolean("CommentSoftDeleted"));
 				d.setCommentHidden(rs.getBoolean("CommentHidden"));
 				d.setCommentApproved(rs.getBoolean("CommentApproved"));
-				d.setCommentContent(rs.getString("CommentContentURL"));
-				d.setParentCommentID(rs.getInt("ParentCommentID"));
+				d.setCommentContent(rs.getString("CommentContent"));
+				d.setParentComment(new BHTComment(rs.getInt("ParentCommentID")));
 				d.setCommentDtm(rs.getDate("CommentDtm"));
+				
+				//Thông tin của người post bài.
+				d.setUserAccount(new BHTUserAccount(rs.getInt("UserID")));
+				d.getUserAccount().setProfilePictureURL(rs.getString("ProfilePictureURL"));
+				d.getUserAccount().setUserName(rs.getString("UserName"));
+				
+				System.out.println("Nội dung comment : " + rs.getString("CommentContent"));
+				System.out.println("Parent ID : " + d.getParentComment().getCommentID());
 
-				comments.add(d);
+				rawCommentList.add(d);
 			}
 		} catch (SQLException ex) {
 			Logger.getLogger(DocumentMapper.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		return comments;
+		
+		//Debug: Xuất thử xem rawCommentList lấy được bao nhiêu phần tử.
+		System.out.println("Comment Count : " + rawCommentList.size());
+		
+		//Debug: Xuất thử giá trị của tất cả rawCommentList.
+//		for (BHTComment comment : rawCommentList) {
+//			
+//		}
+		
+		//Hậu xử lý: Tiến hành thêm vào relationship cho cha và con.
+		//Lấy ra các danh sách comment là cha.
+		
+		Map<Integer, BHTComment> parentComments = new HashMap<Integer, BHTComment>();
+
+		for (BHTComment comment : rawCommentList) {
+			if (comment.isParent()) {
+				System.out.println(comment.getCommentContent() + " is parent !");
+				parentComments.put(comment.getCommentID(), comment);
+			}
+		}
+		
+		//Duyệt qua tất cả comments và thêm mối liên kết vào.
+		for (BHTComment comment : rawCommentList) {
+			if (comment.isChild()) {
+				System.out.println(comment.getCommentContent() + " is child");
+				Integer parentID = comment.getParentComment().getCommentID();
+				
+				BHTComment parent = parentComments.get(parentID);
+				//Thêm mối liên kết đến cha cho con.
+				comment.setParentComment(parent);
+				
+				//Thêm mối liên kết đến con cho cha.
+				parent.getChildComments().add(comment);
+			}
+		}
+		
+		//Chuyển kết quả từ HashMap ra ArrayList.
+		List<BHTComment> results = new ArrayList<>();
+		for (BHTComment comment : parentComments.values()) {
+			results.add(comment);
+		}
+		
+		System.out.println("BHTComment Parent Only : " + results.size());
+		
+		return results;
     }
     
     public List<BHTComment> getCommentByParentId(int commentId, boolean isApproved) {
-        String sqlStr = "SELECT * FROM comment WHERE ParentCommentID = " + commentId + " and CommentApproved = " + isApproved;
-        List<BHTComment> ls = fetchListComments(sqlStr);
+        String sqlStr = "SELECT * FROM comment JOIN UserAccount ON Comment.UserID = UserAccount.UserID WHERE ParentCommentID = " + commentId + " and CommentApproved = " + isApproved;
+        List<BHTComment> ls = fetchListCommentsParentOnly(sqlStr);
         return ls.size() > 0 ? ls : null;
 
     }
     
     public List<BHTComment> getCommentByParentId(int commentID){
-    	String sqlStr = "SELECT * FROM comment WHERE ParentCommentID = " + commentID;
-        List<BHTComment> ls = fetchListComments(sqlStr);
+    	String sqlStr = "SELECT * FROM comment JOIN UserAccount ON Comment.UserID = UserAccount.UserID WHERE ParentCommentID = " + commentID;
+        List<BHTComment> ls = fetchListCommentsParentOnly(sqlStr);
         return ls.size() > 0 ? ls : null;
     }
     
     public List<BHTComment> getCommentByPostId(int postId, boolean isApproved) {
-        String sqlStr = "SELECT * FROM comment WHERE PostID = " + postId + " and CommentApproved = " + isApproved;
-        List<BHTComment> ls = fetchListComments(sqlStr);
+        String sqlStr = "SELECT * FROM comment JOIN UserAccount ON Comment.UserID = UserAccount.UserID WHERE PostID = " + postId + " and CommentApproved = " + isApproved;
+        List<BHTComment> ls = fetchListCommentsParentOnly(sqlStr);
         return ls.size() > 0 ? ls : null;
     }
     
     public List<BHTComment> getCommentByPostId(int postId){
-    	String sqlStr = "SELECT * FROM comment WHERE PostID = " + postId;
-        List<BHTComment> ls = fetchListComments(sqlStr);
+    	String sqlStr = "SELECT * FROM comment JOIN UserAccount ON Comment.UserID = UserAccount.UserID WHERE PostID = " + postId;
+        List<BHTComment> ls = fetchListCommentsParentOnly(sqlStr);
         return ls.size() > 0 ? ls : null;
     }
       
@@ -90,14 +148,14 @@ public class CommentMapper extends DBMapper {
         try {
         	// create the mysql insert preparedstatement
             PreparedStatement preparedStmt = getConnection().prepareStatement(query);
-            preparedStmt.setInt(1, comment.getUserId());
+            preparedStmt.setInt(1, comment.getUserAccount().getUserID());
             preparedStmt.setInt(2, comment.getPostId());
             preparedStmt.setBoolean(3, comment.isCommentSoftDeleted());
             preparedStmt.setBoolean(4, comment.isCommentHidden());
             preparedStmt.setBoolean(5, comment.isCommentApproved());
             preparedStmt.setString(6, comment.getCommentContent());
             preparedStmt.setInt(7, comment.getPostId());
-            preparedStmt.setDate(8, comment.getCommentDtm());
+            preparedStmt.setTimestamp(8, new Timestamp(comment.getCommentDtm().getTime()) );
             
             // execute the preparedstatement
             return preparedStmt.execute();

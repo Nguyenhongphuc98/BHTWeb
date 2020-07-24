@@ -1,8 +1,71 @@
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\com\bhtcnpm\bhtweb\resources\JavaEE8Resource.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\bhtweb\servlets\CreateDocumentServlet.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\bhtweb\dbaccess\DBMapper.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\bhtweb\dbconnection\DBConnectionService.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\bhtweb\bo\DocumentBO.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\bhtweb\dbaccess\DocumentMapper.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\bhtweb\dto\DocumentDTO.java
-C:\Users\Nguyen Hong Phuc\Documents\NetBeansProjects\TheWebsite\bhtweb\src\main\java\com\bhtcnpm\bhtweb\JAXRSConfiguration.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\DocumentCategoryBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\CreateAccountServlet.java
+D:\GitHub\BHTWeb\src\main\java\com\bhtcnpm\bhtweb\resources\JavaEE8Resource.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\SubjectMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\Uploader.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbconnection\DBConnectionService.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\LogoutServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetListDocumentCategoryServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTDocument.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetPersonalDocumentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\ShortDocumentDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\ApproveDocumentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\FilterDocumentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTUserPostScoreRating.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\DBMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetPreviewDocumentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetSemesterServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTSubject.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\DocumentBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\Protected_commentactionMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\UploadDocumentSerlvet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\DocumentFilter.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\CommentDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\AihihiServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTUserAccount.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\PostDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetAllDocumentNotAprovedYetServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTPost.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTProtected_commentaction.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetAccountInforServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\UserGroupMapper.java
+D:\GitHub\BHTWeb\src\main\java\com\bhtcnpm\bhtweb\JAXRSConfiguration.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTSemester.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\PostCategoryBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetDocumentDetailServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetGoodDocumentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\PostCategoryDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\BHTRole.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\UserAccountMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTPostCategory.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\SemesterBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\AccountDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\CommentBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\PostBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\SubjectBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\DocumentDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTDocumentCategory.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetSpecialAccount.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\UserPostScoreRatingMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\ResponseStatus.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\DocumentMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetAllUserServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\SemesterMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\PostMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\DocumentCategoryMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTComment.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\DateTimeUtils.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\CommentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\DocumentUploadDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetListSubjectServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\CommentMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\LoginServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\DataTypeUtils.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\PostCategoryMapper.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\PostServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTUserGroup.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\NewAccountDTO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\UserAccountBO.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\Utilities.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\DriverConnector.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\ServletUtils.java

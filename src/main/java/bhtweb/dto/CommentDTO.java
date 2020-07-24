@@ -20,9 +20,6 @@ public class CommentDTO {
 	private Integer userID;
 	private String userName;
 	
-	private CommentMapper commentMapper;
-	private UserAccountMapper userAccountMapper;
-	
 	private Boolean commentSoftDeleted;
 	
 	private Boolean commentHidden;
@@ -34,19 +31,14 @@ public class CommentDTO {
 	private Integer postID;
 	
 	public CommentDTO (BHTComment comment) {
-		try {
-			//Tạo ra các mapper truy cập vào DB.
-			commentMapper = new CommentMapper();
-			userAccountMapper = new UserAccountMapper();
-			
+		try { 	
 			this.id = comment.getCommentID();
 			this.content = comment.getCommentContent();
 			
-			//Ở đây phải truy cập đến CSDL để lấy về được các comment con (do trong CSDL chỉ có trường parentID mà thôi).
-			List<BHTComment> entityComments = commentMapper.getCommentByParentId(this.id);
+			List<BHTComment> entityComments = comment.getChildComments();
 			
 			//Nếu có phần tử con thì mới cần convert qua DTO, không có thì không cần convert gì cả.
-			if (entityComments != null || entityComments.size() > 0) {
+			if (entityComments != null && entityComments.size() > 0) {
 				this.commentChilds = entityComments.stream().map(CommentDTO::new).collect(Collectors.toList());
 			}else {
 				this.commentChilds = null;
@@ -54,12 +46,18 @@ public class CommentDTO {
 			
 			postTimeStamp = comment.getCommentDtm();
 			
-			this.userID = comment.getUserId();
-			
 			//Đầu tiên là phải lấy ra được thông tin của người dùng đã gửi comment.
-			BHTUserAccount userAccount = userAccountMapper.getAccountById(comment.getUserId());
+			BHTUserAccount userAccount = comment.getUserAccount();
+			userID = userAccount.getUserID();
 			userAvatarURL = userAccount.getProfilePictureURL();
 			userName = userAccount.getUserName();
+			
+			commentSoftDeleted = comment.isCommentSoftDeleted();
+			commentHidden = comment.isCommentHidden();
+			commentApproved = comment.isCommentApproved();
+			
+			parentCommentID = comment.getParentComment().getCommentID();
+			postID = comment.getPostId();
 			
 		}catch (Exception ex) {
 			ex.printStackTrace();

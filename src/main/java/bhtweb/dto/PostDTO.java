@@ -12,7 +12,7 @@ public class PostDTO {
 	
 	private String imageURL;
 	
-	private String contentURL;
+	private String content;
 	
 	private Date submitDate;
 	private Date publishDate;
@@ -56,7 +56,7 @@ public class PostDTO {
 	public PostDTO (BHTPost entity) {
 		this.id = entity.getPostID();
 		this.title = entity.getPostTitle();
-		this.contentURL = entity.getPostContentURL();
+		this.content = entity.getPostContent();
 		this.submitDate = entity.getPostSubmitDtm();
 		this.publishDate = entity.getPostPublishDtm();
 		this.readTime = entity.getPostReadTime();
@@ -94,12 +94,12 @@ public class PostDTO {
 		this.imageURL = imageURL;
 	}
 
-	public String getContentURL() {
-		return contentURL;
+	public String getContent() {
+		return content;
 	}
 
-	public void setContentURL(String contentURL) {
-		this.contentURL = contentURL;
+	public void setContent(String contentURL) {
+		this.content = contentURL;
 	}
 
 	public Date getSubmitDate() {

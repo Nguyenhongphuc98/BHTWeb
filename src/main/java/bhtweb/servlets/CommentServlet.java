@@ -2,6 +2,7 @@ package bhtweb.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -52,17 +53,36 @@ public class CommentServlet extends HttpServlet {
 			parentCommentID = ServletUtils.getIntegerParam(req, PARENTCOMMENTID_PARAM_NAME, null);
 			
 			//Nếu cả 2 trường đều rỗng thì làm sao biết Query comment theo cách nào ?
-			if (postID == null && parentCommentID == null)
+			if (postID == null && parentCommentID == null) {
+				ServletUtils.printObjectJSON(out, resp, 
+						null, HttpURLConnection.HTTP_BAD_REQUEST);
 				return;
+			}
+				
 			
 			List<CommentDTO> commentDTOs;
+			
+			System.out.println("Hello from CommentServlet");
 			
 			//Ưu tiên lọc theo postID, đã lọc bằng postID sẽ không lọc bằng parentCommentID.
 			if (postID != null) {
 				commentDTOs = commentBO.getCommentDTOsFromPostID(postID);
+				System.out.println("PostID detected");
 			}else if (parentCommentID != null) {
-				commentDTOs = commentBO.getCommentDTOsFrom
+				commentDTOs = commentBO.getCommentDTOsFromParentCommentID(parentCommentID);
+				System.out.println("CommentID detected");
+			}else {
+				commentDTOs = null;
 			}
+			
+			if (commentDTOs == null || commentDTOs.size() == 0) {
+				ServletUtils.printObjectJSON(out, resp, 
+						commentDTOs, HttpURLConnection.HTTP_NOT_FOUND);
+				return;
+			}
+			
+			//Mọi thứ bình thường thì cứ in ra các comment thôi.
+			ServletUtils.printObjectJSON(out, resp, commentDTOs, HttpURLConnection.HTTP_OK);
 			
 		}catch (Exception ex) {
 			ex.printStackTrace();
