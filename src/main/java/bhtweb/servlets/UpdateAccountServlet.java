@@ -49,7 +49,9 @@ public class UpdateAccountServlet extends HttpServlet {
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 
 		String statuString = "";
-		if (userAccountBO.UpdateAccount(newAccount, oldPass)) {
+		//if (userAccountBO.UpdateAccount(newAccount, oldPass)) {
+		//Fix tạm.
+		if (userAccountBO.UpdateAccount(newAccount, oldPass, true)) {
 			status.setStatusCode(ResponseStatus.UPDATE_ACCOUNT_SUCCESS);
 			status.setNewAccount(newAccount);
 
