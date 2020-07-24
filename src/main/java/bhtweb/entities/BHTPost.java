@@ -38,7 +38,7 @@ public class BHTPost {
 	public BHTPost(PostDTO dto) {
 		this.postID = dto.getId();
 		this.postTitle = dto.getTitle();
-		this.postContent = dto.getContentURL();
+		this.postContent = dto.getContent();
 		this.postSubmitDtm = dto.getSubmitDate();
 		this.postPublishDtm = dto.getPublishDate();
 		this.postReadTime = dto.getReadTime();

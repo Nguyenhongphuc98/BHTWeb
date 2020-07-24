@@ -97,7 +97,8 @@ public class CommentMapper extends DBMapper {
 				comment.setParentComment(parent);
 				
 				//Thêm mối liên kết đến con cho cha.
-				parent.getChildComments().add(comment);
+				if (parent != null)
+					parent.getChildComments().add(comment);
 			}
 		}
 		
