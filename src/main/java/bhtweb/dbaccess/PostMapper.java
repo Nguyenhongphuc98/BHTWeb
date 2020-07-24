@@ -17,11 +17,15 @@ public class PostMapper extends DBMapper {
 	//Hằng số để ta chỉnh pageLimit mặc định khi fetchPost, searchPost,...
 	//Đây là số element tối đa của một trang.
 	private static final Integer DEFAULT_PAGE_LIMIT = 10;
+	private static final Integer DEFAULT_SPECIAL_TYPE_LIMIT = 3;
 	
 	//Các chuỗi phục vụ cho preparedStatement.
 	private static final String insertPostStr = "INSERT INTO POST VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String updatePostStr = "UPDATE POST SET PostTitle = ?, PostContent = ?, PostSubmitDtm = ?, PostPublishDtm = ?, PostReadTime = ?, NumVote = ?, NumView = ?, PostSoftDeleted = ?, PostHidden = ?, PostApproved = ?, PosterUserID = ?, PostCategoryID = ? WHERE PostID = ?";
 	private static final String fetchPostStr = "SELECT * FROM POST ORDER BY postPublishDtm DESC LIMIT ?,?";
+	private static final String fetchHighlightStr = "SELECT * FROM POST ORDER BY NumView DESC LIMIT ?";
+	private static final String fetchNewestStr = "SELECT * FROM POST ORDER BY PostPublishDtm DESC LIMIT ?";
+	private static final String fetchNewActivities = "SELECT * FROM POST JOIN PostCategory ON Post.PostCategoryID = PostCategory.PostCategoryID WHERE PostCategory.IsActivity = 1 ORDER BY PostPublishDtm DESC LIMIT ?";
 	
 	//preparedStatement.
 	
@@ -87,6 +91,78 @@ public class PostMapper extends DBMapper {
 			postDTO.setPostID(null);
 		}
 		return postDTO;
+	}
+	
+	public ArrayList<BHTPost> fetchNewActivities (){
+		return fetchNewActivities(DEFAULT_SPECIAL_TYPE_LIMIT);
+	}
+	
+	public ArrayList<BHTPost> fetchNewActivities (Integer limit){
+		ArrayList<BHTPost> postsResult = new ArrayList<>();
+		try (PreparedStatement fetchPostPst = getConnection().prepareStatement(fetchNewActivities)){
+			fetchPostPst.setInt(1, limit);
+			ResultSet rSet = fetchPostPst.executeQuery();
+			
+			while (rSet != null && rSet.next()) {
+				BHTPost postDTO = getBHTPostFromCurrentResultSet(rSet);
+				
+				postsResult.add(postDTO);
+			}
+		}catch (Exception ex) {
+			// TODO: handle exception
+			ex.printStackTrace();
+			return null;
+		}
+
+		return postsResult;
+	}
+	
+	public ArrayList<BHTPost> fetchNewestPosts() {
+		return fetchNewestPosts(DEFAULT_SPECIAL_TYPE_LIMIT);
+	}
+	
+	public ArrayList<BHTPost> fetchNewestPosts(Integer limit){
+		ArrayList<BHTPost> postsResult = new ArrayList<>();
+		try (PreparedStatement fetchPostPst = getConnection().prepareStatement(fetchNewestStr)){
+			fetchPostPst.setInt(1, limit);
+			ResultSet rSet = fetchPostPst.executeQuery();
+			
+			while (rSet != null && rSet.next()) {
+				BHTPost postDTO = getBHTPostFromCurrentResultSet(rSet);
+				
+				postsResult.add(postDTO);
+			}
+		}catch (Exception ex) {
+			// TODO: handle exception
+			ex.printStackTrace();
+			return null;
+		}
+
+		return postsResult;
+	}
+	
+	public ArrayList<BHTPost> fetchHighLightPosts (){
+		return fetchHighLightPosts(DEFAULT_SPECIAL_TYPE_LIMIT);
+	}
+	
+	public ArrayList<BHTPost> fetchHighLightPosts (Integer limit){
+		ArrayList<BHTPost> postsResult = new ArrayList<>();
+		try (PreparedStatement fetchPostPst = getConnection().prepareStatement(fetchHighlightStr)){
+			fetchPostPst.setInt(1, limit);
+			ResultSet rSet = fetchPostPst.executeQuery();
+			
+			while (rSet != null && rSet.next()) {
+				BHTPost postDTO = getBHTPostFromCurrentResultSet(rSet);
+				
+				postsResult.add(postDTO);
+			}
+		}catch (Exception ex) {
+			// TODO: handle exception
+			ex.printStackTrace();
+			return null;
+		}
+
+		return postsResult;
 	}
 	
 	//Hàm fetch sẽ sử dụng pageLimit mặc định như đã được cấu hình ở trên.

@@ -40,6 +40,33 @@ public class PostBO {
 		return result;
 	}
 	
+	public List<PostDTO> getHighlights (){
+		List<PostDTO> result;
+		List<BHTPost> postsList = postMapper.fetchHighLightPosts();
+		if (postsList == null)
+			return null;
+		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
+		return result;
+	}
+	
+	public List<PostDTO> getNewest(){
+		List<PostDTO> result;
+		List<BHTPost> postsList = postMapper.fetchNewestPosts();
+		if (postsList == null)
+			return null;
+		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
+		return result;
+	}
+	
+	public List<PostDTO> getNewActivities(){
+		List<PostDTO> result;
+		List<BHTPost> postsList = postMapper.fetchNewActivities();
+		if (postsList == null)
+			return null;
+		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
+		return result;
+	}
+	
 	public List<PostDTO> searchPosts(BHTPost similarPost, Integer pageNo){
 		List<PostDTO> result;
 		List<BHTPost> postsList = postMapper.searchPost(similarPost, pageNo);

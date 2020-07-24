@@ -32,6 +32,14 @@ public class ServletUtils {
 		out.flush();
 	}
 	
+	public static String getStringParam(HttpServletRequest req, 
+			String paramName, String defaultValue) {
+		String paramValue = req.getParameter(paramName);
+		if (paramValue == null || paramValue.length() == 0)
+			return defaultValue;
+		return paramValue;
+	}
+	
 	public static Integer getIntegerParam (HttpServletRequest req, 
 			String paramName, Integer defaultValue) {
 		
