@@ -15,10 +15,12 @@ public class BHTRole {
 
 	public static Boolean hasAdminPermission(HttpServletRequest req, int resourceAuthorID) {
 
-		// get accoun from session
-		HttpSession session = req.getSession();
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		// Get accoun from session
+		// HttpSession session = req.getSession();
+		// AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
 
+		AccountDTO accountDTO = BHTSession.currentUser(req);
+		
 		if (accountDTO != null && 
 				(accountDTO.getRoleId() == BHTRole.ADMIN || accountDTO.getId() == resourceAuthorID)) {
 			return true;
@@ -29,9 +31,11 @@ public class BHTRole {
 	
 	public static Boolean hasCollaboratorPermission(HttpServletRequest req, int resourceAuthorID) {
 
-		// get accoun from session
-		HttpSession session = req.getSession();
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		// Get account from session
+		// HttpSession session = req.getSession();
+		// AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		
+		AccountDTO accountDTO = BHTSession.currentUser(req);
 
 		if (accountDTO != null && 
 				(accountDTO.getRoleId() == BHTRole.ADMIN 

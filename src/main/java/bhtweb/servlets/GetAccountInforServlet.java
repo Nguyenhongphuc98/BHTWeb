@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.UserAccountBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "GetAccountInforServlet", urlPatterns = { "/users/current" })
@@ -34,10 +35,11 @@ public class GetAccountInforServlet extends HttpServlet {
 		
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		
-		// get accoun from session
-		HttpSession session = req.getSession();
-
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		// Get accoun from session
+		// HttpSession session = req.getSession();
+		// AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		
+		AccountDTO accountDTO = BHTSession.currentUser(req);
 
 		String accountJsonString = "";
 		ResponseStatus loginMessageDTO = new ResponseStatus();
