@@ -36,7 +36,7 @@ public class ChangeRuleUserServlet extends HttpServlet {
 
 		ResponseStatus status = new ResponseStatus();
 	
-		ServletUtils.addSessionToResponseStatus(req, status);
+		//ServletUtils.addSessionToResponseStatus(req, status);
 		
 		NewAccountDTO newAccount = new NewAccountDTO();
 		newAccount.setUserName(ServletUtils.removeSessionID(req.getParameter("username")));
