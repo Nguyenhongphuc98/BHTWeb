@@ -46,20 +46,17 @@ public class GetAllDocumentNotAprovedYetServlet extends HttpServlet {
 		String documentJsonString = "";
 		ResponseStatus status = new ResponseStatus();
 		
-        List<ShortDocumentDTO> docs = documentBO.getListDocumentToBrowse();
-        
-        
-		
-        if (docs != null) {
-        	// -1 mean just check admin, because no user have id -1
-        	if (BHTRole.hasAdminPermission(req, -1)) {
+		// -1 mean just check admin, because no user have id -1
+		if (BHTRole.hasCollaboratorPermission(req, -1)) {
+			List<ShortDocumentDTO> docs = documentBO.getListDocumentToBrowse();
+			if (docs != null) {
 				status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
 				status.setShortDocs(docs);
 			} else {
-				status.setStatusCode(ResponseStatus.PERMISSION_DENNED);
+				status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 			}
 		} else {
-			status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
+			status.setStatusCode(ResponseStatus.PERMISSION_DENNED);
 		}
 		
         documentJsonString = this.gson.toJson(status);
