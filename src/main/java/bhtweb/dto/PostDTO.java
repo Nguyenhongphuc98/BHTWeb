@@ -66,6 +66,9 @@ public class PostDTO {
 		this.postSoftDeleted = entity.getPostSoftDeleted();
 		this.postHidden = entity.getPostHidden();
 		this.postApproved = entity.getPostApproved();
+		this.summary = entity.getPostSummary();
+		this.categoryName = entity.getPostCategory().getPostCategoryName();
+		this.authorName = entity.getPoster().getUserName();
 		
 		this.authorID = entity.getPoster().getUserID();
 		this.categoryID = entity.getPostCategory().getPostCategoryID();
