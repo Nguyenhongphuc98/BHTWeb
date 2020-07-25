@@ -58,8 +58,7 @@ public class CommentServlet extends HttpServlet {
 						null, HttpURLConnection.HTTP_BAD_REQUEST);
 				return;
 			}
-				
-			
+
 			List<CommentDTO> commentDTOs;
 			
 			System.out.println("Hello from CommentServlet");

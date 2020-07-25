@@ -7,7 +7,7 @@ import bhtweb.entities.BHTPost;
 
 public class PostDTO {
 
-	private Long id;
+	private Integer id;
 	private String title;
 	
 	private String imageURL;
@@ -32,12 +32,12 @@ public class PostDTO {
 	private Boolean postApproved;
 	
 	//Khoá ngoại.
-	private Long authorID;
+	private Integer authorID;
 	
 	private String authorName;
 	
 	//Khoá ngoại.
-	private Long categoryID;
+	private Integer categoryID;
 	
 	private String categoryName;
 	
@@ -57,6 +57,7 @@ public class PostDTO {
 		this.id = entity.getPostID();
 		this.title = entity.getPostTitle();
 		this.content = entity.getPostContent();
+		this.summary = entity.getPostSummary();
 		this.submitDate = entity.getPostSubmitDtm();
 		this.publishDate = entity.getPostPublishDtm();
 		this.readTime = entity.getPostReadTime();
@@ -66,15 +67,15 @@ public class PostDTO {
 		this.postHidden = entity.getPostHidden();
 		this.postApproved = entity.getPostApproved();
 		
-		this.authorID = entity.getPosterUserID();
-		this.categoryID = entity.getPostCategoryID();
+		this.authorID = entity.getPoster().getUserID();
+		this.categoryID = entity.getPostCategory().getPostCategoryID();
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -182,11 +183,11 @@ public class PostDTO {
 		this.postApproved = postApproved;
 	}
 
-	public Long getAuthorID() {
+	public Integer getAuthorID() {
 		return authorID;
 	}
 
-	public void setAuthorID(Long authorID) {
+	public void setAuthorID(Integer authorID) {
 		this.authorID = authorID;
 	}
 
@@ -198,11 +199,11 @@ public class PostDTO {
 		this.authorName = authorName;
 	}
 
-	public Long getCategoryID() {
+	public Integer getCategoryID() {
 		return categoryID;
 	}
 
-	public void setCategoryID(Long categoryID) {
+	public void setCategoryID(Integer categoryID) {
 		this.categoryID = categoryID;
 	}
 

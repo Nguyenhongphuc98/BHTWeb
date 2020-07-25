@@ -4,11 +4,15 @@ import bhtweb.dto.PostCategoryDTO;
 
 public class BHTPostCategory {
 
-	private Long postCategoryID;
+	private Integer postCategoryID;
 	private String postCategoryName;
 	
 	public BHTPostCategory() {
 		
+	}
+	
+	public BHTPostCategory (Integer postCategoryID) {
+		this.postCategoryID = postCategoryID;
 	}
 	
 	public BHTPostCategory(PostCategoryDTO postCategoryDTO) {
@@ -16,10 +20,10 @@ public class BHTPostCategory {
 		this.postCategoryName = postCategoryDTO.getPostCategoryName();
 	}
 	
-	public Long getPostCategoryID() {
+	public Integer getPostCategoryID() {
 		return postCategoryID;
 	}
-	public void setPostCategoryID(Long postCategoryID) {
+	public void setPostCategoryID(Integer postCategoryID) {
 		this.postCategoryID = postCategoryID;
 	}
 	public String getPostCategoryName() {

@@ -65,7 +65,7 @@ public class PostCategoryMapper extends DBMapper {
 			
 			ResultSet rSet = insertPostCategoryPst.getGeneratedKeys();
 			rSet.next();
-			postCategoryDTO.setPostCategoryID(rSet.getLong(1));
+			postCategoryDTO.setPostCategoryID(rSet.getInt(1));
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -77,7 +77,7 @@ public class PostCategoryMapper extends DBMapper {
 	private BHTPostCategory getBHTPostCategoryFromCurrentResultSet (ResultSet rSet) {
 		BHTPostCategory category = new BHTPostCategory();
 		try {
-			category.setPostCategoryID(rSet.getLong("PostCategoryID"));
+			category.setPostCategoryID(rSet.getInt("PostCategoryID"));
 			category.setPostCategoryName(rSet.getString("PostCategoryName"));
 		}catch (Exception e) {
 			// TODO: handle exception

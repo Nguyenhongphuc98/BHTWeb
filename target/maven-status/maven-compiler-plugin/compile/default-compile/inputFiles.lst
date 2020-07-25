@@ -1,10 +1,14 @@
 D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\DocumentCategoryBO.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\CreateAccountServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\UserStarredPostMapper.java
 D:\GitHub\BHTWeb\src\main\java\com\bhtcnpm\bhtweb\resources\JavaEE8Resource.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\UserGroupBO.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\SubjectMapper.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\utils\Uploader.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\UserStarredPostServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dbconnection\DBConnectionService.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\LogoutServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\ChangeRuleUserServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetListDocumentCategoryServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTDocument.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetPersonalDocumentServlet.java
@@ -14,6 +18,7 @@ D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\FilterDocumentServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTUserPostScoreRating.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\DBMapper.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetPreviewDocumentServlet.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\UpdateAccountServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetSemesterServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTSubject.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\DocumentBO.java
@@ -46,6 +51,8 @@ D:\GitHub\BHTWeb\src\main\java\bhtweb\bo\SubjectBO.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\DocumentDTO.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTDocumentCategory.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetSpecialAccount.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\entities\BHTUserStarredPost.java
+D:\GitHub\BHTWeb\src\main\java\bhtweb\servlets\GetUserGroupsServlet.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\UserPostScoreRatingMapper.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dto\ResponseStatus.java
 D:\GitHub\BHTWeb\src\main\java\bhtweb\dbaccess\DocumentMapper.java

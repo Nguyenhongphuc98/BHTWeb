@@ -31,6 +31,17 @@ public class PostBO {
 		this(null);
 	}
 	
+	public PostDTO createNewPost (PostDTO postDTO) {
+		
+		BHTPost entity = new BHTPost(postDTO);
+		
+		entity = postMapper.insertPost(entity);
+
+		PostDTO result = new PostDTO(entity);
+		
+		return result;
+	}
+	
 	public List<PostDTO> getPosts(Integer pageNo) {
 		List<PostDTO> result;
 		List<BHTPost> postsList = postMapper.fetchPost(pageNo);

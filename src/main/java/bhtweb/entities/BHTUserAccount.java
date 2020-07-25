@@ -1,5 +1,8 @@
 package bhtweb.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BHTUserAccount {
 
 	int userID;
@@ -21,7 +24,11 @@ public class BHTUserAccount {
 	Integer userGroupID;
 	
 	String displayName;
-
+	
+	List<BHTPost> likedPosts = new ArrayList<>();
+	
+	List<BHTPost> savedPosts = new ArrayList<>();
+	
 	public BHTUserAccount() {
 		facebookToken = "";
 		googleToken = "";
@@ -60,8 +67,24 @@ public class BHTUserAccount {
 		this.userGroupID = userGroupID;
 		this.displayName = displayName;
 	}
+	
+	public List<BHTPost> getLikedPosts() {
+		return likedPosts;
+	}
 
-	public int getUserID() {
+	public void setLikedPosts(List<BHTPost> likedPosts) {
+		this.likedPosts = likedPosts;
+	}
+
+	public List<BHTPost> getSavedPosts() {
+		return savedPosts;
+	}
+
+	public void setSavedPosts(List<BHTPost> savedPosts) {
+		this.savedPosts = savedPosts;
+	}
+
+	public Integer getUserID() {
 		return userID;
 	}
 

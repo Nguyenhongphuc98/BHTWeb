@@ -18,12 +18,16 @@ import com.google.gson.Gson;
 import bhtweb.bo.PostBO;
 import bhtweb.dto.PostDTO;
 import bhtweb.entities.BHTPost;
+import bhtweb.entities.BHTPostCategory;
+import bhtweb.entities.BHTUserAccount;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "PostServlet", urlPatterns = { "/posts" })
 public class PostServlet extends HttpServlet {
 
 	PostBO postBO;
+	
+	Gson gson = new Gson();
 	
 	//Tên của các Query Parameter mà người dùng sẽ truyền đến.
 	private final String PAGE_PARAM_NAME = "page";
@@ -53,7 +57,34 @@ public class PostServlet extends HttpServlet {
 	}
 	
 	private void doPostBHTPost (HttpServletRequest request, HttpServletResponse response) {
-		
+		try {
+			//Set UTF-8 encoding.
+			request.setCharacterEncoding("UTF-8");
+			
+			//Lấy về Writer.
+			PrintWriter out = ServletUtils.getJSONUnicodeWriter(response);
+			
+			//Lấy ra body từ request của User.
+			String body = ServletUtils.getJSONBody(request);
+			
+			//Deserialize từ JSON sang Object.
+			PostDTO postDTO = gson.fromJson(body, PostDTO.class);
+			
+			//Insert post đó vào DB.
+			postDTO = postBO.createNewPost(postDTO);
+			
+			//Lỗi gì đó khiến cho không insert được post mới vào DB.
+			if (postDTO.getId() == null) {
+				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_INTERNAL_ERROR);
+				return;
+			}
+			
+			//Sau khi đã có postDTO mới rồi thì ta in ra thôi.
+			ServletUtils.printObjectJSON(out, response, postDTO, HttpURLConnection.HTTP_OK);
+			
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 	private void doGetBHTPost(HttpServletRequest request, HttpServletResponse response) {
@@ -118,11 +149,11 @@ public class PostServlet extends HttpServlet {
 				System.out.println("Detected filter param !");
 				BHTPost model = new BHTPost();
 				if (authorID != null)
-					model.setPosterUserID(Long.valueOf(authorID));
+					model.setPoster(new BHTUserAccount(authorID));
 				if (categoryID != null)
-					model.setPostCategoryID(Long.valueOf(categoryID));
+					model.setPostCategory(new BHTPostCategory(categoryID));
 				if (postID != null)
-					model.setPostID(Long.valueOf(postID));
+					model.setPostID(postID);
 				postDTOs = postBO.searchPosts(model, pageNo);
 			}
 			

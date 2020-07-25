@@ -4,7 +4,7 @@ import bhtweb.entities.BHTPostCategory;
 
 public class PostCategoryDTO {
 
-	private Long postCategoryID;
+	private Integer postCategoryID;
 	private String postCategoryName;
 	
 	public PostCategoryDTO () {
@@ -16,10 +16,10 @@ public class PostCategoryDTO {
 		this.postCategoryName = postCategory.getPostCategoryName();
 	}
 	
-	public Long getPostCategoryID() {
+	public Integer getPostCategoryID() {
 		return postCategoryID;
 	}
-	public void setPostCategoryID(Long postCategoryID) {
+	public void setPostCategoryID(Integer postCategoryID) {
 		this.postCategoryID = postCategoryID;
 	}
 	public String getPostCategoryName() {
