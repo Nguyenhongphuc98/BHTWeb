@@ -59,7 +59,7 @@ public class GetPreviewDocumentServlet extends HttpServlet {
 					status.setStatusCode(ResponseStatus.RESOURCE_NOT_FOUND);
 				} else {
 					
-					if (BHTRole.hasAdminPermission(req, doc.getAuthorID())) {
+					if (BHTRole.hasCollaboratorPermission(req, doc.getAuthorID())) {
 						status.setStatusCode(ResponseStatus.GET_RESOURCE_SUCCESS);
 						status.setDocumentDTO(doc);
 					} else {
