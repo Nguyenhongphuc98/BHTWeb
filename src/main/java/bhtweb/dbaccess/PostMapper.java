@@ -313,7 +313,7 @@ public class PostMapper extends DBMapper {
 	//Hàm trả về câu truy vấn SQL (chuỗi) để tìm kiếm theo các trường thông tin khác null của DTO truyền vào.
 	private String getSearchSQLFromDTO (BHTPost similarPost) {
 		//Tạo statement SQL từ đối tượng DTO truyền vào.
-		String searchSQLStr = "SELECT * FROM POST WHERE";
+		String searchSQLStr = "SELECT * FROM POST JOIN UserAccount ON POST.PosterUserID = UserAccount.UserID JOIN PostCategory ON POST.PostCategoryID = PostCategory.PostCategoryID WHERE";
 		if (similarPost.getPostApproved() != null)
 			searchSQLStr += " PostApproved = " + DataTypeUtils.getStringFromBoolean(similarPost.getPostApproved()) + " AND";
 		if (similarPost.getPostHidden() != null)
