@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.UserAccountBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTRole;
 import bhtweb.utils.ServletUtils;
 
 // Just admin can view all user !!!
@@ -43,7 +44,7 @@ public class GetAllUserServlet extends HttpServlet {
 		AccountDTO currentUser = (AccountDTO) session.getAttribute("account");
 		
 		// role = 1 mean this user is admin
-		if (currentUser != null && currentUser.getRoleId() == 1) {
+		if (BHTRole.hasAdminPermission(req, -1)) {
 			
 				List<AccountDTO> accountDTOs = userAccountBO.viewAllUser();
 				

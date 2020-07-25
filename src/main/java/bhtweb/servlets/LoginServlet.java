@@ -17,6 +17,7 @@ import bhtweb.bo.DocumentBO;
 import bhtweb.bo.UserAccountBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "LoginServlet", urlPatterns = { "/login" })
@@ -28,6 +29,7 @@ public class LoginServlet extends HttpServlet {
 	public void init() {
 		userAccountBO = new UserAccountBO();
 		gson = new Gson();
+		System.out.println("Did create login servlet");
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 		ResponseStatus status = new ResponseStatus();
 		
 		//ServletUtils.addNoCORSHeader(resp);
-		ServletUtils.addSessionToResponseStatus(req, status);
+		//ServletUtils.addSessionToResponseStatus(req, status);
 		
 		// lay username and password. check ok thi luu vao session
 		String username = req.getParameter("username");
@@ -54,8 +56,10 @@ public class LoginServlet extends HttpServlet {
 				status.setAccount(accountDTO);
 
 				// save to session
-				HttpSession session = req.getSession();
-				session.setAttribute("account", accountDTO);
+				//HttpSession session = req.getSession();
+				//session.setAttribute("account", accountDTO);
+				String sessionID = BHTSession.login(req, accountDTO);
+				status.setSessionID(sessionID);
 
 			} else {
 				status.setStatusCode(ResponseStatus.WRONG_PASWORD);

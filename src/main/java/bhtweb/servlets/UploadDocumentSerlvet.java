@@ -21,6 +21,7 @@ import bhtweb.bo.DocumentBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.DocumentDTO;
 import bhtweb.dto.DocumentUploadDTO;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 import bhtweb.utils.Uploader;
 import bhtweb.dto.ResponseStatus;
@@ -81,8 +82,10 @@ public class UploadDocumentSerlvet extends HttpServlet {
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
 		
 		// get curent account
-		HttpSession session = request.getSession();
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		//HttpSession session = request.getSession();
+		//AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		
+		AccountDTO accountDTO = BHTSession.currentUser(request);
 		
 		ResponseStatus status = new ResponseStatus();
 		String statusJsonString = "";

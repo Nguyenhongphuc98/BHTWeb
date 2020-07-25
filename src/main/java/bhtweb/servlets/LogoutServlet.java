@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import bhtweb.bo.UserAccountBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 
@@ -35,9 +36,10 @@ public class LogoutServlet extends HttpServlet {
 		//ServletUtils.addNoCORSHeader(resp);
 		
 		// get accoun from session
-		HttpSession session = req.getSession();
-
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		//HttpSession session = req.getSession();
+		//AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		
+		AccountDTO accountDTO = BHTSession.currentUser(req);
 
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 
@@ -45,8 +47,9 @@ public class LogoutServlet extends HttpServlet {
 		ResponseStatus loginMessageDTO = new ResponseStatus();
 		
 		if (accountDTO != null) {
-			session.removeAttribute("account");
-			session.invalidate();
+			//session.removeAttribute("account");
+			//session.invalidate();
+			BHTSession.logout(req);
 			loginMessageDTO.setStatusCode(ResponseStatus.LOGOUT_SUCCESS);
 		} else {
 			// no account in this session

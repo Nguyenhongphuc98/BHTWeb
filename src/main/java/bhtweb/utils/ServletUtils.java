@@ -115,19 +115,19 @@ public class ServletUtils {
 		return getJSONUnicodeWriter(response);
 	}
 	
-	public static AccountDTO getCurrentAccountDTO(HttpServletRequest req) {
-		HttpSession session = req.getSession();
-
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
-		
-		return accountDTO;
-	}
-	
-	public static void addSessionToResponseStatus (HttpServletRequest req, ResponseStatus status) {
-		
-		HttpSession session = req.getSession();
-		status.setSessionID(session.getId());
-	}
+//	public static AccountDTO getCurrentAccountDTO(HttpServletRequest req) {
+//		HttpSession session = req.getSession();
+//
+//		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+//		
+//		return accountDTO;
+//	}
+//	
+//	public static void addSessionToResponseStatus(HttpServletRequest req, ResponseStatus status) {
+//		
+//		HttpSession session = req.getSession();
+//		status.setSessionID(session.getId());
+//	}
 	
 	public static String removeSessionID(String parameter) {
 		if (parameter == null) {
