@@ -26,4 +26,21 @@ public class BHTRole {
 		
 		return false;
 	}
+	
+	public static Boolean hasCollaboratorPermission(HttpServletRequest req, int resourceAuthorID) {
+
+		// get accoun from session
+		HttpSession session = req.getSession();
+		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+
+		if (accountDTO != null && 
+				(accountDTO.getRoleId() == BHTRole.ADMIN 
+				||accountDTO.getRoleId() == BHTRole.COLLABORATOR 
+				|| accountDTO.getId() == resourceAuthorID)
+				) {
+			return true;
+		}
+		
+		return false;
+	}
 }

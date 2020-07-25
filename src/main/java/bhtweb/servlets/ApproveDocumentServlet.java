@@ -47,7 +47,7 @@ public class ApproveDocumentServlet extends HttpServlet {
 
 				id = Integer.parseInt(idString);
 
-				if (BHTRole.hasAdminPermission(req, -1)) {
+				if (BHTRole.hasCollaboratorPermission(req, -1)) {
 					boolean result = documentBO.publishDocument(id);
 					if (result) {
 						status.setStatusCode(ResponseStatus.BROWSE_DOC_SUCCESS);
