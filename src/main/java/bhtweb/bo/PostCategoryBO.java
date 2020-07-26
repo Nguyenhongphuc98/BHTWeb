@@ -14,6 +14,10 @@ public class PostCategoryBO {
 	private ServletContext context;
 	private PostCategoryMapper postCategoryMapper;
 	
+	public PostCategoryBO() {
+		this(null);
+	}
+	
 	public PostCategoryBO(ServletContext servletContext) {
 		this.context = servletContext;
 		try {

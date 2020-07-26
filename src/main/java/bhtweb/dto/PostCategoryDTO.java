@@ -4,28 +4,28 @@ import bhtweb.entities.BHTPostCategory;
 
 public class PostCategoryDTO {
 
-	private Integer postCategoryID;
-	private String postCategoryName;
+	private Integer id;
+	private String title;
 	
 	public PostCategoryDTO () {
 		
 	}
 	
 	public PostCategoryDTO(BHTPostCategory postCategory) {
-		this.postCategoryID = postCategory.getPostCategoryID();
-		this.postCategoryName = postCategory.getPostCategoryName();
+		this.id = postCategory.getPostCategoryID();
+		this.title = postCategory.getPostCategoryName();
 	}
 	
 	public Integer getPostCategoryID() {
-		return postCategoryID;
+		return id;
 	}
 	public void setPostCategoryID(Integer postCategoryID) {
-		this.postCategoryID = postCategoryID;
+		this.id = postCategoryID;
 	}
 	public String getPostCategoryName() {
-		return postCategoryName;
+		return title;
 	}
 	public void setPostCategoryName(String postCategoryName) {
-		this.postCategoryName = postCategoryName;
+		this.title = postCategoryName;
 	}
 }
