@@ -326,7 +326,7 @@ public class PostMapper extends DBMapper {
 		if (similarPost.getNumVote() != null)
 			searchSQLStr += " NumVote = " + similarPost.getNumVote().toString() + " AND";
 		if (similarPost.getPostCategory() != null && similarPost.getPostCategory().getPostCategoryID() != null)
-			searchSQLStr += " PostCategoryID = " + similarPost.getPostCategory().getPostCategoryID().toString() + " AND";
+			searchSQLStr += " PostCategory.PostCategoryID = " + similarPost.getPostCategory().getPostCategoryID().toString() + " AND";
 		if (similarPost.getPostContent() != null)
 			searchSQLStr += " PostContent = " + similarPost.getPostContent() + " AND";
 		if (similarPost.getPoster() != null && similarPost.getPoster().getUserID() != null)
