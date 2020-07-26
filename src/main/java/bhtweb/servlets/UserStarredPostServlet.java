@@ -39,6 +39,7 @@ public class UserStarredPostServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ServletUtils.addNoCORSHeader(resp);
 		doPostUserStarredPost(req, resp);
 	}
 	
