@@ -38,6 +38,7 @@ public class PostServlet extends HttpServlet {
 	private final String CATEGORYID_PARAM_NAME = "categoryID";
 	private final String POSTID_PARAM_NAME = "id";
 	private final String FILTERTYPE_PARAM_NAME = "type";
+	private final String TITLEPARAM_NAME = "title";
 	
 	
 	
@@ -110,6 +111,7 @@ public class PostServlet extends HttpServlet {
 			Integer categoryID;
 			Integer postID;
 			String type;
+			String title;
 			
 			List<Object> filters = new ArrayList<Object>();
 			
@@ -135,6 +137,11 @@ public class PostServlet extends HttpServlet {
 			type = ServletUtils.getStringParam(request, FILTERTYPE_PARAM_NAME, null);
 			if (type != null)
 				filters.add(type);
+			
+			//Lấy ra title để search.
+			title = ServletUtils.getStringParam(request, TITLEPARAM_NAME, null);
+			if (title != null)
+				filters.add(title);
 			
 			List<PostDTO> postDTOs;
 			
@@ -168,6 +175,8 @@ public class PostServlet extends HttpServlet {
 					model.setPostCategory(new BHTPostCategory(categoryID));
 				if (postID != null)
 					model.setPostID(postID);
+				if (title != null)
+					model.setPostTitle(title);
 				postDTOs = postBO.searchPosts(model, pageNo);
 			}
 			
