@@ -36,6 +36,9 @@ public class BHTPost {
 	//Những comment thuộc bài post.
 	private List<BHTComment> postComments;
 	
+	//Những tags được đính kèm với bài post.
+	private List<BHTTag> tags;
+	
 	//Những userID đã like bài post.
 	private Map<Integer, Boolean> likedUsers = new HashMap<>();
 	
@@ -69,6 +72,14 @@ public class BHTPost {
 		this.postCategory = new BHTPostCategory(dto.getCategoryID());
 	}
 	
+	public List<BHTTag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<BHTTag> tags) {
+		this.tags = tags;
+	}
+
 	public String getPostSummary() {
 		return postSummary;
 	}
