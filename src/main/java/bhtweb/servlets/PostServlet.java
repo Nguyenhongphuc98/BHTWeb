@@ -16,10 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import bhtweb.bo.PostBO;
+import bhtweb.dto.AccountDTO;
 import bhtweb.dto.PostDTO;
 import bhtweb.entities.BHTPost;
 import bhtweb.entities.BHTPostCategory;
 import bhtweb.entities.BHTUserAccount;
+import bhtweb.utils.BHTRole;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "PostServlet", urlPatterns = { "/posts" })
@@ -35,6 +38,7 @@ public class PostServlet extends HttpServlet {
 	private final String CATEGORYID_PARAM_NAME = "categoryID";
 	private final String POSTID_PARAM_NAME = "id";
 	private final String FILTERTYPE_PARAM_NAME = "type";
+	
 	
 	
 	@Override
@@ -63,6 +67,16 @@ public class PostServlet extends HttpServlet {
 			
 			//Lấy về Writer.
 			PrintWriter out = ServletUtils.getJSONUnicodeWriter(response);
+			
+			//Lấy ra Account.
+			AccountDTO accountDTO = BHTSession.currentUser(request);
+			
+			//Account hiện tại có phải là admin ko.
+			if (BHTRole.hasAdminPermission(request, accountDTO.getId()))
+				System.out.println("User is admin !");
+			
+			if (BHTRole.hasCollaboratorPermission(request, accountDTO.getId()))
+				System.out.println("User is collaborator !");
 			
 			//Lấy ra body từ request của User.
 			String body = ServletUtils.getJSONBody(request);

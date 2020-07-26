@@ -301,6 +301,7 @@ public class PostMapper extends DBMapper {
 			BHTUserAccount poster = new BHTUserAccount();
 			poster.setUserID(rSet.getInt("UserID"));
 			poster.setUserName(rSet.getString("UserName"));
+			poster.setProfilePictureURL(rSet.getString("ProfilePictureURL"));
 			postDTO.setPoster(poster);
 			
 		}catch (Exception e) {

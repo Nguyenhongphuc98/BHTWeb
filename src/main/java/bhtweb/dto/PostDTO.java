@@ -58,6 +58,7 @@ public class PostDTO {
 		this.title = entity.getPostTitle();
 		this.content = entity.getPostContent();
 		this.summary = entity.getPostSummary();
+		this.imageURL = entity.getImageURL();
 		this.submitDate = entity.getPostSubmitDtm();
 		this.publishDate = entity.getPostPublishDtm();
 		this.readTime = entity.getPostReadTime();
@@ -69,7 +70,7 @@ public class PostDTO {
 		this.summary = entity.getPostSummary();
 		this.categoryName = entity.getPostCategory().getPostCategoryName();
 		this.authorName = entity.getPoster().getUserName();
-		
+		this.authorAvatarURL = entity.getPoster().getProfilePictureURL();
 		this.authorID = entity.getPoster().getUserID();
 		this.categoryID = entity.getPostCategory().getPostCategoryID();
 	}
