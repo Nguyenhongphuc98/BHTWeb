@@ -43,6 +43,35 @@ public class CommentServlet extends HttpServlet {
 	}
 	
 	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doDeleteComment(req, resp);
+	}
+	
+	private void doDeleteComment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
+		
+		Integer commentID = ServletUtils.getIntegerParam(request, "commentID", null);
+		
+		System.out.println("Into DELETE COMMENT !");
+		
+		if (commentID == null) {
+			ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_BAD_REQUEST);
+			return;
+		}
+		
+		Boolean success = commentBO.deleteComment(commentID);
+		
+		if (!success) {
+			ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_INTERNAL_ERROR);
+			return;
+		}
+		
+		ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_OK);
+	}
+	
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//ServletUtils.addNoCORSHeader(resp);
@@ -89,7 +118,7 @@ public class CommentServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected void service(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
 		// TODO Auto-generated method stub

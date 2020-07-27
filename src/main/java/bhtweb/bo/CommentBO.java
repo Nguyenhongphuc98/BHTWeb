@@ -54,4 +54,8 @@ public class CommentBO{
 		
 	}
 	
+	public Boolean deleteComment (int commentID) {
+		return commentMapper.deleteComment(commentID);
+	}
+	
 }

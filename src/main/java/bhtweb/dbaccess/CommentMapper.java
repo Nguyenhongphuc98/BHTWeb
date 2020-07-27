@@ -212,4 +212,26 @@ public class CommentMapper extends DBMapper {
 		}
        
     }
+    
+    public Boolean deleteComment (int commentID) {
+    	String sql = "DELETE FROM Comment WHERE CommentID = ?";
+    	
+    	try(PreparedStatement pStatement = getConnection().prepareStatement(sql)){
+    		
+    		pStatement.setInt(1, commentID);
+    		
+    		int rows = pStatement.executeUpdate();
+    		
+    		if (rows > 0)
+    			return true;
+    		return false;
+    		
+    	}catch (Exception e) {
+			// TODO: handle exception
+    		e.printStackTrace();
+		}
+    	
+    	return false;
+    }
+    
 }
