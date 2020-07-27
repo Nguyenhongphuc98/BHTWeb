@@ -16,6 +16,7 @@ import bhtweb.bo.UserAccountBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.NewAccountDTO;
 import bhtweb.dto.ResponseStatus;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "UpdateAccountServlet", urlPatterns = { "/account/update" })
@@ -50,9 +51,12 @@ public class UpdateAccountServlet extends HttpServlet {
 
 		String statuString = "";
 		if (userAccountBO.UpdateAccount(newAccount, oldPass, false)) {
+			
 			status.setStatusCode(ResponseStatus.UPDATE_ACCOUNT_SUCCESS);
 			status.setNewAccount(newAccount);
 
+			BHTSession.updateAccount(req, newAccount);
+			
 		} else {
 			// user name not exits
 			status.setStatusCode(ResponseStatus.UPDATE_ACCOUNT_FAIL);
