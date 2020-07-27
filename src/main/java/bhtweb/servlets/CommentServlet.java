@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.CommentBO;
 import bhtweb.dto.AccountDTO;
 import bhtweb.dto.CommentDTO;
+import bhtweb.dto.PostDTO;
 import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
@@ -21,6 +24,8 @@ import bhtweb.utils.ServletUtils;
 public class CommentServlet extends HttpServlet {
 
 	CommentBO commentBO;
+	
+	Gson gson;
 	
 	private final String POSTID_PARAM_NAME = "postID";
 	private final String PARENTCOMMENTID_PARAM_NAME = "parentID";
@@ -30,6 +35,7 @@ public class CommentServlet extends HttpServlet {
 		super.init();
 		try {
 			commentBO = new CommentBO();
+			gson = new Gson();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,6 +58,21 @@ public class CommentServlet extends HttpServlet {
 			AccountDTO accountDTO = BHTSession.currentUser(request);
 			
 			//Nếu không lấy được account thì thông báo người dùng không có quyền.
+			if (accountDTO == null) {
+				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_UNAUTHORIZED);
+				return;
+			}
+			
+			//Lấy JSON body từ request.
+			String body = ServletUtils.getJSONBody(request);
+			
+			//Deserialize từ JSON sang Object.
+			CommentDTO commentDTO = gson.fromJson(body, CommentDTO.class);
+			
+			//Gán user id.
+			commentDTO.setUserID(accountDTO.getId());
+			
+			//Insert comment vào DB.
 			
 			
 		}catch (Exception e) {
