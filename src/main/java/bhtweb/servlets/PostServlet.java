@@ -50,7 +50,6 @@ public class PostServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ServletUtils.addNoCORSHeader(resp);
 		doGetBHTPost(req, resp);
 	}
 	
@@ -58,7 +57,6 @@ public class PostServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("UTF-8");
-		ServletUtils.addNoCORSHeader(resp);
 		doPostBHTPost(req, resp);
 	}
 

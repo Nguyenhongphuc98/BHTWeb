@@ -45,7 +45,7 @@ public class CommentServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletUtils.addNoCORSHeader(resp);
+		//ServletUtils.addNoCORSHeader(resp);
 		doPostComment(req, resp);
 	}
 	
@@ -73,7 +73,7 @@ public class CommentServlet extends HttpServlet {
 			commentDTO.setUserID(accountDTO.getId());
 			
 			//Insert comment vào DB.
-			
+			//commentDTO = commentBO.
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -91,7 +91,7 @@ public class CommentServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletUtils.addNoCORSHeader(resp);
+		//ServletUtils.addNoCORSHeader(resp);
 		doGetComment(req, resp);
 	}
 	
