@@ -32,7 +32,7 @@ public class PostCategoryServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletUtils.addNoCORSHeader(resp);
+		//ServletUtils.addNoCORSHeader(resp);
 		doGetPostCategory(req, resp);
 	}
 	

@@ -95,7 +95,7 @@ public class ServletUtils {
 		return integerResult;
 	}
 	
-	public static void addNoCORSHeader (HttpServletResponse resp) {
+	private static void addNoCORSHeader (HttpServletResponse resp) {
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Access-Control-Allow-Credentials", "true");
 		resp.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");

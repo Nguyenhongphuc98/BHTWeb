@@ -1,6 +1,7 @@
 bhtweb\bo\DocumentBO.class
 bhtweb\dbaccess\SemesterMapper.class
 bhtweb\dto\PostCategoryDTO.class
+bhtweb\servlets\PostCategoryServlet.class
 bhtweb\servlets\GetListDocumentCategoryServlet.class
 bhtweb\servlets\FilterDocumentServlet.class
 bhtweb\servlets\UploadDocumentSerlvet.class
@@ -11,12 +12,15 @@ bhtweb\dto\DocumentDTO.class
 bhtweb\servlets\LogoutServlet.class
 bhtweb\utils\Utilities.class
 bhtweb\bo\UserGroupBO.class
+bhtweb\utils\BHTSession.class
 bhtweb\servlets\CommentServlet.class
 bhtweb\servlets\GetAllUserServlet.class
 bhtweb\utils\DataTypeUtils.class
 bhtweb\dbaccess\UserStarredPostMapper.class
 com\bhtcnpm\bhtweb\JAXRSConfiguration.class
 com\bhtcnpm\bhtweb\resources\JavaEE8Resource.class
+bhtweb\servlets\TagServlet.class
+bhtweb\entities\BHTTag.class
 bhtweb\servlets\GetListSubjectServlet.class
 bhtweb\servlets\GetPreviewDocumentServlet.class
 bhtweb\servlets\PostServlet.class
@@ -24,6 +28,7 @@ bhtweb\dto\PostDTO.class
 bhtweb\dto\ShortDocumentDTO.class
 bhtweb\dto\DocumentUploadDTO.class
 bhtweb\entities\BHTUserPostScoreRating.class
+bhtweb\dbaccess\TagMapper.class
 bhtweb\servlets\GetSemesterServlet.class
 bhtweb\servlets\UserStarredPostServlet.class
 bhtweb\dto\CommentDTO.class
@@ -40,6 +45,7 @@ bhtweb\entities\BHTPost.class
 bhtweb\bo\UserAccountBO.class
 bhtweb\servlets\GetAccountInforServlet.class
 bhtweb\utils\Uploader.class
+bhtweb\bo\TagBO.class
 bhtweb\dbaccess\DocumentMapper.class
 bhtweb\servlets\AihihiServlet.class
 bhtweb\bo\SubjectBO.class
@@ -73,6 +79,7 @@ bhtweb\dbaccess\DBMapper.class
 bhtweb\bo\CommentBO.class
 bhtweb\bo\PostCategoryBO.class
 bhtweb\bo\DocumentCategoryBO.class
+bhtweb\dto\TagDTO.class
 bhtweb\servlets\GetDocumentDetailServlet.class
 bhtweb\dto\NewAccountDTO.class
 bhtweb\entities\BHTUserStarredPost.class
