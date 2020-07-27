@@ -35,6 +35,13 @@ public class TagServlet extends HttpServlet {
 		doGetTagByPostID(req, resp);
 	}
 	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		ServletUtils.addNoCORSHeader(resp);
+		
+	}
+	
 	private void doGetTagByPostID (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
@@ -53,5 +60,11 @@ public class TagServlet extends HttpServlet {
 			return;
 		}
 		ServletUtils.printObjectJSON(out, response, tagDTOs, HttpURLConnection.HTTP_OK);
+	}
+	
+	private void doPostTagByPostAndTag (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
+		
 	}
 }

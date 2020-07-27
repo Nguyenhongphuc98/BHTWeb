@@ -60,7 +60,7 @@ public class BHTPost {
 		this.postSummary = dto.getSummary();
 		this.imageURL = dto.getImageURL();
 		this.postSubmitDtm = (dto.getSubmitDate() == null) ? (new Date()) : (dto.getSubmitDate());
-		this.postPublishDtm =( dto.getPublishDate() ==null)?(new Date()) : (dto.getSubmitDate());
+		this.postPublishDtm =( dto.getPublishDate() ==null)?(new Date()) : (dto.getPublishDate());
 		this.postReadTime = (dto.getReadTime() == null) ? (0) : (dto.getReadTime());
 		this.numVote = (dto.getLikeCount() == null) ? (0) : (dto.getLikeCount());
 		this.numView = (dto.getNumView() == null) ? (0) : (dto.getNumView());
