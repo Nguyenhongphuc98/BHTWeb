@@ -59,14 +59,14 @@ public class BHTPost {
 		this.postContent = dto.getContent();
 		this.postSummary = dto.getSummary();
 		this.imageURL = dto.getImageURL();
-		this.postSubmitDtm = dto.getSubmitDate();
-		this.postPublishDtm = dto.getPublishDate();
-		this.postReadTime = dto.getReadTime();
-		this.numVote = dto.getLikeCount();
-		this.numView = dto.getNumView();
-		this.postSoftDeleted = dto.getPostSoftDeleted();
-		this.postHidden = dto.getPostHidden();
-		this.postApproved = dto.getPostApproved();
+		this.postSubmitDtm = (dto.getSubmitDate() == null) ? (new Date()) : (dto.getSubmitDate());
+		this.postPublishDtm =( dto.getPublishDate() ==null)?(new Date()) : (dto.getSubmitDate());
+		this.postReadTime = (dto.getReadTime() == null) ? (0) : (dto.getReadTime());
+		this.numVote = (dto.getLikeCount() == null) ? (0) : (dto.getLikeCount());
+		this.numView = (dto.getNumView() == null) ? (0) : (dto.getNumView());
+		this.postSoftDeleted = (dto.getPostSoftDeleted() == null) ? (false) : (dto.getPostSoftDeleted());
+		this.postHidden = (dto.getPostHidden() == null) ? (false) : (dto.getPostHidden());
+		this.postApproved = (dto.getPostApproved() == null) ? (false) : (dto.getPostApproved());
 		
 		this.poster = new BHTUserAccount(dto.getAuthorID());
 		this.postCategory = new BHTPostCategory(dto.getCategoryID());

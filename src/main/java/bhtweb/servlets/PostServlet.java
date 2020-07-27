@@ -58,6 +58,7 @@ public class PostServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ServletUtils.addNoCORSHeader(resp);
 		doPostBHTPost(req, resp);
 	}
 	
@@ -72,18 +73,27 @@ public class PostServlet extends HttpServlet {
 			//Lấy ra Account.
 			AccountDTO accountDTO = BHTSession.currentUser(request);
 			
-			//Account hiện tại có phải là admin ko.
-			if (BHTRole.hasAdminPermission(request, accountDTO.getId()))
-				System.out.println("User is admin !");
+			//Nếu không lấy được account thì thông báo người dùng không có quyền.
+			if (accountDTO == null) {
+				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_UNAUTHORIZED);
+				return;
+			}
 			
-			if (BHTRole.hasCollaboratorPermission(request, accountDTO.getId()))
-				System.out.println("User is collaborator !");
+			//Account hiện tại có phải là admin ko.
+//			if (BHTRole.hasAdminPermission(request, accountDTO.getId()))
+//				System.out.println("User is admin !");
+//			
+//			if (BHTRole.hasCollaboratorPermission(request, accountDTO.getId()))
+//				System.out.println("User is collaborator !");
 			
 			//Lấy ra body từ request của User.
 			String body = ServletUtils.getJSONBody(request);
 			
 			//Deserialize từ JSON sang Object.
 			PostDTO postDTO = gson.fromJson(body, PostDTO.class);
+			
+			//Gán authorID.
+			postDTO.setAuthorID(accountDTO.getId());
 			
 			//Insert post đó vào DB.
 			postDTO = postBO.createNewPost(postDTO);
