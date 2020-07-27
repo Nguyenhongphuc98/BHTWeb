@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bhtweb.bo.CommentBO;
+import bhtweb.dto.AccountDTO;
 import bhtweb.dto.CommentDTO;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 @WebServlet(name = "CommentServlet", urlPatterns = {"/postComments"})
@@ -32,6 +34,37 @@ public class CommentServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		ServletUtils.addNoCORSHeader(resp);
+		doPostComment(req, resp);
+	}
+	
+	private void doPostComment (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			//Lấy ra writer.
+			PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
+			
+			//Lấy ra user.
+			AccountDTO accountDTO = BHTSession.currentUser(request);
+			
+			//Nếu không lấy được account thì thông báo người dùng không có quyền.
+			
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	protected void service(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		arg0.setCharacterEncoding("UTF-8");
+		super.service(arg0, arg1);
 	}
 	
 	@Override

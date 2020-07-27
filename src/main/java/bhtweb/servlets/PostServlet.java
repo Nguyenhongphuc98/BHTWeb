@@ -41,7 +41,6 @@ public class PostServlet extends HttpServlet {
 	private final String TITLEPARAM_NAME = "title";
 	
 	
-	
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
@@ -62,7 +61,7 @@ public class PostServlet extends HttpServlet {
 		ServletUtils.addNoCORSHeader(resp);
 		doPostBHTPost(req, resp);
 	}
-	
+
 	private void doPostBHTPost (HttpServletRequest request, HttpServletResponse response) {
 		try {
 			//Lấy về Writer.
