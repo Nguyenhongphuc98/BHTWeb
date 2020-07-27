@@ -73,7 +73,16 @@ public class CommentServlet extends HttpServlet {
 			commentDTO.setUserID(accountDTO.getId());
 			
 			//Insert comment vào DB.
-			//commentDTO = commentBO.
+			commentDTO = commentBO.postNewComment(commentDTO);
+			
+			//Nếu không insert được thì trả về null.
+			if (commentDTO.getId() == null) {
+				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_INTERNAL_ERROR);
+				return;
+			}
+			
+			//In ra result.
+			ServletUtils.printObjectJSON(out, response, commentDTO, HttpURLConnection.HTTP_OK);
 			
 		}catch (Exception e) {
 			// TODO: handle exception

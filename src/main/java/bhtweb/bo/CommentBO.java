@@ -8,6 +8,8 @@ import javax.servlet.ServletContext;
 
 import bhtweb.dbaccess.CommentMapper;
 import bhtweb.dto.CommentDTO;
+import bhtweb.dto.PostDTO;
+import bhtweb.entities.BHTComment;
 
 public class CommentBO{
 	
@@ -39,6 +41,17 @@ public class CommentBO{
 				.collect(Collectors.toList());
 		
 		return comments;
+	}
+	
+	public CommentDTO postNewComment (CommentDTO commentDTO) {
+		BHTComment entity = new BHTComment(commentDTO);
+		
+		entity = commentMapper.saveComment(entity);
+		
+		CommentDTO result = new CommentDTO(entity);
+		
+		return result;
+		
 	}
 	
 }

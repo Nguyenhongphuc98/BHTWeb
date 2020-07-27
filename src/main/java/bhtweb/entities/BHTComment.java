@@ -27,7 +27,7 @@ public class BHTComment {
     private Integer postId;
     
     private Boolean commentSoftDeleted;
-    
+    	
     private Boolean commentHidden;
     
     private Boolean commentApproved;
@@ -44,12 +44,12 @@ public class BHTComment {
     	this.setCommentID(commentDTO.getId());
     	this.setUserAccount(new BHTUserAccount(commentDTO.getUserID()));
     	this.setPostId(commentDTO.getPostID());
-    	this.setCommentSoftDeleted(commentDTO.getCommentSoftDeleted());
-    	this.setCommentHidden(commentDTO.getCommentHidden());
-    	this.setCommentApproved(commentDTO.getCommentApproved());
+    	this.setCommentSoftDeleted((commentDTO.getCommentSoftDeleted()) == null ? (false) : (commentDTO.getCommentSoftDeleted()));
+    	this.setCommentHidden(commentDTO.getCommentHidden() == null ? (false) : (commentDTO.getCommentHidden()));
+    	this.setCommentApproved(commentDTO.getCommentApproved() == null ? (false) : (commentDTO.getCommentApproved()));
     	this.setCommentContent(commentDTO.getContent());
     	this.setParentComment(new BHTComment(commentDTO.getId()));
-    	this.setCommentDtm(commentDTO.getPostTimeStamp());
+    	this.setCommentDtm(commentDTO.getPostTimeStamp() == null ? (new Date()) : (commentDTO.getPostTimeStamp()));
     }
     
     public BHTComment() {

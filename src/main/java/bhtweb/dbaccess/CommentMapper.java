@@ -138,34 +138,39 @@ public class CommentMapper extends DBMapper {
         return ls.size() > 0 ? ls : null;
     }
       
-    public boolean saveComment(BHTComment comment) {
+    public BHTComment saveComment(BHTComment comment) {
         
         // the mysql insert statement
         String query = " INSERT INTO comment (UserID, PostID,"
-                + "CommentSoftDeleted, CommentHidden, CommentApproved, CommentContentURL,"
+                + "CommentSoftDeleted, CommentHidden, CommentApproved, CommentContent,"
                 + "ParentCommentID, CommentDtm)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
         	// create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = getConnection().prepareStatement(query);
+            PreparedStatement preparedStmt = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStmt.setInt(1, comment.getUserAccount().getUserID());
             preparedStmt.setInt(2, comment.getPostId());
             preparedStmt.setBoolean(3, comment.isCommentSoftDeleted());
             preparedStmt.setBoolean(4, comment.isCommentHidden());
             preparedStmt.setBoolean(5, comment.isCommentApproved());
             preparedStmt.setString(6, comment.getCommentContent());
-            preparedStmt.setInt(7, comment.getPostId());
-            preparedStmt.setTimestamp(8, new Timestamp(comment.getCommentDtm().getTime()) );
+            preparedStmt.setObject(7, comment.getParentComment().getCommentID(), java.sql.Types.INTEGER);
+            preparedStmt.setTimestamp(8, new Timestamp(comment.getCommentDtm().getTime()));
             
             // execute the preparedstatement
-            return preparedStmt.execute();
+            preparedStmt.executeUpdate();
+            
+            ResultSet resultSet = preparedStmt.getGeneratedKeys();
+            resultSet.next();
+            comment.setCommentID(resultSet.getInt(1));
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(DocumentMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return false;
+        return comment;
     }
     
     public boolean updateComment(BHTComment comment, boolean delete, boolean hidden, boolean approved) {
