@@ -17,10 +17,13 @@ public class PostBO {
 	private ServletContext context;
 	private PostMapper postMapper;
 	
+	private TagBO tagBO;
+	
 	public PostBO (ServletContext context) {
 		this.context = context;
 		try {
 			postMapper = new PostMapper();
+			tagBO = new TagBO();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,10 +36,16 @@ public class PostBO {
 	
 	public PostDTO createNewPost (PostDTO postDTO) {
 		
+		//Tạo ra một entity từ DTO.
 		BHTPost entity = new BHTPost(postDTO);
 		
+		//Gán entity bằng entity thực tế sau khi insert.
 		entity = postMapper.insertPost(entity);
-
+		
+		//Sau khi đã thêm post thành công, ta tiến hành thêm tag.
+		Boolean tagAddSuccess = tagBO.addTags(entity.getPostID(), postDTO.getTags());
+		
+		//Chuyển entity thành DTO kết quả.
 		PostDTO result = new PostDTO(entity);
 		
 		return result;
@@ -85,16 +94,6 @@ public class PostBO {
 			return null;
 		result = postsList.stream().map(PostDTO::new).collect(Collectors.toList());
 		return result;
-	}
-
-	public PostDTO createPost (PostDTO postDTO) {
-		try {
-			return new PostDTO(postMapper.insertPost(new BHTPost(postDTO)));
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	public Boolean updatePost (PostDTO postDTO) {
