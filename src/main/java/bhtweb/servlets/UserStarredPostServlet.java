@@ -39,6 +39,7 @@ public class UserStarredPostServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		req.setCharacterEncoding("utf-8");
 		doPostUserStarredPost(req, resp);
 	}
 	
@@ -73,6 +74,7 @@ public class UserStarredPostServlet extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		req.setCharacterEncoding("utf-8");
 		doDeleteUserStarredPost(req, resp);
 	}
 	
@@ -107,6 +109,7 @@ public class UserStarredPostServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
 		doGetUserStarredPost(req, resp);
 	}
 	private void doGetUserStarredPost (HttpServletRequest req, HttpServletResponse resp) {

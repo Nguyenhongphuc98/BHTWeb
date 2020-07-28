@@ -50,13 +50,14 @@ public class PostServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
 		doGetBHTPost(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		req.setCharacterEncoding("UTF-8");
+		req.setCharacterEncoding("utf-8");
 		doPostBHTPost(req, resp);
 	}
 
@@ -82,7 +83,9 @@ public class PostServlet extends HttpServlet {
 //				System.out.println("User is collaborator !");
 			
 			//Lấy ra body từ request của User.
-			String body = ServletUtils.getJSONBody(request);
+			//String body = ServletUtils.getJSONBody(request);
+			
+			String body = null;
 			
 			//Deserialize từ JSON sang Object.
 			PostDTO postDTO = gson.fromJson(body, PostDTO.class);

@@ -45,6 +45,7 @@ public class CommentServlet extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		req.setCharacterEncoding("utf-8");
 		doDeleteComment(req, resp);
 	}
 	
@@ -75,6 +76,7 @@ public class CommentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//ServletUtils.addNoCORSHeader(resp);
+		req.setCharacterEncoding("utf-8");
 		doPostComment(req, resp);
 	}
 	
@@ -118,18 +120,12 @@ public class CommentServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	protected void service(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		arg0.setCharacterEncoding("UTF-8");
-		super.service(arg0, arg1);
-	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//ServletUtils.addNoCORSHeader(resp);
+		req.setCharacterEncoding("utf-8");
 		doGetComment(req, resp);
 	}
 	

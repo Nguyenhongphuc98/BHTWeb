@@ -32,6 +32,7 @@ public class TagServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//ServletUtils.addNoCORSHeader(resp);
+		req.setCharacterEncoding("utf-8");
 		doGetTagByPostID(req, resp);
 	}
 	
@@ -39,6 +40,7 @@ public class TagServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//ServletUtils.addNoCORSHeader(resp);
+		req.setCharacterEncoding("utf-8");
 		doPostTagByPostAndTag(req, resp);
 	}
 	

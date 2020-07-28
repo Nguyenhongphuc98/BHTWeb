@@ -33,6 +33,7 @@ public class PostCategoryServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//ServletUtils.addNoCORSHeader(resp);
+		req.setCharacterEncoding("utf-8");
 		doGetPostCategory(req, resp);
 	}
 	
