@@ -62,52 +62,52 @@ public class PostServlet extends HttpServlet {
 	}
 
 	private void doPostBHTPost (HttpServletRequest request, HttpServletResponse response) {
-		try {
-			//Lấy về Writer.
-			PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
-			
-			//Lấy ra Account.
-			AccountDTO accountDTO = BHTSession.currentUser(request);
-			
-			//Nếu không lấy được account thì thông báo người dùng không có quyền.
-			if (accountDTO == null) {
-				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_UNAUTHORIZED);
-				return;
-			}
-			
-			//Account hiện tại có phải là admin ko.
-//			if (BHTRole.hasAdminPermission(request, accountDTO.getId()))
-//				System.out.println("User is admin !");
+//		try {
+//			//Lấy về Writer.
+//			PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
 //			
-//			if (BHTRole.hasCollaboratorPermission(request, accountDTO.getId()))
-//				System.out.println("User is collaborator !");
-			
-			//Lấy ra body từ request của User.
-			//String body = ServletUtils.getJSONBody(request);
-			
-			String body = null;
-			
-			//Deserialize từ JSON sang Object.
-			PostDTO postDTO = gson.fromJson(body, PostDTO.class);
-			
-			//Gán authorID.
-			postDTO.setAuthorID(accountDTO.getId());
-			
-			//Insert post đó vào DB.
-			postDTO = postBO.createNewPost(postDTO);
-			
-			//Lỗi gì đó khiến cho không insert được post mới vào DB.
-			if (postDTO.getId() == null) {
-				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_INTERNAL_ERROR);
-				return;
-			}
-			
-			//Sau khi đã có postDTO mới rồi thì ta in ra thôi.
-			ServletUtils.printObjectJSON(out, response, postDTO, HttpURLConnection.HTTP_OK);
-			
-		}catch (Exception ex){
-			ex.printStackTrace();
-		}
+//			//Lấy ra Account.
+//			AccountDTO accountDTO = BHTSession.currentUser(request);
+//			
+//			//Nếu không lấy được account thì thông báo người dùng không có quyền.
+//			if (accountDTO == null) {
+//				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_UNAUTHORIZED);
+//				return;
+//			}
+//			
+//			//Account hiện tại có phải là admin ko.
+////			if (BHTRole.hasAdminPermission(request, accountDTO.getId()))
+////				System.out.println("User is admin !");
+////			
+////			if (BHTRole.hasCollaboratorPermission(request, accountDTO.getId()))
+////				System.out.println("User is collaborator !");
+//			
+//			//Lấy ra body từ request của User.
+//			//String body = ServletUtils.getJSONBody(request);
+//			
+//			String body = null;
+//			
+//			//Deserialize từ JSON sang Object.
+//			PostDTO postDTO = gson.fromJson(body, PostDTO.class);
+//			
+//			//Gán authorID.
+//			postDTO.setAuthorID(accountDTO.getId());
+//			
+//			//Insert post đó vào DB.
+//			postDTO = postBO.createNewPost(postDTO);
+//			
+//			//Lỗi gì đó khiến cho không insert được post mới vào DB.
+//			if (postDTO.getId() == null) {
+//				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_INTERNAL_ERROR);
+//				return;
+//			}
+//			
+//			//Sau khi đã có postDTO mới rồi thì ta in ra thôi.
+//			ServletUtils.printObjectJSON(out, response, postDTO, HttpURLConnection.HTTP_OK);
+//			
+//		}catch (Exception ex){
+//			ex.printStackTrace();
+//		}
 	}
 
 	private void doGetBHTPost(HttpServletRequest request, HttpServletResponse response) {
