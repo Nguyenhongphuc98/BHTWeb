@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import bhtweb.dto.AccountDTO;
+import bhtweb.dto.NewAccountDTO;
 
 public class BHTSession {
 	
@@ -28,5 +29,26 @@ public class BHTSession {
 	public static void logout(HttpServletRequest request) {
 		String sessionID = request.getParameter("sessionID");
 		currentAccounts.put(sessionID, null);
+	}
+	
+	public static void updateAccount(HttpServletRequest request, NewAccountDTO accountDTO) {
+		
+		String sessionID = request.getParameter("sessionID");
+		AccountDTO account = currentAccounts.get(sessionID);
+		
+		if (account == null) {
+			return;
+		}
+		if (accountDTO.getDisplayName() != null) {
+			account.setDisplayName(accountDTO.getDisplayName());
+		}
+		
+		if (accountDTO.getUserPassword() != null) {
+			account.setPassword(accountDTO.getUserPassword());
+		}
+		
+		if (accountDTO.getEmail() != null) {
+			account.setEmail(accountDTO.getEmail());
+		}
 	}
 }

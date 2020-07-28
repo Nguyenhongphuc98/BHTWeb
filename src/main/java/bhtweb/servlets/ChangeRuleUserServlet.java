@@ -17,6 +17,7 @@ import bhtweb.dto.AccountDTO;
 import bhtweb.dto.NewAccountDTO;
 import bhtweb.dto.ResponseStatus;
 import bhtweb.utils.BHTRole;
+import bhtweb.utils.BHTSession;
 import bhtweb.utils.ServletUtils;
 
 
@@ -52,8 +53,9 @@ public class ChangeRuleUserServlet extends HttpServlet {
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		String statuString = "";
 		
-		HttpSession session = req.getSession();
-		AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		//HttpSession session = req.getSession();
+		//AccountDTO accountDTO = (AccountDTO) session.getAttribute("account");
+		AccountDTO accountDTO = BHTSession.currentUser(req);
 		
 		if (accountDTO != null && accountDTO.getRoleId() == BHTRole.ADMIN) {
 			if (userAccountBO.UpdateAccount(newAccount, "noneeded", true)) {

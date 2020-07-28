@@ -74,7 +74,7 @@ public class UploadDocumentSerlvet extends HttpServlet {
 		
 		//ServletUtils.addNoCORSHeader(response);
 
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 
 		// Check that we have a file upload request
 		isMultipart = ServletFileUpload.isMultipartContent(request);
