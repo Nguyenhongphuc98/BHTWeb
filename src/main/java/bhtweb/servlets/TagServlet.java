@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bhtweb.bo.TagBO;
+import bhtweb.dto.TagArrayDTO;
 import bhtweb.dto.TagDTO;
 import bhtweb.utils.ServletUtils;
 
@@ -20,12 +23,14 @@ import bhtweb.utils.ServletUtils;
 public class TagServlet extends HttpServlet {
 
 	TagBO tagBO;
+	Gson gson;
 	
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
 		tagBO = new TagBO();
+		gson = new Gson();
 	}
 	
 	@Override
@@ -65,10 +70,33 @@ public class TagServlet extends HttpServlet {
 	}
 	
 	private void doPostTagByPostAndTag (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
-		
-		
-		
+		try {
+			PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
+			
+			Integer postID = ServletUtils.getIntegerParam(request, "postID", null);
+			
+			String body = ServletUtils.getJSONBody(request);
+			
+			if (postID == null) {
+				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_BAD_REQUEST);
+				return;
+			}
+			
+			TagArrayDTO tagArrayDTO = gson.fromJson(body, TagArrayDTO.class);
+			
+			List<String> tags = tagArrayDTO.getTags();
+			
+			Boolean success = tagBO.addTagsToPost(postID, tags);
+			
+			if (!success) {
+				ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_INTERNAL_ERROR);
+				return;
+			}
+			
+			ServletUtils.printObjectJSON(out, response, null, HttpURLConnection.HTTP_OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 }
