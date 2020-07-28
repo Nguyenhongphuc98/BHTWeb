@@ -33,6 +33,7 @@ public class UpdateAccountServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		req.setCharacterEncoding("utf-8");
 		ResponseStatus status = new ResponseStatus();
 		
 		//ServletUtils.addNoCORSHeader(resp);

@@ -55,7 +55,7 @@ public class CreateAccountServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
+		req.setCharacterEncoding("utf-8");
 		PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(resp);
 		// Check that we have a file upload request
 		isMultipart = ServletFileUpload.isMultipartContent(req);
