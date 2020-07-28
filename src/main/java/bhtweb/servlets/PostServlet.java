@@ -63,7 +63,7 @@ public class PostServlet extends HttpServlet {
 	private void doPostBHTPost (HttpServletRequest request, HttpServletResponse response) {
 		try {
 			//Lấy về Writer.
-			PrintWriter out = ServletUtils.getJSONUnicodeWriter(response);
+			PrintWriter out = ServletUtils.getJSONUnicodeWriterNoCORS(response);
 			
 			//Lấy ra Account.
 			AccountDTO accountDTO = BHTSession.currentUser(request);
