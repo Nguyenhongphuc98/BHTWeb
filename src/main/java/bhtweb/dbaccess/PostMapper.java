@@ -32,6 +32,9 @@ public class PostMapper extends DBMapper {
 	private static final String fetchNewestStr = "SELECT * FROM POST JOIN UserAccount ON POST.PosterUserID = UserAccount.UserID JOIN PostCategory ON POST.PostCategoryID = PostCategory.PostCategoryID ORDER BY PostPublishDtm DESC LIMIT ?";
 	private static final String fetchNewActivities = "SELECT * FROM POST JOIN UserAccount ON POST.PosterUserID = UserAccount.UserID JOIN PostCategory ON Post.PostCategoryID = PostCategory.PostCategoryID WHERE PostCategory.IsActivity = 1 ORDER BY PostPublishDtm DESC LIMIT ?";
 	
+	//Chuỗi lấy số lượng trang.
+	private static final String fetchPostPages = "SELECT COUNT(DISTINCT PostID) AS \"TotalPage\" FROM Post;\r\n";
+	
 	//preparedStatement.
 	private UserStarredPostMapper userStarredPostMapper = new UserStarredPostMapper();
 	
@@ -103,6 +106,29 @@ public class PostMapper extends DBMapper {
 			postDTO.setPostID(null);
 		}
 		return postDTO;
+	}
+	
+	public Integer fetchPostPages () {
+		return fetchPostPages(DEFAULT_PAGE_LIMIT);
+	}
+	
+	public Integer fetchPostPages (Integer pageLimit) {
+		Integer postPages = null;
+		try(PreparedStatement fetchPostPagePt = getConnection().prepareStatement(fetchPostPages)) {
+			ResultSet resultSet = fetchPostPagePt.executeQuery();
+			
+			while (resultSet != null && resultSet.next()) {
+				postPages = resultSet.getInt("TotalPage");
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		
+		postPages = (int)Math.ceil((double)postPages/pageLimit);
+		
+		return postPages;
 	}
 	
 	public ArrayList<BHTPost> fetchNewActivities (){

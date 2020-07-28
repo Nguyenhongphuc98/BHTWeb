@@ -51,6 +51,10 @@ public class PostBO {
 		return result;
 	}
 	
+	public Integer getPostPages () {
+		return postMapper.fetchPostPages();
+	}
+	
 	public List<PostDTO> getPosts(Integer pageNo) {
 		List<PostDTO> result;
 		List<BHTPost> postsList = postMapper.fetchPost(pageNo);
