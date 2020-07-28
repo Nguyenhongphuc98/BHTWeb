@@ -99,7 +99,7 @@ public class ServletUtils {
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Access-Control-Allow-Credentials", "true");
 		resp.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-		resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+		resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
 //        resp.addHeader("Access-Control-Allow-Origin", "*");
 //        resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 //        resp.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");

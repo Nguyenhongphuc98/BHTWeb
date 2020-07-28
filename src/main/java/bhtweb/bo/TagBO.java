@@ -36,8 +36,8 @@ public class TagBO {
 				.collect(Collectors.toList());
 		return tags;
 	}
-	
-	public Boolean addTags (Integer postID, List<String> tags) {
+		
+	public Boolean addTagsToPost (Integer postID, List<String> tags) {
 		//Bước 1: Lưu trữ tất cả các tag này xuống DB (trùng tags thì khỏi lưu mới).
 		tagMapper.addTags(tags);
 		

@@ -43,7 +43,7 @@ public class PostBO {
 		entity = postMapper.insertPost(entity);
 		
 		//Sau khi đã thêm post thành công, ta tiến hành thêm tag.
-		Boolean tagAddSuccess = tagBO.addTags(entity.getPostID(), postDTO.getTags());
+		Boolean tagAddSuccess = tagBO.addTagsToPost(entity.getPostID(), postDTO.getTags());
 		
 		//Chuyển entity thành DTO kết quả.
 		PostDTO result = new PostDTO(entity);
